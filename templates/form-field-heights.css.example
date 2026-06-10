@@ -1,0 +1,32 @@
+/**
+ * App-wide form field height tokens — add to layout stylesheet (styles.blade.php).
+ * Pair with Select2 bootstrap-5 theme rules in laravel-form-select2-global skill.
+ */
+:root {
+    --cd-field-padding-y:    0.4375rem;
+    --cd-field-padding-x:    0.875rem;
+    --cd-field-padding-y-sm: 0.25rem;
+    --cd-field-padding-x-sm: 0.625rem;
+    --cd-field-height:    calc((var(--cd-field-padding-y) * 2) + (1.5 * 1em) + 2px);
+    --cd-field-height-sm: calc((var(--cd-field-padding-y-sm) * 2) + (1.5 * 0.875em) + 2px);
+}
+
+.form-control,
+.form-select:not(.select2-hidden-accessible):not([multiple]) {
+    min-height: var(--cd-field-height);
+    padding: var(--cd-field-padding-y) var(--cd-field-padding-x);
+}
+
+.select2-container--bootstrap-5 .select2-selection--single {
+    height: var(--cd-field-height);
+    min-height: var(--cd-field-height);
+}
+
+.select2-container--bootstrap-5 .select2-selection--single .select2-selection__rendered {
+    line-height: calc(var(--cd-field-height) - 2px);
+    padding-left: var(--cd-field-padding-x);
+}
+
+.select2-container--bootstrap-5 .select2-selection--single .select2-selection__arrow {
+    height: var(--cd-field-height);
+}

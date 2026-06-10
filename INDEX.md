@@ -2,39 +2,43 @@
 
 > Update whenever you add, change, or retire a skill. See [WORKFLOW.md](WORKFLOW.md).
 
-## Active skills
+## Active skills — Laravel admin platform (Asset Manager)
 
-| Skill | Summary | Stack | Source project | Source commit | Added |
-|-------|---------|-------|----------------|---------------|-------|
-| `extract-to-toolkit` | Meta-skill: extract patterns from any project into this repo | Any | Yazinc Ai Toolkit | — | 2026-06-10 |
-| `laravel-datatables-module` | Server-side Yajra CRUD lists, separate create/edit pages | Laravel 10 | Asset Manager | 0ee71e9 | 2026-06-10 |
-| `laravel-activity-logger` | Hybrid indexed + JSON audit logging | Laravel 10 | Asset Manager | 0ee71e9 | 2026-06-10 |
-| `laravel-deploy-fix-php` | Post-deploy cache reset via `fix.php` without SSH | Laravel 10 | Asset Manager | 0ee71e9 | 2026-06-10 |
-| `laravel-dual-repo-push` | Push `main` to dev + client GitHub remotes | Git / PowerShell | Asset Manager | 0ee71e9 | 2026-06-10 |
-| `laravel-rbac-permissions` | Module read/write middleware + user_permissions | Laravel 10 | Asset Manager | 0ee71e9 | 2026-06-10 |
-| `laravel-soft-delete-trash` | Unified trash UI, deleted_by, 30-day cleanup | Laravel 10 | Asset Manager | 0ee71e9 | 2026-06-10 |
-| `laravel-security-hardening` | Lock setup route, gitignore ops, NoMaliciousInput | Laravel 10 | Asset Manager | 0ee71e9 | 2026-06-10 |
+| Skill | Summary | Source commit | Added |
+|-------|---------|---------------|-------|
+| `extract-to-toolkit` | Meta-skill: extract patterns into this repo | — | 2026-06-10 |
+| `laravel-datatables-module` | Server-side Yajra CRUD lists | 0ee71e9 | 2026-06-10 |
+| `laravel-activity-logger` | Hybrid indexed + JSON audit log | 0ee71e9 | 2026-06-10 |
+| `laravel-deploy-fix-php` | Post-deploy cache reset | 0ee71e9 | 2026-06-10 |
+| `laravel-dual-repo-push` | Dev + client GitHub push | 0ee71e9 | 2026-06-10 |
+| `laravel-rbac-permissions` | Module read/write middleware | 0ee71e9 | 2026-06-10 |
+| `laravel-soft-delete-trash` | Unified trash + 30-day cleanup | 0ee71e9 | 2026-06-10 |
+| `laravel-security-hardening` | Setup lock, gitignore ops, input rule | 0ee71e9 | 2026-06-10 |
+| `laravel-json-ai-settings` | Encrypted AI keys in storage JSON | 0ee71e9 | 2026-06-10 |
+| `laravel-ai-multi-provider` | Provider fallback + friendly errors | 0ee71e9 | 2026-06-10 |
+| `laravel-vision-label-scan` | Image → JSON → review → apply | 0ee71e9 | 2026-06-10 |
+| `laravel-env-maintenance` | `.env` maintenance + branded 503 | 0ee71e9 | 2026-06-10 |
+| `laravel-form-select2-global` | App-wide form/Select2 CSS variables | 0ee71e9 | 2026-06-10 |
 
-## Planned (remaining from Asset Manager)
+**Source project:** Asset Manager — `Yaz-inc/Asset-Manager-V17-Final` @ `0ee71e9`
 
-| Skill | Priority |
-|-------|----------|
-| `laravel-json-ai-settings` | Medium |
-| `laravel-ai-multi-provider` | Medium |
-| `laravel-vision-label-scan` | Medium |
-| `laravel-env-maintenance` | Low |
-| `laravel-form-select2-global` | Low |
+## AI skill cluster (use together)
+
+```
+laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-scan
+```
 
 ## Templates
 
-| File | Linked skill | Status |
-|------|--------------|--------|
-| `templates/fix.php.example` | `laravel-deploy-fix-php` | Active |
-| `templates/push-both-repos.example.ps1` | `laravel-dual-repo-push` | Active |
-| `templates/TracksSoftDeletes.php.example` | `laravel-soft-delete-trash` | Active |
+| File | Linked skill |
+|------|--------------|
+| `templates/fix.php.example` | `laravel-deploy-fix-php` |
+| `templates/push-both-repos.example.ps1` | `laravel-dual-repo-push` |
+| `templates/TracksSoftDeletes.php.example` | `laravel-soft-delete-trash` |
+| `templates/form-field-heights.css.example` | `laravel-form-select2-global` |
 
-## Patterns
+## Planned
 
-| Doc | Linked skill | Status |
-|-----|--------------|--------|
-| — | — | — |
+| Source | Notes |
+|--------|-------|
+| Other Yaz Inc projects | Add to `projects/REGISTRY.md` as you extract |
