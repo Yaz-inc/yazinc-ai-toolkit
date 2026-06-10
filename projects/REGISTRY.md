@@ -1,6 +1,6 @@
 # Source project registry
 
-Tracks which repos contributed skills to **Yazinc Ai Toolkit**. Update when extracting from a project.
+Tracks which repos contributed skills to **Yazinc Ai Toolkit**.
 
 ---
 
@@ -8,7 +8,7 @@ Tracks which repos contributed skills to **Yazinc Ai Toolkit**. Update when extr
 
 | Field | Value |
 |-------|-------|
-| **Display name** | Century Displays Asset Manager (CDghl) |
+| **Display name** | Asset Manager (CDghl) |
 | **Dev repo** | [Yaz-inc/Asset-Manager-V17-Final](https://github.com/Yaz-inc/Asset-Manager-V17-Final) |
 | **Client repo** | [centurydisplays/Asset-Manager](https://github.com/centurydisplays/Asset-Manager) |
 | **Stack** | Laravel 10, PHP 8.1, Bootstrap 5, Yajra DataTables, multi-provider AI |
@@ -18,34 +18,37 @@ Tracks which repos contributed skills to **Yazinc Ai Toolkit**. Update when extr
 
 | Skill | Extracted | Source commit | Notes |
 |-------|-----------|---------------|-------|
-| *(pending)* | — | — | Planned: datatables, fix.php, AI fallback, label scan |
+| `laravel-datatables-module` | 2026-06-10 | 0ee71e9 | ~15 controllers; shared datatables-config partial |
+| `laravel-activity-logger` | 2026-06-10 | 0ee71e9 | ActivityLogger + activity_logs migration |
+| `laravel-deploy-fix-php` | 2026-06-10 | 0ee71e9 | Template in toolkit `templates/fix.php.example` |
+| `laravel-dual-repo-push` | 2026-06-10 | 0ee71e9 | Template `templates/push-both-repos.example.ps1` |
 
-### Patterns worth extracting
+### Planned from this project
 
-- Server-side DataTables (`public/docs/V11__5_Pattern_Analysis.txt`)
-- Activity logger (`public/docs/V11__1_Logger_Implementation_Guide.txt`)
-- F-2 label scan spec (`docs/superpowers/specs/2026-06-10-f2-label-scan-design.md`)
-- Post-deploy `public/fix.php.example`
+- `laravel-rbac-permissions`, `laravel-soft-delete-trash`, AI block (settings, fallback, vision), maintenance, Select2, security hardening
+
+### Reference docs in source (not yet extracted)
+
+- `public/docs/V11__5_Pattern_Analysis.txt`
+- `public/docs/V11__1_Logger_Implementation_Guide.txt`
+- `docs/superpowers/specs/2026-06-10-f2-label-scan-design.md`
 
 ---
 
 ## other-projects
 
-Add a section per project:
+Add a section per project when extracting skills:
 
 ```markdown
 ## my-other-app
 
 | Field | Value |
 |-------|-------|
-| **Display name** | ... |
 | **Repo** | Yaz-inc/... |
-| **Stack** | ... |
 
 ### Skills contributed
 | Skill | Extracted | Source commit | Notes |
 |-------|-----------|---------------|-------|
-| `skill-name` | YYYY-MM-DD | abc1234 | ... |
 ```
 
 ---
@@ -53,5 +56,5 @@ Add a section per project:
 ## Registry rules
 
 1. One `## slug` section per source repo.
-2. Every skill row links to a commit on the **source** repo (not toolkit commit).
-3. Do not paste secrets, `.env`, or client-only URLs here.
+2. Every skill row links to a commit on the **source** repo.
+3. No secrets, PATs, or client-only URLs with credentials.
