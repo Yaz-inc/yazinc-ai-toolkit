@@ -1,0 +1,24 @@
+# Deny sensitive paths — defense-in-depth when docroot is misconfigured
+# Skill: deploy-secrets-zero-exposure
+# Use ONE block matching your server (Nginx OR Apache)
+
+# ========== NGINX (inside server { } block) ==========
+# location ~ /\. { deny all; return 404; }
+# location ~ ^/(\.env|\.git|_deploy|vendor|storage/logs|composer\.(json|lock)) { deny all; return 404; }
+# location ~* \.(sql|sql\.gz|log|bak|old|pem|key)$ { deny all; return 404; }
+
+# ========== APACHE (.htaccess in document root) ==========
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^\.env - [F,L]
+    RewriteRule ^\.git - [F,L]
+    RewriteRule ^_deploy - [F,L]
+    RewriteRule ^storage/logs - [F,L]
+    RewriteRule \.(sql|sql\.gz|log|bak|pem|key)$ - [F,L]
+</IfModule>
+
+# Block directory listing
+Options -Indexes
+
+# ========== cPanel tip ==========
+# Set "Document Root" to /public (Laravel) or /dist (Vite build), NOT repository root.

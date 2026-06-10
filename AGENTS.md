@@ -81,6 +81,7 @@ Ref: projects/REGISTRY.md#asset-manager
 
 ## Hard rules
 
+- **Before every deploy:** load **`deploy-secrets-zero-exposure`** — no secrets on the live domain (public or unauthorized users). Local `_deploy/` keys are fine; production must pass 404 checks on `/.env`, `/.git`, etc.
 - **Never commit** PATs, `.env`, API keys, client data, or paths with secrets.
 - **One skill = one job** — split large topics into focused skills.
 - **Always update** `INDEX.md` and `projects/REGISTRY.md` in the same commit as a new skill.

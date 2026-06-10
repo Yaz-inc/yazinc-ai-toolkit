@@ -2,6 +2,14 @@
 
 > Update whenever you add, change, or retire a skill. See [WORKFLOW.md](WORKFLOW.md).
 
+## Cross-project (all stacks)
+
+| Skill | Summary | Source commit | Added |
+|-------|---------|---------------|-------|
+| `deploy-secrets-zero-exposure` | **Strict deploy gate** — no secrets reachable on live domain | toolkit | 2026-06-10 |
+
+**Use before every deploy.** Run `scripts/pre-deploy-secrets-scan.ps1`; complete `skills/deploy-secrets-zero-exposure/CHECKLIST.md`.
+
 ## Active skills — Laravel admin platform (Asset Manager)
 
 | Skill | Summary | Source commit | Added |
@@ -38,6 +46,8 @@ laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-
 | `templates/push-both-repos.example.ps1` | `laravel-dual-repo-push` |
 | `templates/TracksSoftDeletes.php.example` | `laravel-soft-delete-trash` |
 | `templates/form-field-heights.css.example` | `laravel-form-select2-global` |
+| `templates/gitignore-secrets.block` | `deploy-secrets-zero-exposure` |
+| `templates/web-deny-sensitive.conf.example` | `deploy-secrets-zero-exposure` |
 
 Full project list: [projects/INVENTORY.md](projects/INVENTORY.md)
 

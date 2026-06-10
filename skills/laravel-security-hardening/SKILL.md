@@ -108,6 +108,10 @@ If using env-driven maintenance, allow logo/static paths in `PreventRequestsDuri
 | `public/fix.php.example` | Template only |
 | `.env.example` | Document `APP_ALLOW_DB_SETUP` |
 
+## Cross-skill
+
+Before any production deploy, also run **`deploy-secrets-zero-exposure`** — post-deploy 404 checks on live domain (`.env`, `.git`, logs).
+
 ## Origin
 
 - **Project:** Asset Manager (CDghl)
