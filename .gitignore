@@ -1,0 +1,22 @@
+# Secrets — never commit
+.env
+.env.*
+*.pem
+*pat*
+*token*
+key.git.md
+_deploy/
+**/key.git.md
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Temp
+*.log
+*.tmp
+
+# Template folder is not a real skill — optional to exclude from symlink consumers
+# skills/_template/
