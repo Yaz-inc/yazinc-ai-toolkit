@@ -22,10 +22,13 @@ Tracks which repos contributed skills to **Yazinc Ai Toolkit**.
 | `laravel-activity-logger` | 2026-06-10 | 0ee71e9 | ActivityLogger + activity_logs migration |
 | `laravel-deploy-fix-php` | 2026-06-10 | 0ee71e9 | Template in toolkit `templates/fix.php.example` |
 | `laravel-dual-repo-push` | 2026-06-10 | 0ee71e9 | Template `templates/push-both-repos.example.ps1` |
+| `laravel-rbac-permissions` | 2026-06-10 | 0ee71e9 | CheckPermission + UserPermission matrix |
+| `laravel-soft-delete-trash` | 2026-06-10 | 0ee71e9 | TracksSoftDeletes trait + TrashController |
+| `laravel-security-hardening` | 2026-06-10 | 0ee71e9 | EnsureDatabaseSetupAllowed, NoMaliciousInput, gitignore |
 
 ### Planned from this project
 
-- `laravel-rbac-permissions`, `laravel-soft-delete-trash`, AI block (settings, fallback, vision), maintenance, Select2, security hardening
+- AI block (settings, fallback, vision), env maintenance, Select2 global CSS
 
 ### Reference docs in source (not yet extracted)
 

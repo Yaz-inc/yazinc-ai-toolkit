@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Traits;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
+ * Soft delete with deleted_by tracking and trash dashboard helpers.
+ * Copy to app/Traits/TracksSoftDeletes.php — customize getTrashDisplayName() per model.
+ */
+trait TracksSoftDeletes
+{
+    use SoftDeletes;
+
+    protected static function bootTracksSoftDeletes(): void
+    {
+        static::deleting(function ($model) {
+            if ($model->isForceDeleting()) {
+                return;
+            }
+            if (method_exists($model, 'hasProtectedRelationships') && $model->hasProtectedRelationships()) {
+                throw new \Exception('Cannot delete: related records exist.');
+            }
+            if (auth()->check()) {
+                $model->deleted_by = auth()->id();
+                $model->saveQuietly();
+            }
+        });
+
+        static::restoring(function ($model) {
+            $model->deleted_by = null;
+        });
+    }
+
+    public function deletedByUser()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'deleted_by');
+    }
+
+    public function scopeWithinSafetyPeriod($query, int $days = 30)
+    {
+        return $query->onlyTrashed()->where('deleted_at', '>', now()->subDays($days));
+    }
+
+    public function scopeExpiredTrash($query, int $days = 30)
+    {
+        return $query->onlyTrashed()->where('deleted_at', '<=', now()->subDays($days));
+    }
+
+    public function getTrashDisplayName(): string
+    {
+        foreach (['name', 'title'] as $field) {
+            if (!empty($this->{$field})) {
+                return (string) $this->{$field};
+            }
+        }
+        return class_basename($this) . ' #' . $this->getKey();
+    }
+
+    public function getTrashModuleName(): string
+    {
+        return class_basename($this);
+    }
+}
