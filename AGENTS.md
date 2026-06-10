@@ -34,7 +34,9 @@ Every production project teaches repeatable patterns (DataTables modules, AI fal
 | `templates/` | Copy-paste stubs (fix.php, controller stubs, etc.) |
 | `scripts/` | Link skills into `~/.cursor/skills/`, helpers |
 | `projects/REGISTRY.md` | Which client/dev repos contributed which skills |
-| `INDEX.md` | Master catalog — **always update when adding a skill** |
+| `projects/REFERENCES.md` | **Git commit footers** — local path, repo, HEAD per project |
+| `projects/INVENTORY.md` | Full Laragon project scan |
+| `INDEX.md` | Master skill catalog |
 | `WORKFLOW.md` | Step-by-step: extract → explain → commit → push |
 
 ## When to use this repo
@@ -51,8 +53,9 @@ Follow **WORKFLOW.md** and skill **`skills/extract-to-toolkit/`**:
 2. **Generalize** — remove client names, secrets, domain-specific business rules.
 3. Write or update `skills/<name>/SKILL.md` (+ optional `reference.md`).
 4. Add entry to `INDEX.md` and `projects/REGISTRY.md` with **source project + commit hash**.
-5. Commit with a message that names the source project.
-6. Push to `Yaz-inc/yazinc-ai-toolkit`.
+5. Use commit footer from **`projects/REFERENCES.md`** for registered projects (Yazfex, Asset Manager, etc.).
+6. Commit with a message that names the source project.
+7. Push to `Yaz-inc/yazinc-ai-toolkit`.
 
 ## Commit message format
 

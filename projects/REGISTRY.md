@@ -106,6 +106,69 @@ See also: [INVENTORY.md](INVENTORY.md) — full Laragon project scan.
 
 ---
 
+## yazfex-suite
+
+| Field | Value |
+|-------|-------|
+| **Display name** | YazfexAi Suite (Perfex CRM module) |
+| **Local path** | `D:\Servers\laragon\www\perfex\modules\yazfex_suite` |
+| **GitHub** | *(local git only — add remote when published)* |
+| **Branch / HEAD** | `master` @ `138b0d1` |
+| **Tags** | `v17.8-stable` |
+| **Stack** | Perfex CRM, PHP, multi-provider AI chat, DB tools, encrypted keystore, knowledge base |
+| **Module version** | 17.8 (`yazfex_suite.php`) |
+| **Status** | **Registered** — skills not yet extracted |
+
+### Candidate skills
+
+- Perfex module bootstrap / `install.php` pattern
+- Multi-provider AI + CRM database read/write tools
+- Military-grade keystore (AEAD + HMAC)
+- Offline licence validation
+- Auto-learning KB with schema discovery
+
+### Git commit reference
+
+See [REFERENCES.md#yazfex-suite](REFERENCES.md#yazfex-suite-perfex-crm-module)
+
+### Skills contributed
+
+| Skill | Extracted | Commit | Notes |
+|-------|-----------|--------|-------|
+| *(pending)* | — | — | |
+
+---
+
+## yazfexai-website
+
+| Field | Value |
+|-------|-------|
+| **Display name** | Yazfex AI SaaS Website |
+| **Local path** | `D:\Servers\laragon\www\perfex\yazfexai-website` |
+| **GitHub** | [Yaz-inc/yazfexai](https://github.com/Yaz-inc/yazfexai) |
+| **Branch / HEAD** | `master` @ `b712898` |
+| **Stack** | Next.js 16, React 19, Tailwind CSS 4, Supabase, Vercel Analytics, Resend |
+| **Status** | **Registered** — skills not yet extracted |
+
+### Candidate skills
+
+- Next.js 16 marketing site with dark/light theme CSS variables
+- 36-page static SaaS site structure
+- Supabase integration patterns
+- Vercel deployment
+
+### Git commit reference
+
+See [REFERENCES.md#yazfexai-website](REFERENCES.md#yazfexai-website-saas-marketing-site)
+
+### Skills contributed
+
+| Skill | Extracted | Commit | Notes |
+|-------|-----------|--------|-------|
+| *(pending)* | — | — | |
+
+---
+
 ## Registry rules
 
 1. One `## slug` section per source repo.

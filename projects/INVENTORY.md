@@ -27,7 +27,9 @@
 
 | Project | Local path | GitHub | Stack | Candidate skills |
 |---------|------------|--------|-------|------------------|
-| Mission Control | `MissionControl` | [builderz-labs/mission-control](https://github.com/builderz-labs/mission-control) | Next.js, SQLite | `mission-control` (SKILL.md in repo root) |
+| **YazfexAi Suite** | `perfex\modules\yazfex_suite` | local @ `138b0d1` | Perfex PHP module | AI keystore, KB, CRM DB tools |
+| **Yazfex AI Website** | `perfex\yazfexai-website` | [Yaz-inc/yazfexai](https://github.com/Yaz-inc/yazfexai) @ `b712898` | Next.js 16, Supabase | Theme system, SaaS marketing pages |
+| Mission Control | `MissionControl` | [builderz-labs/mission-control](https://github.com/builderz-labs/mission-control) | Next.js, SQLite | `mission-control` ✓ extracted |
 | MediaV1 | `MediaV1` | [yasirnmg/MediaV1](https://github.com/yasirnmg/MediaV1) | React, Vite, MUI, Supabase | Supabase + media UI patterns |
 | FM2026 | `fm2026` | [Yazinc/FM2026](https://github.com/Yazinc/FM2026.git) | Slim PHP 4 | Fee management API (non-Laravel) |
 | Phil / philsis | `phil` | [Yazinc/philsis](https://github.com/Yazinc/philsis.git) | Multi-folder (`phil_app`, Backend) | TBD — scan `phil_app` |
@@ -46,7 +48,8 @@
 | Streamline Plumbing | `Streamline Plumbing` | No git | |
 | Provision | `provision` | No git | |
 | Setup | `setup` | No git | |
-| Yazfex AI | `yazfexai-com` | No git | |
+| YazfexAi Suite | `perfex\modules\yazfex_suite` | Local git `138b0d1` | **Registered** — see REFERENCES.md |
+| Yazfex AI Website | `perfex\yazfexai-website` | Yaz-inc/yazfexai | **Registered** — see REFERENCES.md |
 | Yaz-inc.com | `Yaz-inc.com` | No git | Marketing site |
 | Yazlicence | `yazlicence` | No git | |
 

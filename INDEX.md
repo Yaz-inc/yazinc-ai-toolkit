@@ -45,6 +45,8 @@ Full project list: [projects/INVENTORY.md](projects/INVENTORY.md)
 
 | Project | Repo | Candidate skills |
 |---------|------|------------------|
+| **YazfexAi Suite** | local `138b0d1` | Perfex AI module, keystore, KB |
+| **Yazfex AI Website** | Yaz-inc/yazfexai | Next.js theme, Supabase, SaaS pages |
 | MediaV1 | yasirnmg/MediaV1 | Supabase + React media UI |
 | FM2026 | Yazinc/FM2026 | Slim PHP fee management |
 | philsis | Yazinc/philsis | TBD after scan |

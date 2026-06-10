@@ -70,6 +70,8 @@ Add a row:
 ### `projects/REGISTRY.md`
 Add or update the project section with skills contributed and dates.
 
+Copy commit footer from **`projects/REFERENCES.md`** when the project is registered there.
+
 Optional: add a one-page `patterns/<name>.md` if the skill needs long background.
 
 ---
@@ -111,6 +113,7 @@ Push target: `https://github.com/Yaz-inc/yazinc-ai-toolkit.git`
 [ ] skills/<name>/SKILL.md created
 [ ] INDEX.md updated
 [ ] projects/REGISTRY.md updated
+[ ] Commit footer matches projects/REFERENCES.md (if registered)
 [ ] Commit message names source repo + SHA
 [ ] git push to Yaz-inc/yazinc-ai-toolkit
 ```
