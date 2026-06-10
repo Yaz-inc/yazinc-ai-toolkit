@@ -2,7 +2,8 @@
 .env
 .env.*
 *.pem
-*pat*
+github_pat_*
+*_pat_*
 *token*
 key.git.md
 _deploy/
