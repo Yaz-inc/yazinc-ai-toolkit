@@ -31,6 +31,7 @@ yazinc-ai-toolkit/
 ├── WORKFLOW.md            ← extract → explain → commit → push
 ├── INDEX.md               ← skill catalog
 ├── projects/REGISTRY.md   ← source projects & contributions
+├── projects/INVENTORY.md  ← all Laragon projects scan
 ├── skills/                ← Cursor SKILL.md folders
 ├── patterns/              ← detailed pattern docs
 ├── templates/             ← stubs to copy

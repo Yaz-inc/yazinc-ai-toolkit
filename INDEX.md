@@ -19,10 +19,12 @@
 | `laravel-vision-label-scan` | Image → JSON → review → apply | 0ee71e9 | 2026-06-10 |
 | `laravel-env-maintenance` | `.env` maintenance + branded 503 | 0ee71e9 | 2026-06-10 |
 | `laravel-form-select2-global` | App-wide form/Select2 CSS variables | 0ee71e9 | 2026-06-10 |
+| `mission-control` | MC agent API, adapters, tasks, skills sync | 30ecc3d | 2026-06-10 |
 
-**Source project:** Asset Manager — `Yaz-inc/Asset-Manager-V17-Final` @ `0ee71e9`
+**Laravel cluster source:** Asset Manager @ `0ee71e9`  
+**Agent orchestration:** Mission Control @ `30ecc3d`
 
-## AI skill cluster (use together)
+## AI skill cluster (Laravel)
 
 ```
 laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-scan
@@ -37,8 +39,13 @@ laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-
 | `templates/TracksSoftDeletes.php.example` | `laravel-soft-delete-trash` |
 | `templates/form-field-heights.css.example` | `laravel-form-select2-global` |
 
-## Planned
+Full project list: [projects/INVENTORY.md](projects/INVENTORY.md)
 
-| Source | Notes |
-|--------|-------|
-| Other Yaz Inc projects | Add to `projects/REGISTRY.md` as you extract |
+## Planned (other projects)
+
+| Project | Repo | Candidate skills |
+|---------|------|------------------|
+| MediaV1 | yasirnmg/MediaV1 | Supabase + React media UI |
+| FM2026 | Yazinc/FM2026 | Slim PHP fee management |
+| philsis | Yazinc/philsis | TBD after scan |
+| RockCrete USA Pro | Yaz-inc/rockcreteusa | Deploy/template patterns |
