@@ -18,6 +18,7 @@ Thumbs.db
 # Temp
 *.log
 *.tmp
+_Codex_Prompt/
 
 # Template folder is not a real skill — optional to exclude from symlink consumers
 # skills/_template/
