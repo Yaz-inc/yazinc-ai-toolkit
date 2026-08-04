@@ -1,5 +1,9 @@
 # Yazinc Ai Toolkit
 
+**Landing page:** Open [index.html](index.html) for the searchable visual catalog, setup instructions, and links to all skills.
+
+**Reusable prompts:** Use [prompts/google-sans-website-agent.md](prompts/google-sans-website-agent.md) to instruct a development agent to implement and verify Google Sans correctly.
+
 Personal AI agent skill library for **Yaz Inc** (`yazinc@gmail.com`). Cursor skills, patterns, templates, and scripts reused across **all** projects — not tied to Asset Manager or any single client.
 
 ## What & why

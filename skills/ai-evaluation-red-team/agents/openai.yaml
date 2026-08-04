@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Evaluation Red Team"
+  short_description: "Evaluate and red-team prompts agents and RAG"
+  default_prompt: "Use $ai-evaluation-red-team to build AI evaluations and red-team scenarios."

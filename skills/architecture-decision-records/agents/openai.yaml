@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Decision Records"
+  short_description: "Capture reversible architecture decisions"
+  default_prompt: "Use $architecture-decision-records to document an architecture decision and its tradeoffs."

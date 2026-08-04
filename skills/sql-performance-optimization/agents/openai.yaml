@@ -1,0 +1,4 @@
+interface:
+  display_name: "SQL Performance Optimization"
+  short_description: "Diagnose and optimize SQL query performance"
+  default_prompt: "Use $sql-performance-optimization to analyze and improve SQL query performance."

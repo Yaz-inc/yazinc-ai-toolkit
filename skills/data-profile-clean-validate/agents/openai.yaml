@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Profile Clean Validate"
+  short_description: "Profile clean and validate messy datasets"
+  default_prompt: "Use $data-profile-clean-validate to profile clean and validate a dataset reproducibly."

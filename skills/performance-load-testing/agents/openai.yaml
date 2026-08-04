@@ -1,0 +1,4 @@
+interface:
+  display_name: "Performance Load Testing"
+  short_description: "Plan load stress spike and endurance tests"
+  default_prompt: "Use $performance-load-testing to create a risk-based performance and load test plan."

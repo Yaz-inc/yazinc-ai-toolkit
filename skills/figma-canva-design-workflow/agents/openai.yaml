@@ -1,0 +1,4 @@
+interface:
+  display_name: "Figma and Canva Design Workflow"
+  short_description: "Coordinate product and campaign design assets"
+  default_prompt: "Use $figma-canva-design-workflow to plan and deliver this design across Figma and Canva."

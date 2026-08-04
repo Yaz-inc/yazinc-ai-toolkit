@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Reconciliation Migration"
+  short_description: "Verify migrations corrections and system parity"
+  default_prompt: "Use $data-reconciliation-migration to reconcile source and destination data safely."

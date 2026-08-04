@@ -1,0 +1,4 @@
+interface:
+  display_name: "Central Knowledge Base"
+  short_description: "Maintain a safe cross-agent knowledge source"
+  default_prompt: "Use $central-knowledge-base to safely add or retrieve shared non-secret knowledge."

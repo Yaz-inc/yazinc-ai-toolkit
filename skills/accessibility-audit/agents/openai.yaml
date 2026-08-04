@@ -1,0 +1,4 @@
+interface:
+  display_name: "Accessibility Audit"
+  short_description: "Audit WCAG accessibility with human checks"
+  default_prompt: "Use $accessibility-audit to run an evidence-based accessibility audit."

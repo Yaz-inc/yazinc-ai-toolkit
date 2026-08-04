@@ -1,0 +1,4 @@
+interface:
+  display_name: "Screen Reader Accessibility Testing"
+  short_description: "Test assistive technology and keyboard journeys"
+  default_prompt: "Use $screen-reader-accessibility-testing to test this workflow with screen readers and keyboard-only navigation."

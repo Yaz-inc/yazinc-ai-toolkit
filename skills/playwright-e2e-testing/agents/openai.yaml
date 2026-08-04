@@ -1,0 +1,4 @@
+interface:
+  display_name: "Playwright E2E Testing"
+  short_description: "Automate browser journeys and regression tests"
+  default_prompt: "Use $playwright-e2e-testing to create reliable cross-browser end-to-end tests."

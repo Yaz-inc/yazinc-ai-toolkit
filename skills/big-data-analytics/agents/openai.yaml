@@ -1,0 +1,4 @@
+interface:
+  display_name: "Big Data Analytics"
+  short_description: "Choose and run scalable analytics workflows"
+  default_prompt: "Use $big-data-analytics to plan a scalable big-data analysis workflow."

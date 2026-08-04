@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI & Web Dev Knowledge Base + Playbook — Yasir Ikram</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+          mono: ['JetBrains Mono', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: #0b1120; }
+  ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 6px; }
+  ::-webkit-scrollbar-thumb:hover { background: #334155; }
+  .glass { backdrop-filter: blur(12px); }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.35s ease both; }
+</style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useMemo, useEffect } = React;
+
+/* ============================================================
+   DATA
+   Provenance is explicit:
+   - source: "How to Web Dev" = pulled from the channel's public
+     GitHub (github.com/HowtoWebDev) and video catalogue.
+   - source: "Curated" = added by Claude to round out your stated
+     focus (web/software dev + data & automation). Not from the channel.
+   ============================================================ */
+
+const GH = "https://github.com/HowtoWebDev";
+
+const PROJECTS = [
+  // ---- AI PROJECTS (from the channel) ----
+  { id:"ai-resume-analyzer", name:"AI Resume Analyzer", category:"AI Project",
+    desc:"Upload a resume and get AI-powered analysis and feedback. Great template for AI + file-handling web apps.",
+    tech:["React","Tailwind","Puter.js","Vite"], repo:`${GH}/ai-resume-analyzer-starter-code`,
+    video:"Build an AI-Powered Resume Analyzer Website with React, Tailwind & Puter.js", source:"How to Web Dev" },
+  { id:"multi-model-ai", name:"Multi-Model AI Chat", category:"AI Project",
+    desc:"A chat UI that switches between multiple AI models (GPT, Claude, etc.) via Puter.js — no API keys needed.",
+    tech:["React","Tailwind","Puter.js"], repo:`${GH}/multi-model-ai-starter-code`,
+    video:"Build a Modern AI Chat with Multiple Models in React, Tailwind and Puter.js", source:"How to Web Dev" },
+  { id:"ai-code-converter", name:"AI Code Converter", category:"AI Project",
+    desc:"Convert code from one language to another using AI. Useful pattern for any 'transform text with AI' tool.",
+    tech:["React","JavaScript","Puter.js"], repo:`${GH}/ai-code-converter-starter-code`,
+    video:"AI Code Converter tutorial", source:"How to Web Dev" },
+  { id:"ai-interview-coach", name:"AI Interview Coach", category:"AI Project",
+    desc:"Practice interviews with an AI that asks questions and gives feedback. Conversational AI app pattern.",
+    tech:["React","JavaScript","Puter.js"], repo:`${GH}/ai-interview-coach`,
+    video:"AI Interview Coach tutorial", source:"How to Web Dev" },
+  { id:"background-remover", name:"AI Background Remover", category:"AI Project",
+    desc:"Remove image backgrounds in the browser. Template for AI image-processing tools.",
+    tech:["React","JavaScript"], repo:`${GH}/background-remover-starter-code`,
+    video:"Background Remover tutorial", source:"How to Web Dev" },
+
+  // ---- WEB / PORTFOLIO PROJECTS (from the channel) ----
+  { id:"nextjs-portfolio", name:"Next.js Portfolio", category:"Web Project",
+    desc:"Modern personal portfolio built on Next.js. Solid base for a professional site (e.g. yaz-inc.com).",
+    tech:["Next.js","React","CSS"], repo:`${GH}/nextjs-portfolio-starter`,
+    video:"Next.js Portfolio Website tutorial", source:"How to Web Dev" },
+  { id:"framer-portfolio", name:"Framer Motion Portfolio", category:"Web Project",
+    desc:"Animated React portfolio using Framer Motion for smooth transitions and scroll effects.",
+    tech:["React","Tailwind","Framer Motion"], repo:`${GH}/framer-portfolio-starter-code`,
+    video:"Build a Modern Portfolio Website with React, Tailwind & Framer Motion", source:"How to Web Dev" },
+  { id:"modern-portfolio", name:"Modern Portfolio (React)", category:"Web Project",
+    desc:"Clean modern portfolio starter in React + Tailwind.",
+    tech:["React","Tailwind"], repo:`${GH}/starter-code-modern-portfolio`,
+    video:"Modern Portfolio Website tutorial", source:"How to Web Dev" },
+  { id:"simple-portfolio", name:"Simple Portfolio (Vite)", category:"Web Project",
+    desc:"Minimal empty React+Tailwind project scaffolded with Vite and react-icons. A clean starting point for anything.",
+    tech:["React","Tailwind","Vite","React Icons"], repo:`${GH}/simple-portfolio-starter-code`,
+    video:"Simple Portfolio starter", source:"How to Web Dev" },
+  { id:"portfolio-builder", name:"Portfolio Builder", category:"Web Project",
+    desc:"A configurable portfolio builder starter.",
+    tech:["React"], repo:`${GH}/portfolio-builder-starter-code`,
+    video:"Portfolio Builder tutorial", source:"How to Web Dev" },
+  { id:"real-estate", name:"Real Estate Website", category:"Web Project",
+    desc:"Modern real estate listings site. Good reference for card grids, filtering, and landing layouts.",
+    tech:["React","Tailwind"], repo:`${GH}/real-estate-website-starter-code`,
+    video:"Build a Modern Real Estate Website with React and Tailwind", source:"How to Web Dev" },
+  { id:"social-app", name:"Social Media App", category:"Web Project",
+    desc:"React social feed UI with dark mode. Reusable patterns for feeds, cards, and theming.",
+    tech:["React","Tailwind"], repo:`${GH}/Social-App-Starter-Code`,
+    video:"React Social Media App Design with Dark Mode", source:"How to Web Dev" },
+  { id:"cv-app", name:"CV / Resume App", category:"Web Project",
+    desc:"Build and render a CV/resume in the browser.",
+    tech:["React","JavaScript"], repo:`${GH}/CV-App-Starter-Code`,
+    video:"CV App tutorial", source:"How to Web Dev" },
+  { id:"bentogrid", name:"Bento Grid Landing Page", category:"Web Project",
+    desc:"Trendy bento-grid landing page layout — great for showcasing features or products.",
+    tech:["HTML","CSS"], repo:`${GH}/bentogrid-starter`,
+    video:"Landing Page with Bento Grid", source:"How to Web Dev" },
+  { id:"responsive-portfolio", name:"Responsive Portfolio (HTML/CSS)", category:"Web Project",
+    desc:"Fully responsive portfolio built with plain HTML, CSS & JS. The channel's most popular starter.",
+    tech:["HTML","CSS","JavaScript"], repo:`${GH}/Responsive-Portfolio-Website-Starter-Code`,
+    video:"Modern Responsive Portfolio Website with HTML & CSS & JavaScript", source:"How to Web Dev" },
+
+  // ---- UTILITY / INTERACTIVE (from the channel) ----
+  { id:"qrcode", name:"QR Code Generator", category:"Utility App",
+    desc:"Generate QR codes in a React app. Small, shippable micro-tool.",
+    tech:["React"], repo:`${GH}/qrcode-generator-starter`,
+    video:"QR Code Generator App with React", source:"How to Web Dev" },
+  { id:"quiz-app", name:"Quiz App", category:"Utility App",
+    desc:"Interactive quiz app in React — state management, scoring, and flow control patterns.",
+    tech:["React","JavaScript"], repo:`${GH}/react-quiz-app-starter`,
+    video:"React Quiz App tutorial", source:"How to Web Dev" },
+  { id:"pokemon-memory", name:"Pokémon Memory Game", category:"Game / Practice",
+    desc:"Memory card game — good practice for state, effects, and array logic.",
+    tech:["React","JavaScript"], repo:`${GH}/pokemon-memory-game`,
+    video:"Pokémon Memory Game tutorial", source:"How to Web Dev" },
+  { id:"rps", name:"Rock Paper Scissors", category:"Game / Practice",
+    desc:"Classic RPS game — beginner-friendly logic and DOM/state practice.",
+    tech:["CSS","JavaScript"], repo:`${GH}/Rock-Paper-Scissors-Game`,
+    video:"Rock Paper Scissors tutorial", source:"How to Web Dev" },
+];
+
+const TOOLS = [
+  // Core stack the channel actually uses
+  { id:"react", name:"React", desc:"The core UI library for component-based front ends. Everything above is built on it.", cat:"Framework", url:"https://react.dev", source:"How to Web Dev" },
+  { id:"tailwind", name:"Tailwind CSS", desc:"Utility-first CSS framework for fast, consistent styling without leaving your markup.", cat:"Styling", url:"https://tailwindcss.com", source:"How to Web Dev" },
+  { id:"vite", name:"Vite", desc:"Lightning-fast build tool / dev server used to scaffold the React projects.", cat:"Build tool", url:"https://vitejs.dev", source:"How to Web Dev" },
+  { id:"nextjs", name:"Next.js", desc:"React framework with routing, SSR, and API routes — used for the portfolio builds.", cat:"Framework", url:"https://nextjs.org", source:"How to Web Dev" },
+  { id:"framer", name:"Framer Motion", desc:"Animation library for React — smooth transitions, gestures, and scroll effects.", cat:"Animation", url:"https://motion.dev", source:"How to Web Dev" },
+  { id:"router", name:"React Router", desc:"Client-side routing for multi-page React apps.", cat:"Routing", url:"https://reactrouter.com", source:"How to Web Dev" },
+  { id:"reacticons", name:"React Icons", desc:"Huge icon set (Font Awesome, Material, etc.) as ready-to-use React components.", cat:"UI", url:"https://react-icons.github.io/react-icons/", source:"How to Web Dev" },
+  { id:"puter", name:"Puter.js", desc:"⭐ The channel's secret weapon: free, serverless AI (GPT, Claude, image gen) with NO API keys or backend. Ideal for shipping AI apps fast.", cat:"AI / Backend", url:"https://developer.puter.com", source:"How to Web Dev" },
+  { id:"node", name:"Node.js", desc:"JavaScript runtime that powers the tooling and any custom backend.", cat:"Runtime", url:"https://nodejs.org", source:"How to Web Dev" },
+
+  // Curated additions for your data & automation focus
+  { id:"supabase", name:"Supabase", desc:"Open-source Firebase alternative: Postgres DB, auth, storage, and realtime. Pairs perfectly with React front ends.", cat:"Backend / Data", url:"https://supabase.com", source:"Curated" },
+  { id:"n8n", name:"n8n", desc:"Open-source workflow automation — connect APIs, databases, and AI into no/low-code pipelines. Self-hostable.", cat:"Automation", url:"https://n8n.io", source:"Curated" },
+  { id:"langchain", name:"LangChain", desc:"Framework for building LLM-powered apps: chains, agents, RAG, and tool use.", cat:"AI", url:"https://www.langchain.com", source:"Curated" },
+  { id:"ollama", name:"Ollama", desc:"Run open LLMs (Llama, Mistral, etc.) locally with one command. Great for private/offline AI.", cat:"AI", url:"https://ollama.com", source:"Curated" },
+  { id:"airbyte", name:"Airbyte", desc:"Open-source data integration (ELT) — sync data from hundreds of sources into your warehouse.", cat:"Data", url:"https://airbyte.com", source:"Curated" },
+  { id:"dbt", name:"dbt", desc:"Transform data in your warehouse using version-controlled SQL. Standard for analytics engineering.", cat:"Data", url:"https://www.getdbt.com", source:"Curated" },
+];
+
+const PLAYS = [
+  { id:"ship-ai", title:"Ship an AI web app — fast", icon:"⚡",
+    goal:"You want a working AI-powered app (chat, analyzer, generator) live quickly, without wrangling API keys or a backend.",
+    reach:["Puter.js (free AI, no keys)","React","Tailwind","Vite"],
+    start:["multi-model-ai","ai-resume-analyzer","ai-code-converter"],
+    notes:"Start from the multi-model chat starter, swap the prompt + UI for your use case. Puter.js handles the AI calls entirely client-side, so you can deploy as a static site." },
+  { id:"portfolio", title:"Build a professional portfolio / brand site", icon:"🎨",
+    goal:"A polished personal or company site (e.g. yaz-inc.com) with modern animation and responsive layout.",
+    reach:["Next.js","Framer Motion","Tailwind","React Icons"],
+    start:["nextjs-portfolio","framer-portfolio","modern-portfolio"],
+    notes:"Use the Next.js starter for SEO + routing, or the Framer Motion starter if animation is the priority. Bento grid starter is great for a features/services section." },
+  { id:"interactive", title:"Add interactivity & multi-page flows", icon:"🧭",
+    goal:"Routing, drag-and-drop, quizzes, or stateful UI in an existing React app.",
+    reach:["React Router","React","Tailwind"],
+    start:["quiz-app","social-app","qrcode"],
+    notes:"React Router covers multi-page navbars and nested routes. The quiz and social starters are clean references for component state and theming (dark mode)." },
+  { id:"ai-media", title:"Build AI document & media tools", icon:"🖼️",
+    goal:"Tools that transform files — resumes, code, images — with AI.",
+    reach:["Puter.js","React"],
+    start:["ai-resume-analyzer","ai-code-converter","background-remover","ai-interview-coach"],
+    notes:"These share a pattern: take user input (file/text) → send to AI → render structured output. Reuse the file-upload + result-card layout across all of them." },
+  { id:"data-automation", title:"Automate data & workflows", icon:"🔗",
+    goal:"Connect apps, move/transform data, and add automation behind your front end.",
+    reach:["n8n","Supabase","Airbyte","dbt","LangChain"],
+    start:[],
+    notes:"Curated stack (not from the channel). Use Supabase as your database/auth layer behind any React app, n8n to orchestrate API + AI workflows, and Airbyte + dbt for a proper data pipeline. LangChain when you need agents or RAG beyond simple prompts." },
+];
+
+const CATEGORIES = ["All","AI Project","Web Project","Utility App","Game / Practice"];
+
+/* ============================================================ ICONS ============================================================ */
+const Icon = ({ path, className="w-5 h-5" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>{path}</svg>
+);
+const Icons = {
+  book: <Icon path={<><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></>} />,
+  grid: <Icon path={<><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></>} />,
+  play: <Icon path={<><path d="m5 3 14 9-14 9V3z"/></>} />,
+  tool: <Icon path={<><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></>} />,
+  spark: <Icon path={<><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M18.4 5.6 5.6 18.4"/></>} />,
+  search: <Icon path={<><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></>} />,
+  ext: <Icon path={<><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></>} className="w-4 h-4" />,
+  plus: <Icon path={<><path d="M12 5v14M5 12h14"/></>} />,
+  info: <Icon path={<><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></>} className="w-4 h-4" />,
+};
+
+const catColor = (c) => ({
+  "AI Project":"text-fuchsia-300 bg-fuchsia-500/10 ring-fuchsia-500/30",
+  "Web Project":"text-sky-300 bg-sky-500/10 ring-sky-500/30",
+  "Utility App":"text-amber-300 bg-amber-500/10 ring-amber-500/30",
+  "Game / Practice":"text-emerald-300 bg-emerald-500/10 ring-emerald-500/30",
+}[c] || "text-slate-300 bg-slate-500/10 ring-slate-500/30");
+
+/* ============================================================ COMPONENTS ============================================================ */
+
+function Badge({ children, className="" }) {
+  return <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-medium ring-1 ${className}`}>{children}</span>;
+}
+
+function SourceTag({ source }) {
+  const curated = source === "Curated";
+  return <Badge className={curated ? "text-violet-300 bg-violet-500/10 ring-violet-500/30" : "text-teal-300 bg-teal-500/10 ring-teal-500/30"}>{curated ? "Curated addition" : "How to Web Dev"}</Badge>;
+}
+
+function ProjectCard({ p }) {
+  return (
+    <div className="fade-in group rounded-2xl border border-slate-800 bg-slate-900/50 p-5 hover:border-slate-600 hover:bg-slate-900 transition-all flex flex-col">
+      <div className="flex items-start justify-between gap-3 mb-2">
+        <h3 className="text-base font-semibold text-white leading-snug">{p.name}</h3>
+        <Badge className={`shrink-0 ring-1 ${catColor(p.category)}`}>{p.category}</Badge>
+      </div>
+      <p className="text-sm text-slate-400 leading-relaxed flex-1">{p.desc}</p>
+      <div className="flex flex-wrap gap-1.5 mt-3">
+        {p.tech.map(t => <span key={t} className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300">{t}</span>)}
+      </div>
+      <div className="mt-4 flex items-center justify-between">
+        <SourceTag source={p.source} />
+        <a href={p.repo} target="_blank" rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-sky-400 hover:text-sky-300">
+          Source code {Icons.ext}
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function ToolCard({ t }) {
+  return (
+    <a href={t.url} target="_blank" rel="noopener noreferrer"
+      className="fade-in group rounded-xl border border-slate-800 bg-slate-900/50 p-4 hover:border-sky-600/60 hover:bg-slate-900 transition-all flex flex-col">
+      <div className="flex items-center justify-between mb-1.5">
+        <h3 className="font-semibold text-white flex items-center gap-2">{t.name}</h3>
+        <span className="text-slate-500 group-hover:text-sky-400 transition-colors">{Icons.ext}</span>
+      </div>
+      <p className="text-sm text-slate-400 leading-relaxed flex-1">{t.desc}</p>
+      <div className="mt-3 flex items-center gap-2">
+        <Badge className="text-slate-300 bg-slate-500/10 ring-slate-500/30">{t.cat}</Badge>
+        <SourceTag source={t.source} />
+      </div>
+    </a>
+  );
+}
+
+function PlayCard({ play }) {
+  const linked = play.start.map(id => PROJECTS.find(p => p.id === id)).filter(Boolean);
+  return (
+    <div className="fade-in rounded-2xl border border-slate-800 bg-gradient-to-b from-slate-900 to-slate-900/40 p-6">
+      <div className="flex items-center gap-3 mb-3">
+        <span className="text-2xl">{play.icon}</span>
+        <h3 className="text-lg font-bold text-white">{play.title}</h3>
+      </div>
+      <p className="text-sm text-slate-300 mb-4">{play.goal}</p>
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <p className="text-[11px] uppercase tracking-wide text-slate-500 font-semibold mb-1.5">Reach for</p>
+          <div className="flex flex-wrap gap-1.5">
+            {play.reach.map(r => <span key={r} className="text-xs px-2 py-1 rounded-md bg-sky-500/10 text-sky-300 ring-1 ring-sky-500/25">{r}</span>)}
+          </div>
+        </div>
+        <div>
+          <p className="text-[11px] uppercase tracking-wide text-slate-500 font-semibold mb-1.5">Start from</p>
+          {linked.length ? (
+            <div className="flex flex-col gap-1">
+              {linked.map(p => (
+                <a key={p.id} href={p.repo} target="_blank" rel="noopener noreferrer"
+                  className="text-sm text-fuchsia-300 hover:text-fuchsia-200 inline-flex items-center gap-1">
+                  {p.name} {Icons.ext}
+                </a>
+              ))}
+            </div>
+          ) : <p className="text-sm text-slate-500 italic">External tooling — see Tools tab</p>}
+        </div>
+      </div>
+      <div className="mt-4 flex gap-2 text-sm text-slate-400 bg-slate-800/40 rounded-lg p-3">
+        <span className="text-slate-500 mt-0.5">{Icons.info}</span>
+        <p>{play.notes}</p>
+      </div>
+    </div>
+  );
+}
+
+/* ============================================================ APP ============================================================ */
+function App() {
+  const [tab, setTab] = useState("overview");
+  const [query, setQuery] = useState("");
+  const [cat, setCat] = useState("All");
+
+  const filtered = useMemo(() => {
+    return PROJECTS.filter(p => {
+      const matchCat = cat === "All" || p.category === cat;
+      const q = query.toLowerCase();
+      const matchQ = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q) || p.tech.join(" ").toLowerCase().includes(q);
+      return matchCat && matchQ;
+    });
+  }, [query, cat]);
+
+  const nav = [
+    { id:"overview", label:"Overview", icon:Icons.book },
+    { id:"projects", label:"Knowledge Base", icon:Icons.grid },
+    { id:"tools", label:"Tools & Libraries", icon:Icons.tool },
+    { id:"playbook", label:"Playbook", icon:Icons.play },
+    { id:"add", label:"Add Your Own", icon:Icons.plus },
+  ];
+
+  const stats = [
+    { n: PROJECTS.length, l:"Projects" },
+    { n: TOOLS.length, l:"Tools" },
+    { n: PLAYS.length, l:"Playbooks" },
+    { n: PROJECTS.filter(p=>p.category==="AI Project").length, l:"AI apps" },
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col lg:flex-row">
+      {/* Sidebar */}
+      <aside className="lg:w-64 lg:min-h-screen border-b lg:border-b-0 lg:border-r border-slate-800 bg-slate-950/80 glass lg:sticky lg:top-0 lg:h-screen flex flex-col">
+        <div className="p-5 border-b border-slate-800">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-sky-500 to-fuchsia-500 flex items-center justify-center text-white">{Icons.spark}</div>
+            <div>
+              <p className="font-bold text-white text-sm leading-tight">AI &amp; Web Dev</p>
+              <p className="text-[11px] text-slate-400">Knowledge Base + Playbook</p>
+            </div>
+          </div>
+        </div>
+        <nav className="p-3 flex-1 flex lg:flex-col gap-1 overflow-x-auto">
+          {nav.map(n => (
+            <button key={n.id} onClick={() => setTab(n.id)}
+              className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${tab===n.id ? "bg-sky-500/15 text-sky-300 ring-1 ring-sky-500/30" : "text-slate-400 hover:text-white hover:bg-slate-800/60"}`}>
+              <span className="shrink-0">{n.icon}</span> {n.label}
+            </button>
+          ))}
+        </nav>
+        <div className="p-4 text-[11px] text-slate-500 border-t border-slate-800 hidden lg:block">
+          <p>Prepared for <span className="text-slate-300 font-medium">Yasir Ikram</span></p>
+          <a href="https://www.yaz-inc.com" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300">yaz-inc.com</a>
+        </div>
+      </aside>
+
+      {/* Main */}
+      <main className="flex-1 p-5 sm:p-8 max-w-6xl">
+        {/* OVERVIEW */}
+        {tab === "overview" && (
+          <div className="fade-in space-y-8">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Your AI &amp; Web Dev Knowledge Base</h1>
+              <p className="mt-3 text-slate-400 max-w-2xl leading-relaxed">
+                A curated, linked catalogue of open-source projects and tools drawn from the <b className="text-slate-200">How to Web Dev</b> channel
+                (its GitHub and videos), organized for your focus areas — <b className="text-slate-200">web/software development</b> and
+                <b className="text-slate-200"> data &amp; automation</b> — plus a playbook mapping them to real build scenarios.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {stats.map(s => (
+                <div key={s.l} className="rounded-xl border border-slate-800 bg-slate-900/50 p-4 text-center">
+                  <p className="text-3xl font-extrabold text-white">{s.n}</p>
+                  <p className="text-xs text-slate-400 mt-1">{s.l}</p>
+                </div>
+              ))}
+            </div>
+            <div className="grid md:grid-cols-3 gap-4">
+              {[
+                { t:"Knowledge Base", d:"Every project as a searchable, filterable card with its tech stack and a direct link to the source code.", tab:"projects", c:"from-sky-500/10 to-transparent" },
+                { t:"Tools & Libraries", d:"The open-source stack behind the builds — React, Tailwind, Puter.js — plus curated data/automation tools.", tab:"tools", c:"from-fuchsia-500/10 to-transparent" },
+                { t:"Playbook", d:"Use-case recipes: what to reach for and which starter to fork when building your next app.", tab:"playbook", c:"from-emerald-500/10 to-transparent" },
+              ].map(card => (
+                <button key={card.t} onClick={()=>setTab(card.tab)}
+                  className={`text-left rounded-2xl border border-slate-800 bg-gradient-to-b ${card.c} p-5 hover:border-slate-600 transition-all`}>
+                  <h3 className="font-semibold text-white mb-1.5">{card.t}</h3>
+                  <p className="text-sm text-slate-400">{card.d}</p>
+                </button>
+              ))}
+            </div>
+            <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4 flex gap-3">
+              <span className="text-amber-400 mt-0.5">{Icons.info}</span>
+              <p className="text-sm text-slate-300">
+                <b className="text-amber-300">On sourcing:</b> Items tagged <SourceTag source="How to Web Dev" /> come from the channel's public
+                GitHub (github.com/HowtoWebDev) and video catalogue. Items tagged <SourceTag source="Curated" /> were added to round out your
+                data &amp; automation focus and are <b>not</b> from the channel. Your private TikTok saves couldn't be accessed directly — see the
+                <button onClick={()=>setTab("add")} className="text-sky-400 hover:text-sky-300 underline mx-1">Add Your Own</button> tab to fold them in.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* PROJECTS */}
+        {tab === "projects" && (
+          <div className="fade-in space-y-5">
+            <div>
+              <h2 className="text-2xl font-bold text-white">Knowledge Base</h2>
+              <p className="text-slate-400 text-sm mt-1">{filtered.length} of {PROJECTS.length} projects. Each links to its open-source repo.</p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500">{Icons.search}</span>
+                <input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search projects, tech, keywords…"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-900 border border-slate-800 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-600" />
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {CATEGORIES.map(c => (
+                  <button key={c} onClick={()=>setCat(c)}
+                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${cat===c ? "bg-sky-500/15 text-sky-300 ring-1 ring-sky-500/30" : "bg-slate-900 text-slate-400 hover:text-white border border-slate-800"}`}>{c}</button>
+                ))}
+              </div>
+            </div>
+            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              {filtered.map(p => <ProjectCard key={p.id} p={p} />)}
+            </div>
+            {!filtered.length && <p className="text-center text-slate-500 py-12">No projects match your search.</p>}
+          </div>
+        )}
+
+        {/* TOOLS */}
+        {tab === "tools" && (
+          <div className="fade-in space-y-5">
+            <div>
+              <h2 className="text-2xl font-bold text-white">Tools &amp; Libraries</h2>
+              <p className="text-slate-400 text-sm mt-1">The open-source stack behind the builds, plus curated data &amp; automation additions.</p>
+            </div>
+            <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-4">
+              {TOOLS.map(t => <ToolCard key={t.id} t={t} />)}
+            </div>
+          </div>
+        )}
+
+        {/* PLAYBOOK */}
+        {tab === "playbook" && (
+          <div className="fade-in space-y-5">
+            <div>
+              <h2 className="text-2xl font-bold text-white">Playbook</h2>
+              <p className="text-slate-400 text-sm mt-1">Scenario-based recipes for building your future applications — what to reach for and where to start.</p>
+            </div>
+            <div className="grid lg:grid-cols-2 gap-4">
+              {PLAYS.map(pl => <PlayCard key={pl.id} play={pl} />)}
+            </div>
+          </div>
+        )}
+
+        {/* ADD YOUR OWN */}
+        {tab === "add" && (
+          <div className="fade-in space-y-5 max-w-2xl">
+            <div>
+              <h2 className="text-2xl font-bold text-white">Add Your Own Resources</h2>
+              <p className="text-slate-400 text-sm mt-1">Fold in your TikTok saves and any other finds. Two easy ways:</p>
+            </div>
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 space-y-4">
+              <div>
+                <h3 className="font-semibold text-white mb-1">Option 1 — Send me the list</h3>
+                <p className="text-sm text-slate-400">Export your TikTok data (Profile → Settings → Account → Download your data) or paste your saved links into the chat. I'll parse them and regenerate this file with your resources merged in and categorized.</p>
+              </div>
+              <div className="border-t border-slate-800 pt-4">
+                <h3 className="font-semibold text-white mb-1">Option 2 — Edit this file directly</h3>
+                <p className="text-sm text-slate-400 mb-2">Open this HTML file in any editor and add entries to the <code className="font-mono text-sky-300 bg-slate-800 px-1 rounded">PROJECTS</code> or <code className="font-mono text-sky-300 bg-slate-800 px-1 rounded">TOOLS</code> array near the top. Copy this template:</p>
+                <pre className="font-mono text-xs bg-slate-950 border border-slate-800 rounded-lg p-3 overflow-x-auto text-slate-300">{`{ id:"my-tool", name:"Tool name",
+  desc:"What it does.",
+  cat:"AI", url:"https://...",
+  source:"Curated" },`}</pre>
+              </div>
+            </div>
+            <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4 text-sm text-slate-400">
+              Tip: this file is self-contained — you can keep it on your desktop, host it on <a href="https://www.yaz-inc.com" target="_blank" rel="noopener noreferrer" className="text-sky-400 hover:text-sky-300">yaz-inc.com</a>, or drop it in any static host. It only needs an internet connection to load the CDN scripts.
+            </div>
+          </div>
+        )}
+
+        <footer className="mt-12 pt-6 border-t border-slate-800 text-xs text-slate-600">
+          Built as a living knowledge base • Links open the original open-source repos and docs • Verify tools before use in production.
+        </footer>
+      </main>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

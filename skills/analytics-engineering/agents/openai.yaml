@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analytics Engineering"
+  short_description: "Build tested dimensional analytics models"
+  default_prompt: "Use $analytics-engineering to design tested analytics transformations and metrics."

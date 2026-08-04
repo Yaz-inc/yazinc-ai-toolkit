@@ -1,0 +1,4 @@
+interface:
+  display_name: "NoSQL Query Engineering"
+  short_description: "Model and query document search and key-value data"
+  default_prompt: "Use $nosql-query-engineering to design a safe NoSQL data model and query."

@@ -31,6 +31,7 @@ See also: [INVENTORY.md](INVENTORY.md) — full Laragon project scan.
 | `laravel-vision-label-scan` | 2026-06-10 | 0ee71e9 | 3 |
 | `laravel-env-maintenance` | 2026-06-10 | 0ee71e9 | 3 |
 | `laravel-form-select2-global` | 2026-06-10 | 0ee71e9 | 3 |
+| `test-software-app` | 2026-08-04 | unavailable | Audit workflow generalized from the local pre-go-live engagement |
 
 ---
 
@@ -166,6 +167,82 @@ See [REFERENCES.md#yazfexai-website](REFERENCES.md#yazfexai-website-saas-marketi
 | Skill | Extracted | Commit | Notes |
 |-------|-----------|--------|-------|
 | *(pending)* | — | — | |
+
+---
+
+## yaz-inc-website
+
+| Field | Value |
+|-------|-------|
+| **Display name** | Yaz Inc website |
+| **Local path** | `D:\Servers\laragon\www\Yaz-inc.com` |
+| **Repo** | Local working copy, repository metadata unavailable |
+| **Status** | **Extracted**: 1 hardened cross-project knowledge skill |
+
+### Skills contributed
+
+| Skill | Extracted | Commit | Notes |
+|-------|-----------|--------|-------|
+| `central-knowledge-base` | 2026-08-04 | unavailable | Hardened from the project-local `central-kb` skill. Secret values are explicitly excluded. |
+
+### Not imported
+
+- `yazinc-ai-toolkit`: kept project-local because it is a pointer to this toolkit and would be self-referential here.
+
+---
+
+## toolkit-capability-expansion-2026-08
+
+| Field | Value |
+|-------|-------|
+| **Display name** | Cross-stack Product Design, Engineering, AI, Data, and Analytics Capability Expansion |
+| **Source** | Original Yazinc workflows synthesized from official upstream references listed in each skill |
+| **Local path** | `skills/` |
+| **Status** | **Extracted**: 33 focused skills, no third-party code bundled |
+
+### Skills contributed
+
+| Skill | Extracted | Commit | Notes |
+|-------|-----------|--------|-------|
+| `playwright-e2e-testing` | 2026-08-04 | not applicable | Browser and regression testing |
+| `api-contract-testing` | 2026-08-04 | not applicable | API contracts and behavior |
+| `application-security-review` | 2026-08-04 | not applicable | Web and API security review |
+| `supply-chain-security` | 2026-08-04 | not applicable | Dependencies, artifacts, SBOMs, and secrets |
+| `database-reliability-audit` | 2026-08-04 | not applicable | Integrity and recovery readiness |
+| `ci-cd-release-gates` | 2026-08-04 | not applicable | Release automation and rollback gates |
+| `performance-load-testing` | 2026-08-04 | not applicable | Performance and capacity evidence |
+| `frontend-quality-gate` | 2026-08-04 | not applicable | Frontend quality budgets |
+| `accessibility-audit` | 2026-08-04 | not applicable | WCAG accessibility audit |
+| `observability-incident-response` | 2026-08-04 | not applicable | Telemetry and incident operations |
+| `architecture-decision-records` | 2026-08-04 | not applicable | Decision provenance and tradeoffs |
+| `ui-ux-product-design` | 2026-08-04 | not applicable | Product design, UX, accessibility, usability testing, and handoff |
+| `figma-canva-design-workflow` | 2026-08-04 | not applicable | Figma product UI and Canva campaign asset coordination |
+| `design-to-code-implementation` | 2026-08-04 | not applicable | Production implementation and runtime design verification |
+| `design-system-engineering` | 2026-08-04 | not applicable | Tokens, components, governance, and design-code parity |
+| `screen-reader-accessibility-testing` | 2026-08-04 | not applicable | Keyboard and assistive-technology journey testing |
+| `ai-evaluation-red-team` | 2026-08-04 | not applicable | AI evaluation and adversarial testing |
+| `deepeval-ai-testing` | 2026-08-04 | not applicable | AI regression testing |
+| `rag-evaluation` | 2026-08-04 | not applicable | Retrieval and answer evaluation |
+| `ai-observability` | 2026-08-04 | not applicable | AI telemetry and privacy |
+| `vector-database-readiness` | 2026-08-04 | not applicable | Vector search architecture |
+| `data-operations-router` | 2026-08-04 | not applicable | Data workflow routing |
+| `data-profile-clean-validate` | 2026-08-04 | not applicable | Profiling, cleaning, and validation |
+| `sql-query-engineering` | 2026-08-04 | not applicable | Complex and safe SQL |
+| `sql-performance-optimization` | 2026-08-04 | not applicable | Query performance diagnosis |
+| `nosql-query-engineering` | 2026-08-04 | not applicable | NoSQL modeling and queries |
+| `data-reconciliation-migration` | 2026-08-04 | not applicable | Migration parity and rollback |
+| `analytics-engineering` | 2026-08-04 | not applicable | Tested analytics models |
+| `big-data-analytics` | 2026-08-04 | not applicable | Scalable data processing |
+| `data-pipeline-orchestration` | 2026-08-04 | not applicable | Resilient data pipelines |
+| `data-quality-contracts` | 2026-08-04 | not applicable | Producer-consumer data contracts |
+| `data-lineage-governance` | 2026-08-04 | not applicable | Lineage and governance |
+| `analyst-insight-reporting` | 2026-08-04 | not applicable | Reproducible analysis and reporting |
+
+### Third-party handling
+
+- No third-party executable code, model, dataset, or repository was copied into the toolkit.
+- Each skill links to relevant official upstream repositories for optional tool selection.
+- Tool installation, hosted telemetry, and external data transfer require separate review and authorization.
 
 ---
 

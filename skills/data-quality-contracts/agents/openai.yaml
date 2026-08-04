@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Quality Contracts"
+  short_description: "Define enforceable schemas and quality gates"
+  default_prompt: "Use $data-quality-contracts to define enforceable data quality contracts."

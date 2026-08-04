@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analyst Insight Reporting"
+  short_description: "Produce reproducible analysis and truthful insights"
+  default_prompt: "Use $analyst-insight-reporting to produce a reproducible evidence-backed analysis report."

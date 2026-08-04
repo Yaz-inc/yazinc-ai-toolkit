@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Observability"
+  short_description: "Trace model quality cost latency and failures"
+  default_prompt: "Use $ai-observability to design privacy-aware AI observability."

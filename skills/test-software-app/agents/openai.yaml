@@ -1,0 +1,4 @@
+interface:
+  display_name: "Software App Tester"
+  short_description: "Stage-based human and technical app audits"
+  default_prompt: "Use $test-software-app to profile this application and run the appropriate stage-based audit."

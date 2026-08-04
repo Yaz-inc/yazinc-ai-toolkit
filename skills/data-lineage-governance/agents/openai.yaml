@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Lineage Governance"
+  short_description: "Track data lineage ownership and impact"
+  default_prompt: "Use $data-lineage-governance to document lineage ownership and governance controls."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Database Reliability Audit"
+  short_description: "Audit integrity transactions backups and recovery"
+  default_prompt: "Use $database-reliability-audit to audit database reliability and recovery readiness."

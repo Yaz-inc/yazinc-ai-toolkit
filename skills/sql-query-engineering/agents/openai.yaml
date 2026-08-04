@@ -1,0 +1,4 @@
+interface:
+  display_name: "SQL Query Engineering"
+  short_description: "Build safe correct complex SQL queries"
+  default_prompt: "Use $sql-query-engineering to design and verify a complex SQL query."

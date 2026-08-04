@@ -1,0 +1,4 @@
+interface:
+  display_name: "RAG Evaluation"
+  short_description: "Measure retrieval faithfulness and answer quality"
+  default_prompt: "Use $rag-evaluation to evaluate a RAG system with evidence-backed metrics."

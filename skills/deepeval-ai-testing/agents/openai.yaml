@@ -1,0 +1,4 @@
+interface:
+  display_name: "DeepEval AI Testing"
+  short_description: "Build repeatable AI regression test suites"
+  default_prompt: "Use $deepeval-ai-testing to create a DeepEval-based AI regression suite."

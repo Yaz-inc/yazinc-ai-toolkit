@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Quality Gate"
+  short_description: "Prevent web performance and quality regressions"
+  default_prompt: "Use $frontend-quality-gate to define a frontend performance and quality gate."

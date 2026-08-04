@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design to Code Implementation"
+  short_description: "Implement designs as production-ready interfaces"
+  default_prompt: "Use $design-to-code-implementation to turn this approved design into a verified responsive interface."

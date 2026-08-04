@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Operations Router"
+  short_description: "Route data work to the right workflow"
+  default_prompt: "Use $data-operations-router to classify and route a data operations request safely."

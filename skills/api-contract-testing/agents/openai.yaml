@@ -1,0 +1,4 @@
+interface:
+  display_name: "API Contract Testing"
+  short_description: "Validate OpenAPI contracts and API behavior"
+  default_prompt: "Use $api-contract-testing to validate an API contract and its failure behavior."

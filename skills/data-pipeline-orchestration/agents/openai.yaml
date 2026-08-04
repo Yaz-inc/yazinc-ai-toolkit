@@ -1,0 +1,4 @@
+interface:
+  display_name: "Data Pipeline Orchestration"
+  short_description: "Build resilient observable data pipelines"
+  default_prompt: "Use $data-pipeline-orchestration to design an idempotent observable data pipeline."

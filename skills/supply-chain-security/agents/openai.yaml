@@ -1,0 +1,4 @@
+interface:
+  display_name: "Supply Chain Security"
+  short_description: "Scan secrets dependencies containers and SBOMs"
+  default_prompt: "Use $supply-chain-security to assess software supply-chain risk."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design System Engineering"
+  short_description: "Build reusable tokens and UI components"
+  default_prompt: "Use $design-system-engineering to create or improve this product design system."
