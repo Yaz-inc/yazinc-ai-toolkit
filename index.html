@@ -9,12 +9,14 @@
   <meta property="og:title" content="Yazinc AI Toolkit by Yaz Inc">
   <meta property="og:description" content="50 reusable AI agent skills for product design, software delivery, Laravel, security, AI systems, databases, data operations, and analytics.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.yaz-inc.com">
+  <meta property="og:url" content="https://yaz-inc.github.io/yazinc-ai-toolkit/">
+  <link rel="canonical" href="https://yaz-inc.github.io/yazinc-ai-toolkit/">
   <title>Yazinc AI Toolkit | 50 Reusable Agent Skills</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700;800;900&family=Google+Sans+Code:wght@300..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/toolkit.css">
+  <script src="assets/i18n.js" defer></script>
   <script src="assets/toolkit.js" defer></script>
 </head>
 <body>
@@ -34,6 +36,16 @@
         <a href="#contribute">Contribute</a>
         <a class="nav-cta" href="https://www.yaz-inc.com" target="_blank" rel="noreferrer">Visit yaz-inc.com</a>
       </div>
+      <label class="language-picker">
+        <span class="sr-only">Language</span>
+        <span class="language-flag" aria-hidden="true"></span>
+        <select id="language-select" aria-label="Language">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+          <option value="de">Deutsch</option>
+        </select>
+      </label>
     </nav>
   </header>
 
@@ -45,6 +57,7 @@
           <p class="eyebrow">Created by Yasir Ikram • Yaz Inc</p>
           <h1 id="hero-title">One toolkit. <span>50 skills.</span><br>Better software delivery.</h1>
           <p class="hero-intro">The official Yaz Inc capability library: a centralized, evidence-based collection of reusable AI agent workflows for development, testing, Laravel, security, AI systems, databases, data operations, and analytics.</p>
+          <p class="author-proof">Curated and recommended by Yasir Ikram, backed by 15+ years of application development experience.</p>
           <div class="hero-actions">
             <a class="button primary" href="#skills">Explore all skills</a>
             <a class="button secondary" href="#setup">Start using the toolkit</a>
@@ -119,12 +132,13 @@
           <p class="eyebrow dark">Complete capability catalog</p>
           <h2 id="skills-title">Find the skill your project needs.</h2>
           <p>Search by name, purpose, technology, or workflow. Open any skill to read its full instructions and source references.</p>
+          <p class="catalog-language-note">Skill names and instruction files remain in English so invocation works consistently across agents.</p>
         </div>
 
         <div class="catalog-tools" role="search">
           <label class="search-box">
             <span class="sr-only">Search skills</span>
-            <span aria-hidden="true">⌕</span>
+            <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg#search"></use></svg>
             <input id="skill-search" type="search" placeholder="Search security, Laravel, SQL, testing..." autocomplete="off">
           </label>
           <div class="filter-list" id="skill-filters" aria-label="Filter skills by category"></div>
@@ -146,65 +160,59 @@
       <div class="shell">
         <div class="section-heading center">
           <p class="eyebrow">Practical setup guide</p>
-          <h2>Use the toolkit in any project.</h2>
-          <p>Keep this repository as the canonical source. Connect or copy only the skills your agent environment needs.</p>
+          <h2>Install once. Use with any supported agent.</h2>
+          <p>One command installs all 50 skills. You do not need to copy folders or memorize platform paths.</p>
+          <p class="installer-callout"><strong>One installer command with a simple target selector.</strong> Use <code>-Target all</code>, or choose <code>codex</code>, <code>cursor</code>, <code>claude</code>, or <code>antigravity</code>.</p>
         </div>
 
         <div class="setup-grid">
           <article class="setup-card featured">
-            <div class="step-label"><span>1</span> Get the toolkit</div>
-            <h3>Clone once, then keep it current</h3>
-            <p>Clone the repository into your development workspace. Existing installations should pull the latest changes before starting a new engagement.</p>
-            <div class="code-block">
-              <code>git clone https://github.com/Yaz-inc/yazinc-ai-toolkit.git</code>
-              <button class="copy-button" type="button" data-copy="git clone https://github.com/Yaz-inc/yazinc-ai-toolkit.git">Copy</button>
-            </div>
-            <div class="code-block">
-              <code>cd yazinc-ai-toolkit; git pull</code>
-              <button class="copy-button" type="button" data-copy="cd yazinc-ai-toolkit; git pull">Copy</button>
-            </div>
-          </article>
-
-          <article class="setup-card">
-            <div class="step-label"><span>2A</span> Cursor</div>
-            <h3>Link the complete library</h3>
-            <p>Run the included PowerShell helper from the toolkit root. It links the canonical skills folder into your Cursor profile.</p>
-            <div class="code-block">
-              <code>.\scripts\link-skills.ps1</code>
-              <button class="copy-button" type="button" data-copy=".\scripts\link-skills.ps1">Copy</button>
-            </div>
-            <p class="note">Restart Cursor or open a new chat after linking.</p>
-          </article>
-
-          <article class="setup-card">
-            <div class="step-label"><span>2B</span> Codex</div>
-            <h3>Install selected skills</h3>
-            <p>Copy a skill folder into your Codex skills directory. Repeat this for each capability you want Codex to discover automatically.</p>
+            <div class="step-label"><span>1</span> One-command setup</div>
+            <h3>Clone and install the complete toolkit</h3>
+            <p>Run this once in PowerShell. The installer safely places the full skill library in the supported user-level locations.</p>
             <div class="code-block tall">
-              <code>New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null; Copy-Item -Recurse .\skills\test-software-app "$env:USERPROFILE\.codex\skills\test-software-app"</code>
-              <button class="copy-button" type="button" data-copy="New-Item -ItemType Directory -Force &quot;$env:USERPROFILE\.codex\skills&quot; | Out-Null; Copy-Item -Recurse .\skills\test-software-app &quot;$env:USERPROFILE\.codex\skills\test-software-app&quot;">Copy</button>
+              <code>git clone https://github.com/Yaz-inc/yazinc-ai-toolkit.git; cd yazinc-ai-toolkit; powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install-toolkit.ps1 -Target all</code>
+              <button class="copy-button" type="button" data-copy="git clone https://github.com/Yaz-inc/yazinc-ai-toolkit.git; cd yazinc-ai-toolkit; powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install-toolkit.ps1 -Target all">Copy</button>
             </div>
-            <p class="note">Start a new Codex task after installing or updating skills.</p>
+            <p class="note">Already cloned? Run <code>git pull; powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install-toolkit.ps1 -Target all</code> to update every managed copy.</p>
           </article>
 
           <article class="setup-card">
-            <div class="step-label"><span>2C</span> Claude Code</div>
-            <h3>Install personal or project skills</h3>
-            <p>Copy a skill to your personal Claude directory for every project, or into a project's <code>.claude/skills</code> directory when it belongs only to that repository.</p>
-            <div class="code-block tall">
-              <code>New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills" | Out-Null; Copy-Item -Recurse .\skills\test-software-app "$env:USERPROFILE\.claude\skills\test-software-app"</code>
-              <button class="copy-button" type="button" data-copy="New-Item -ItemType Directory -Force &quot;$env:USERPROFILE\.claude\skills&quot; | Out-Null; Copy-Item -Recurse .\skills\test-software-app &quot;$env:USERPROFILE\.claude\skills\test-software-app&quot;">Copy</button>
-            </div>
-            <p class="note">Invoke it with <strong>/test-software-app</strong>. Claude Code also supports project skills at <code>.claude/skills/&lt;skill-name&gt;/SKILL.md</code>. <a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noreferrer">Official Claude documentation</a>.</p>
+            <div class="step-label"><span>2</span> Supported agents</div>
+            <h3>The installer handles the folders</h3>
+            <p>Codex and Cursor share the open <code>.agents/skills</code> location. Claude Code and Antigravity receive their own compatible copies.</p>
+            <ul class="platform-list">
+              <li><strong>Codex</strong><a href="https://developers.openai.com/plugins/build/skills" target="_blank" rel="noreferrer">Official guide</a></li>
+              <li><strong>Cursor</strong><a href="https://cursor.com/docs/skills" target="_blank" rel="noreferrer">Official guide</a></li>
+              <li><strong>Claude Code</strong><a href="https://code.claude.com/docs/en/skills" target="_blank" rel="noreferrer">Official guide</a></li>
+              <li><strong>Antigravity</strong><a href="https://antigravity.google/docs/skills?app=antigravity-ide" target="_blank" rel="noreferrer">Official guide</a></li>
+            </ul>
+          </article>
+
+          <article class="setup-card">
+            <div class="step-label"><span>3</span> Use a skill</div>
+            <h3>Ask by name and outcome</h3>
+            <p>This plain-language form works across agents. The agent reads the skill instructions and applies them to your active project.</p>
+            <blockquote>Use the <strong>test-software-app</strong> skill to audit this application before launch.</blockquote>
+            <blockquote>Use the <strong>ui-ux-product-design</strong> skill to improve this dashboard and verify accessibility.</blockquote>
+          </article>
+
+          <article class="setup-card">
+            <div class="step-label"><span>4</span> Let the agent choose</div>
+            <h3>You do not need to know every skill</h3>
+            <p>Describe the result you need and ask the agent to select the best matching toolkit skill before starting.</p>
+            <blockquote>Inspect my request, select the most relevant Yazinc AI Toolkit skill, state which one you selected, then complete the work.</blockquote>
+            <p class="note">Direct discovery is also available through <strong>/skills</strong> in Codex and Antigravity, <strong>/skill-name</strong> in Claude Code, and the skills menu in Cursor.</p>
           </article>
 
           <article class="setup-card project-use">
-            <div class="step-label"><span>3</span> Project use</div>
-            <h3>Invoke by outcome</h3>
-            <p>Name the skill in your request, use the platform's direct command, or ask the agent to inspect the toolkit and select the best skill before beginning.</p>
-            <blockquote>Use <strong>$test-software-app</strong> to plan and run a five-stage audit of this Laravel application.</blockquote>
-            <blockquote>Use <strong>$data-profile-clean-validate</strong> to profile this dataset without modifying the source file.</blockquote>
-            <blockquote>In Claude Code: <strong>/test-software-app</strong> Audit this Laravel application in five stages.</blockquote>
+            <div class="step-label"><span>5</span> Optional project-only install</div>
+            <h3>Keep specialized skills inside one project</h3>
+            <p>From the toolkit folder, install the library into a specific project instead of your user profile.</p>
+            <div class="code-block tall">
+              <code>powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install-toolkit.ps1 -Target all -Scope project -ProjectPath "C:\path\to\your-project"</code>
+              <button class="copy-button" type="button" data-copy="powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install-toolkit.ps1 -Target all -Scope project -ProjectPath &quot;C:\path\to\your-project&quot;">Copy</button>
+            </div>
           </article>
         </div>
 

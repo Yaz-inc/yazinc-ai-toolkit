@@ -42,7 +42,7 @@ Run local scan:
 
 ```powershell
 # From Yazinc Ai Toolkit repo (scan any project path)
-powershell -File D:\Servers\laragon\www\yazinc-ai-toolkit\scripts\pre-deploy-secrets-scan.ps1 -Path D:\Servers\laragon\www\YourProject
+powershell -File .\scripts\pre-deploy-secrets-scan.ps1 -Path <project-path>
 ```
 
 Fix **Critical** findings before upload. **Warning** items need explicit sign-off.
@@ -140,5 +140,5 @@ Stack-specific deny rules, CI patterns, incident response: [reference.md](refere
 ## Origin
 
 - **Synthesized:** Yazinc Ai Toolkit cross-project standard
-- **Informed by:** Asset Manager deploy patterns @ `0ee71e9`, Yazfex PAT-in-remote lesson
+- **Origin:** Generalized secure deployment workflow
 - **Added:** 2026-06-10

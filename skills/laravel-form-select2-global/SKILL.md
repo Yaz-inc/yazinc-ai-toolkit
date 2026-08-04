@@ -83,7 +83,5 @@ Template snippet: [templates/form-field-heights.css.example](../../templates/for
 
 ## Origin
 
-- **Project:** Asset Manager (CDghl)
-- **Repo:** Yaz-inc/Asset-Manager-V17-Final
-- **Commit:** 0ee71e9
+- **Origin:** Generalized Laravel application workflow
 - **Extracted:** 2026-06-10

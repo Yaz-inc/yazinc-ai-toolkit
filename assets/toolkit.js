@@ -51,6 +51,59 @@ const skills = [
   {name:"analyst-insight-reporting", title:"Analyst Insight Reporting", category:"Data and analytics", summary:"Produce reproducible analysis, governed metrics, accessible visuals, uncertainty, and decision-ready findings."}
 ];
 
+const skillIcons = {
+  "central-knowledge-base": "library-big",
+  "test-software-app": "clipboard-check",
+  "deploy-secrets-zero-exposure": "shield-check",
+  "extract-to-toolkit": "package-open",
+  "laravel-datatables-module": "table-properties",
+  "laravel-activity-logger": "scroll-text",
+  "laravel-deploy-fix-php": "wrench",
+  "laravel-dual-repo-push": "git-branch-plus",
+  "laravel-rbac-permissions": "key-round",
+  "laravel-soft-delete-trash": "trash-2",
+  "laravel-security-hardening": "shield",
+  "laravel-json-ai-settings": "braces",
+  "laravel-ai-multi-provider": "network",
+  "laravel-vision-label-scan": "scan-eye",
+  "laravel-env-maintenance": "settings-2",
+  "laravel-form-select2-global": "list-checks",
+  "mission-control": "radar",
+  "playwright-e2e-testing": "panels-top-left",
+  "api-contract-testing": "plug-zap",
+  "application-security-review": "shield-alert",
+  "supply-chain-security": "boxes",
+  "database-reliability-audit": "database-backup",
+  "ci-cd-release-gates": "workflow",
+  "performance-load-testing": "gauge",
+  "frontend-quality-gate": "monitor-check",
+  "accessibility-audit": "accessibility",
+  "observability-incident-response": "chart-no-axes-combined",
+  "architecture-decision-records": "file-text",
+  "ui-ux-product-design": "palette",
+  "figma-canva-design-workflow": "palette",
+  "design-to-code-implementation": "code-xml",
+  "design-system-engineering": "component",
+  "screen-reader-accessibility-testing": "audio-lines",
+  "ai-evaluation-red-team": "shield-alert",
+  "deepeval-ai-testing": "brain-circuit",
+  "rag-evaluation": "search-code",
+  "ai-observability": "scan-search",
+  "vector-database-readiness": "database-zap",
+  "data-operations-router": "route",
+  "data-profile-clean-validate": "list-check",
+  "sql-query-engineering": "database",
+  "sql-performance-optimization": "database-zap",
+  "nosql-query-engineering": "file-json",
+  "data-reconciliation-migration": "refresh-cw",
+  "analytics-engineering": "chart-network",
+  "big-data-analytics": "server-cog",
+  "data-pipeline-orchestration": "git-merge",
+  "data-quality-contracts": "file-check-2",
+  "data-lineage-governance": "network",
+  "analyst-insight-reporting": "chart-spline"
+};
+
 const grid = document.querySelector("#skills-grid");
 const search = document.querySelector("#skill-search");
 const filters = document.querySelector("#skill-filters");
@@ -58,37 +111,34 @@ const count = document.querySelector("#catalog-count");
 const clear = document.querySelector("#clear-filters");
 const empty = document.querySelector("#empty-state");
 const categories = ["All", ...new Set(skills.map(skill => skill.category))];
+const i18n = window.ToolkitI18n || {t: key => key, category: value => value};
 let activeCategory = "All";
 
-function initials(title) {
-  return title.split(/\s+/).filter(word => word.length > 2).slice(0, 2).map(word => word[0]).join("").toUpperCase() || "SK";
-}
-
 function renderFilters() {
-  filters.innerHTML = categories.map(category => `<button class="filter-button${category === activeCategory ? " active" : ""}" type="button" data-category="${category}" aria-pressed="${category === activeCategory}">${category}</button>`).join("");
+  filters.innerHTML = categories.map(category => `<button class="filter-button${category === activeCategory ? " active" : ""}" type="button" data-category="${category}" aria-pressed="${category === activeCategory}">${i18n.category(category)}</button>`).join("");
 }
 
 function renderSkills() {
   const term = search.value.trim().toLowerCase();
   const visible = skills.filter(skill => {
     const categoryMatch = activeCategory === "All" || skill.category === activeCategory;
-    const textMatch = !term || `${skill.name} ${skill.title} ${skill.category} ${skill.summary}`.toLowerCase().includes(term);
+    const textMatch = !term || `${skill.name} ${skill.title} ${skill.category} ${i18n.category(skill.category)} ${skill.summary}`.toLowerCase().includes(term);
     return categoryMatch && textMatch;
   });
 
   grid.innerHTML = visible.map(skill => `
     <article class="skill-card" data-category="${skill.category}">
       <div class="skill-card-head">
-        <span class="skill-glyph" aria-hidden="true">${initials(skill.title)}</span>
-        <span class="skill-category">${skill.category}</span>
+        <span class="skill-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="assets/lucide-icons.svg#${skillIcons[skill.name]}"></use></svg></span>
+        <span class="skill-category">${i18n.category(skill.category)}</span>
       </div>
       <h3>${skill.title}</h3>
       <span class="skill-name">${skill.name}</span>
       <p>${skill.summary}</p>
-      <a class="skill-link" href="skills/${skill.name}/SKILL.md">Read skill instructions</a>
+      <a class="skill-link" href="skills/${skill.name}/SKILL.md">${i18n.t("readSkill")}</a>
     </article>`).join("");
 
-  count.textContent = visible.length === skills.length ? `Showing all ${skills.length} skills` : `Showing ${visible.length} of ${skills.length} skills`;
+  count.textContent = visible.length === skills.length ? i18n.t("showAll", {count: skills.length}) : i18n.t("showSome", {visible: visible.length, count: skills.length});
   empty.hidden = visible.length !== 0;
   clear.hidden = activeCategory === "All" && !term;
 }
@@ -139,5 +189,16 @@ document.addEventListener("click", async event => {
   toastTimer = setTimeout(() => { toast.hidden = true; }, 1800);
 });
 
-renderFilters();
-renderSkills();
+function applyDynamicCopy() {
+  renderFilters();
+  renderSkills();
+  const clearButton = document.querySelector("#clear-filters");
+  if (clearButton) clearButton.textContent = i18n.t("clear");
+  const emptyTitle = document.querySelector("#empty-state strong");
+  const emptyCopy = document.querySelector("#empty-state p");
+  if (emptyTitle) emptyTitle.textContent = i18n.t("noMatch");
+  if (emptyCopy) emptyCopy.textContent = i18n.t("broader");
+}
+
+applyDynamicCopy();
+window.addEventListener("toolkit-language-change", applyDynamicCopy);

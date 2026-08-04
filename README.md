@@ -1,10 +1,10 @@
 # Yazinc Ai Toolkit
 
-**Landing page:** Open [index.html](index.html) for the searchable visual catalog, setup instructions, and links to all skills.
+**Live catalog:** [yaz-inc.github.io/yazinc-ai-toolkit](https://yaz-inc.github.io/yazinc-ai-toolkit/)
 
 **Reusable prompts:** Use [prompts/google-sans-website-agent.md](prompts/google-sans-website-agent.md) to instruct a development agent to implement and verify Google Sans correctly.
 
-Personal AI agent skill library for **Yaz Inc** (`yazinc@gmail.com`). Cursor skills, patterns, templates, and scripts reused across **all** projects — not tied to Asset Manager or any single client.
+Public AI agent skill library maintained by **Yaz Inc**. Reusable skills, patterns, templates, and scripts for Codex, Cursor, Claude Code, Antigravity, and other Agent Skills-compatible tools.
 
 ## What & why
 
@@ -12,18 +12,18 @@ Personal AI agent skill library for **Yaz Inc** (`yazinc@gmail.com`). Cursor ski
 |---|---|
 | **What** | Central repo for agent skills and proven dev patterns |
 | **Why** | Start each new project from scaffolding you already trust; push learnings back after each delivery |
-| **Who** | Yasir / Yaz Inc internal — same GitHub account as `Yaz-inc/Asset-Manager-V17-Final` |
+| **Who** | Developers and AI-agent users who need reusable, inspectable workflows |
 
 ## For humans
 
-1. Clone: `git clone https://github.com/Yaz-inc/yazinc-ai-toolkit.git`
-2. Link skills: `.\scripts\link-skills.ps1`
-3. New project: copy/symlink what you need from `skills/`, `templates/`, `patterns/`
-4. Project done: follow [WORKFLOW.md](WORKFLOW.md) to extract new skills and push back
+1. Clone and install everything: `git clone https://github.com/Yaz-inc/yazinc-ai-toolkit.git; cd yazinc-ai-toolkit; powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install-toolkit.ps1 -Target all`
+2. Open a new Codex, Cursor, Claude Code, or Antigravity session.
+3. Ask: `Use the test-software-app skill to audit this application before launch.`
+4. To update later: `git pull; powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\install-toolkit.ps1 -Target all`
 
-## For Cursor agents
+## For AI agents
 
-**Read [AGENTS.md](AGENTS.md) first** — explains what this repo is, how extraction works, commit format, and registry rules.
+**Read [AGENTS.md](AGENTS.md) first.** It explains the public repository rules, installation method, validation requirements, and publishing checklist.
 
 Meta-skill for contributing: `skills/extract-to-toolkit/SKILL.md`
 
@@ -32,24 +32,22 @@ Meta-skill for contributing: `skills/extract-to-toolkit/SKILL.md`
 ```
 yazinc-ai-toolkit/
 ├── AGENTS.md              ← agents read this on open
-├── WORKFLOW.md            ← extract → explain → commit → push
-├── INDEX.md               ← skill catalog
-├── projects/REGISTRY.md   ← source projects & contributions
-├── projects/REFERENCES.md ← git commit footers per project
-├── projects/INVENTORY.md  ← all Laragon projects scan
-├── skills/                ← Cursor SKILL.md folders
-├── patterns/              ← detailed pattern docs
-├── templates/             ← stubs to copy
-└── scripts/               ← link-skills.ps1, etc.
+├── WORKFLOW.md            ← generalize, validate, commit, publish
+├── INDEX.md               ← canonical skill catalog
+├── projects/REGISTRY.md   ← public provenance policy
+├── skills/                ← reusable SKILL.md folders
+├── patterns/              ← detailed implementation guidance
+├── templates/             ← safe reusable examples
+└── scripts/               ← installation and validation helpers
 ```
 
 ## Rules
 
-- Never commit secrets, PATs, or client-specific data
+- Never commit secrets, tokens, customer data, private paths, or unrelated repository history
 - One skill = one focused job
-- Every new skill: update `INDEX.md` + `projects/REGISTRY.md` + source commit in commit message
+- For every new skill, update `INDEX.md`, `projects/REGISTRY.md`, and the landing-page catalog
 
 ## GitHub
 
 - **Repo:** [Yaz-inc/yazinc-ai-toolkit](https://github.com/Yaz-inc/yazinc-ai-toolkit)
-- **Account:** Yaz-inc (yazinc@gmail.com)
+- **Maintainer:** Yaz Inc

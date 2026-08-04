@@ -114,7 +114,5 @@ Before any production deploy, also run **`deploy-secrets-zero-exposure`** — po
 
 ## Origin
 
-- **Project:** Asset Manager (CDghl)
-- **Repo:** Yaz-inc/Asset-Manager-V17-Final
-- **Commit:** 0ee71e9
+- **Origin:** Generalized Laravel application workflow
 - **Extracted:** 2026-06-10

@@ -157,7 +157,7 @@ A model stamp may identify the AI-assisted auditor and evidence date. It must no
 
 ## Origin
 
-- **Project:** CD Asset Manager pre-go-live audit
+- **Origin:** Generalized pre-go-live application audit workflow
 - **Repo:** Local working copy, repository metadata unavailable
 - **Commit:** Unavailable
 - **Extracted:** 2026-08-04

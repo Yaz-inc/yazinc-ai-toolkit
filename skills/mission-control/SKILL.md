@@ -82,8 +82,6 @@ For full API tables and payload shapes, see source project `SKILL.md` or OpenAPI
 
 ## Origin
 
-- **Project:** Mission Control (local install)
-- **Repo:** builderz-labs/mission-control
-- **Commit:** 30ecc3d
+- **Origin:** Generalized agent orchestration workflow
 - **Extracted:** 2026-06-10
 - **Note:** Condensed from project-root `SKILL.md`; expand from source when MC API changes.

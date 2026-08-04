@@ -1,94 +1,66 @@
 ---
 name: laravel-dual-repo-push
-description: >-
-  Pushes the same branch to two GitHub remotes — developer repo and client
-  official repo — using PATs from a local gitignored key file. Use when
-  deploying Laravel projects with separate dev and client GitHub repositories.
+description: Push one tested branch or release tag to separate developer and client GitHub remotes using clean remote URLs and an approved credential manager. Use when a Laravel or other software project must deliver the same verified commit to two repositories without embedding tokens in commands, scripts, configuration, or logs.
 ---
 
 # Dual GitHub Remote Push
 
-One codebase, two remotes: **developer** (`origin`) and **client official** (`century` or custom name). Every production-ready commit goes to both.
+## Objective
 
-## When to use
+Deliver the same verified commit to two authorized Git remotes while keeping authentication outside repository files, command history, process arguments, and remote URLs.
 
-- You maintain a dev repo under your account and a client-facing repo
-- Client owns their org repo; you push releases there after validation
-- Same pattern as Yaz-inc dev + client official workflows
+## Setup
 
-## Setup (per project)
+Configure clean HTTPS or SSH remotes:
 
-```bash
+```powershell
 git remote add origin https://github.com/YOUR-ORG/your-app-dev.git
 git remote add client https://github.com/CLIENT-ORG/your-app.git
 git remote -v
 ```
 
-Store PATs locally — **never in the repo**:
+Authenticate with Git Credential Manager, `gh auth login`, SSH keys managed by the operating system, or an organization-approved secret manager. Never place a token before `@github.com` in a remote URL.
 
-```text
-_deploy/key.git.md   # gitignored
-```
+## Workflow
 
-Format:
+1. Confirm the requested branch, tag, two target remotes, repository owners, and authorization to publish.
+2. Verify that the working tree and index contain only intended changes.
+3. Run the project test, build, lint, secret-scan, and release checks proportionate to risk.
+4. Confirm both remote URLs are clean and point to the intended repositories.
+5. Push the same branch to both remote names. Stop if either push fails.
+6. Compare the local commit SHA with both remote branch SHAs.
+7. Record the release commit, targets, result, and any rollback instructions without recording credentials.
 
-```text
-Developer: github_pat_...
-Client Official:
-Repo: https://github.com/client-org/app-repo
-Token github_pat_...
-```
+## Reusable script
 
-## Push script pattern
-
-Template: [templates/push-both-repos.example.ps1](../../templates/push-both-repos.example.ps1)
-
-Script should:
-
-1. Read PATs from `_deploy/key.git.md` (first PAT = dev, last PAT = client)
-2. Read client repo URL from `Repo:` line if present
-3. Push `main` (or `-Branch` param) to both URLs with embedded token
-4. Optional `-Tag` for release tags
-5. Exit non-zero if either push fails
-
-Run from project root:
+Copy [templates/push-both-repos.example.ps1](../../templates/push-both-repos.example.ps1) into the project, configure the remote names, then run:
 
 ```powershell
 .\scripts\push-both-repos.ps1
 .\scripts\push-both-repos.ps1 -Tag "v1.0.0"
 ```
 
-## Commit before push
+The script rejects HTTPS remote URLs containing embedded credentials.
 
-Only push when:
+## Release gates
 
-- Changes are tested
-- No secrets in staged files (`.env`, `key.git.md`, AI settings JSON)
-- Commit message describes the release
+- The branch is tested and approved for both destinations.
+- No `.env`, credentials, private keys, customer data, or operational secret files are staged.
+- Both repositories are expected to receive the same commit.
+- Branch protection, required reviews, and client release controls are respected.
+- Force pushes and history rewrites require separate explicit authorization.
 
-## Do
+## Completion evidence
 
-- Always push both remotes for production releases
-- Rotate PATs if exposed; keep key file gitignored
-- Verify with `git ls-remote` after token rotation
-
-## Don't
-
-- Don't commit PATs to toolkit or project repos
-- Don't force-push `main` to client repo without explicit approval
-
-## File checklist
-
-| File | Action |
-|------|--------|
-| `.gitignore` | Include `_deploy/`, `key.git.md` |
-| `_deploy/key.git.md` | Local PATs + client repo URL (not committed) |
-| `scripts/push-both-repos.ps1` | Project copy from template |
-| `git remote -v` | Two remotes configured |
+- Local commit SHA and both verified remote SHAs.
+- Clean remote names and repository destinations.
+- Test and secret-scan results.
+- Release tag result when applicable.
+- Any failed target, remediation, or rollback requirement.
 
 ## Origin
 
-- **Project:** Asset Manager (CDghl)
-- **Repo:** Yaz-inc/Asset-Manager-V17-Final
-- **Commit:** 0ee71e9
-- **Extracted:** 2026-06-10
+- **Project:** Generalized dual-repository delivery workflow
+- **Repo:** No third-party code bundled
+- **Commit:** Not applicable
+- **Extracted:** 2026-08-04

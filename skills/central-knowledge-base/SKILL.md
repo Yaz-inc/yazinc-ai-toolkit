@@ -9,7 +9,7 @@ Version-Timestamp: 2026-08-04 18:24:00 +05:00
 
 ## Purpose
 
-Maintain a searchable, cross-agent source of truth at `D:\Servers\KB_Central` for stable, reusable, non-secret knowledge. Keep project requirements in their project repositories and keep credentials in an approved secret store.
+Maintain a searchable, cross-agent source of truth for stable, reusable, non-secret knowledge. Resolve its location from the `YAZINC_KB_ROOT` environment variable or ask the user to approve a directory. Keep project requirements in their project repositories and keep credentials in an approved secret store.
 
 ## Classify before writing
 
@@ -33,7 +33,7 @@ For secret material:
 
 ## Write or update knowledge
 
-1. Inspect `D:\Servers\KB_Central` and its applicable local instructions before editing.
+1. Resolve and inspect the approved central knowledge directory and its applicable local instructions before editing.
 2. Search for an existing canonical page and aliases before creating a new file.
 3. Prefer descriptive kebab-case filenames and stable topic folders.
 4. Add a visible `Version-Timestamp` to maintained catalogs, reports, and exported references.

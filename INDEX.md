@@ -1,40 +1,38 @@
-# Yazinc Ai Toolkit — Skill Index
+# Yazinc AI Toolkit: Skill Index
 
 > Update whenever you add, change, or retire a skill. See [WORKFLOW.md](WORKFLOW.md).
 
 **Current catalog:** 50 reusable skills, excluding `_template`.
 
-## Cross-project (all stacks)
+## Core operations
 
-| Skill | Summary | Source commit | Added |
+| Skill | Summary | Origin | Added |
 |-------|---------|---------------|-------|
-| `central-knowledge-base` | Safely maintain shared non-secret knowledge, provenance, pointers, and duplicate resolution | local working copy | 2026-08-04 |
-| `test-software-app` | Human-centered, evidence-backed application testing with selectable 3, 4, 5, or 6-stage audits | local audit session | 2026-08-04 |
+| `central-knowledge-base` | Safely maintain shared non-secret knowledge, provenance, pointers, and duplicate resolution | original workflow | 2026-08-04 |
+| `test-software-app` | Human-centered, evidence-backed application testing with selectable 3, 4, 5, or 6-stage audits | original workflow | 2026-08-04 |
 | `deploy-secrets-zero-exposure` | **Strict deploy gate** — no secrets reachable on live domain | toolkit | 2026-06-10 |
 
 **Use before every deploy.** Run `scripts/pre-deploy-secrets-scan.ps1`; complete `skills/deploy-secrets-zero-exposure/CHECKLIST.md`.
 
-## Active skills — Laravel admin platform (Asset Manager)
+## Laravel delivery workflows
 
-| Skill | Summary | Source commit | Added |
+| Skill | Summary | Origin | Added |
 |-------|---------|---------------|-------|
 | `extract-to-toolkit` | Meta-skill: extract patterns into this repo | — | 2026-06-10 |
-| `laravel-datatables-module` | Server-side Yajra CRUD lists | 0ee71e9 | 2026-06-10 |
-| `laravel-activity-logger` | Hybrid indexed + JSON audit log | 0ee71e9 | 2026-06-10 |
-| `laravel-deploy-fix-php` | Post-deploy cache reset | 0ee71e9 | 2026-06-10 |
-| `laravel-dual-repo-push` | Dev + client GitHub push | 0ee71e9 | 2026-06-10 |
-| `laravel-rbac-permissions` | Module read/write middleware | 0ee71e9 | 2026-06-10 |
-| `laravel-soft-delete-trash` | Unified trash + 30-day cleanup | 0ee71e9 | 2026-06-10 |
-| `laravel-security-hardening` | Setup lock, gitignore ops, input rule | 0ee71e9 | 2026-06-10 |
-| `laravel-json-ai-settings` | Encrypted AI keys in storage JSON | 0ee71e9 | 2026-06-10 |
-| `laravel-ai-multi-provider` | Provider fallback + friendly errors | 0ee71e9 | 2026-06-10 |
-| `laravel-vision-label-scan` | Image → JSON → review → apply | 0ee71e9 | 2026-06-10 |
-| `laravel-env-maintenance` | `.env` maintenance + branded 503 | 0ee71e9 | 2026-06-10 |
-| `laravel-form-select2-global` | App-wide form/Select2 CSS variables | 0ee71e9 | 2026-06-10 |
-| `mission-control` | MC agent API, adapters, tasks, skills sync | 30ecc3d | 2026-06-10 |
+| `laravel-datatables-module` | Server-side Yajra CRUD lists | generalized workflow | 2026-06-10 |
+| `laravel-activity-logger` | Hybrid indexed + JSON audit log | generalized workflow | 2026-06-10 |
+| `laravel-deploy-fix-php` | Post-deploy cache reset | generalized workflow | 2026-06-10 |
+| `laravel-dual-repo-push` | Dev + client GitHub push | generalized workflow | 2026-06-10 |
+| `laravel-rbac-permissions` | Module read/write middleware | generalized workflow | 2026-06-10 |
+| `laravel-soft-delete-trash` | Unified trash + 30-day cleanup | generalized workflow | 2026-06-10 |
+| `laravel-security-hardening` | Setup lock, gitignore ops, input rule | generalized workflow | 2026-06-10 |
+| `laravel-json-ai-settings` | Encrypted AI keys in storage JSON | generalized workflow | 2026-06-10 |
+| `laravel-ai-multi-provider` | Provider fallback + friendly errors | generalized workflow | 2026-06-10 |
+| `laravel-vision-label-scan` | Image → JSON → review → apply | generalized workflow | 2026-06-10 |
+| `laravel-env-maintenance` | `.env` maintenance + branded 503 | generalized workflow | 2026-06-10 |
+| `laravel-form-select2-global` | App-wide form/Select2 CSS variables | generalized workflow | 2026-06-10 |
+| `mission-control` | MC agent API, adapters, tasks, skills sync | generalized workflow | 2026-06-10 |
 
-**Laravel cluster source:** Asset Manager @ `0ee71e9`  
-**Agent orchestration:** Mission Control @ `30ecc3d`
 
 ## AI skill cluster (Laravel)
 
@@ -44,7 +42,7 @@ laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-
 
 ## Engineering, quality, security, and operations
 
-| Skill | Summary | Source commit | Added |
+| Skill | Summary | Origin | Added |
 |-------|---------|---------------|-------|
 | `playwright-e2e-testing` | Cross-browser journeys, CRUD regression, traces, and authenticated workflow testing | external capability synthesis | 2026-08-04 |
 | `api-contract-testing` | OpenAPI contracts, authorization, malformed inputs, invariants, and compatibility | external capability synthesis | 2026-08-04 |
@@ -60,7 +58,7 @@ laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-
 
 ## Product design and user experience
 
-| Skill | Summary | Source commit | Added |
+| Skill | Summary | Origin | Added |
 |-------|---------|---------------|-------|
 | `ui-ux-product-design` | User-centered flows, information architecture, wireframes, visual systems, states, accessibility, usability testing, and handoff | external capability synthesis | 2026-08-04 |
 | `figma-canva-design-workflow` | Coordinated Figma product UI and Canva campaign asset production with controlled handoff | original workflow | 2026-08-04 |
@@ -70,7 +68,7 @@ laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-
 
 ## AI evaluation, retrieval, and operations
 
-| Skill | Summary | Source commit | Added |
+| Skill | Summary | Origin | Added |
 |-------|---------|---------------|-------|
 | `ai-evaluation-red-team` | Quality, safety, security, cost, latency, and adversarial AI evaluation | external capability synthesis | 2026-08-04 |
 | `deepeval-ai-testing` | Dataset-driven AI regression suites and trace-aware failure analysis | external capability synthesis | 2026-08-04 |
@@ -80,7 +78,7 @@ laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-
 
 ## Data and analytics operations
 
-| Skill | Summary | Source commit | Added |
+| Skill | Summary | Origin | Added |
 |-------|---------|---------------|-------|
 | `data-operations-router` | Route data work by objective, scale, sensitivity, mutation risk, and evidence | toolkit | 2026-08-04 |
 | `data-profile-clean-validate` | Reproducible profiling, cleaning, normalization, and validation | external capability synthesis | 2026-08-04 |
@@ -105,16 +103,3 @@ laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-
 | `templates/form-field-heights.css.example` | `laravel-form-select2-global` |
 | `templates/gitignore-secrets.block` | `deploy-secrets-zero-exposure` |
 | `templates/web-deny-sensitive.conf.example` | `deploy-secrets-zero-exposure` |
-
-Full project list: [projects/INVENTORY.md](projects/INVENTORY.md)
-
-## Planned (other projects)
-
-| Project | Repo | Candidate skills |
-|---------|------|------------------|
-| **YazfexAi Suite** | local `138b0d1` | Perfex AI module, keystore, KB |
-| **Yazfex AI Website** | Yaz-inc/yazfexai | Next.js theme, Supabase, SaaS pages |
-| MediaV1 | yasirnmg/MediaV1 | Supabase + React media UI |
-| FM2026 | Yazinc/FM2026 | Slim PHP fee management |
-| philsis | Yazinc/philsis | TBD after scan |
-| RockCrete USA Pro | Yaz-inc/rockcreteusa | Deploy/template patterns |

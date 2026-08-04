@@ -1,60 +1,38 @@
-# Push to both GitHub remotes (dev + client)
-# Copy to your project as scripts/push-both-repos.ps1 and customize $DevRepo / $ClientRepo.
+# Push one validated branch to two configured Git remotes.
+# Authenticate through Git Credential Manager, GitHub CLI, SSH, or another approved credential store.
 
 param(
     [string]$Branch = 'main',
-    [string]$Tag = ''
+    [string]$Tag = '',
+    [string[]]$Remote = @('origin', 'client')
 )
 
 $ErrorActionPreference = 'Stop'
+$projectRoot = Split-Path $PSScriptRoot -Parent
+Set-Location $projectRoot
 
-# --- Customize per project ---
-$DevRepo    = 'github.com/YOUR-ORG/your-app-dev.git'
-$ClientRepo = 'github.com/CLIENT-ORG/your-app.git'
-# Client repo URL can also be read from _deploy/key.git.md "Repo:" line
-
-$root = Split-Path $PSScriptRoot -Parent
-$keyFile = Join-Path $root '_deploy\key.git.md'
-
-Set-Location $root
-
-$devToken = $null
-$clientToken = $null
-
-if (Test-Path $keyFile) {
-    $patLines = Get-Content $keyFile | Where-Object { $_ -match 'github_pat_\S+' }
-    if ($patLines.Count -ge 1) { $devToken = ($patLines[0] -replace '.*?(github_pat_\S+).*', '$1') }
-    if ($patLines.Count -ge 2) { $clientToken = ($patLines[-1] -replace '.*?(github_pat_\S+).*', '$1') }
-    $repoLine = Get-Content $keyFile | Where-Object { $_ -match '^\s*Repo:\s*(\S+)' } | Select-Object -First 1
-    if ($repoLine -match 'Repo:\s*(\S+)') {
-        $url = $Matches[1].TrimEnd('/')
-        $ClientRepo = ($url -replace '^https?://', '')
-        if ($ClientRepo -notmatch '\.git$') { $ClientRepo += '.git' }
+foreach ($remoteName in $Remote) {
+    $remoteUrl = git remote get-url $remoteName 2>$null
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($remoteUrl)) {
+        throw "Git remote is not configured: $remoteName"
+    }
+    if ($remoteUrl -match '^https://[^/@]+@') {
+        throw "Remote $remoteName contains embedded credentials. Replace it with a clean HTTPS or SSH URL before pushing."
     }
 }
 
-if (-not $devToken -or -not $clientToken) {
-    Write-Host 'FAIL: Need two PATs in _deploy/key.git.md (dev + client)' -ForegroundColor Red
-    exit 1
-}
+Write-Host 'Push targets verified:' -ForegroundColor Cyan
+$Remote | ForEach-Object { Write-Host ("  - {0}" -f $_) }
 
-$repos = @(
-    @{ Name = 'origin (dev)';    Url = "https://${devToken}@${DevRepo}" },
-    @{ Name = 'client (official)'; Url = "https://${clientToken}@${ClientRepo}" }
-)
+foreach ($remoteName in $Remote) {
+    Write-Host ("Pushing {0} to {1}" -f $Branch, $remoteName) -ForegroundColor Yellow
+    git push $remoteName $Branch
+    if ($LASTEXITCODE -ne 0) { throw "Push failed: $remoteName" }
 
-Write-Host "=== Push to both GitHub repos ===" -ForegroundColor Cyan
-Write-Host "Branch: $Branch"
-
-foreach ($repo in $repos) {
-    Write-Host "Pushing $($repo.Name) ..." -ForegroundColor Yellow
-    git push $repo.Url $Branch
-    if ($LASTEXITCODE -ne 0) { exit 1 }
-    Write-Host "OK   $($repo.Name)" -ForegroundColor Green
-    if ($Tag) {
-        git push $repo.Url $Tag
-        if ($LASTEXITCODE -ne 0) { exit 1 }
+    if (-not [string]::IsNullOrWhiteSpace($Tag)) {
+        git push $remoteName $Tag
+        if ($LASTEXITCODE -ne 0) { throw "Tag push failed: $remoteName" }
     }
 }
 
-Write-Host 'Done.' -ForegroundColor Green
+Write-Host 'Both remotes updated.' -ForegroundColor Green
