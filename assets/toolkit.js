@@ -141,7 +141,7 @@ function renderSkills() {
   grid.innerHTML = visible.map(skill => `
     <article class="skill-card" data-category="${skill.category}">
       <div class="skill-card-head">
-        <span class="skill-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="assets/lucide-icons.svg#${skillIcons[skill.name]}"></use></svg></span>
+        <span class="skill-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="assets/lucide-icons.svg?v=20260804-2#${skillIcons[skill.name]}"></use></svg></span>
         <span class="skill-category">${i18n.category(skill.category)}</span>
       </div>
       <h3>${skill.title}</h3>
@@ -149,14 +149,14 @@ function renderSkills() {
       <p>${skill.summary}</p>
       <div class="skill-actions">
         <a class="skill-action skill-action-read" href="skills/${skill.name}/SKILL.md">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg#file-text"></use></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg?v=20260804-2#file-text"></use></svg>
           <span>${i18n.t("readSkill")}</span>
         </a>
         <button class="skill-action skill-action-icon" type="button" data-copy-skill="${skill.name}" aria-label="${i18n.t("copySkill")}" title="${i18n.t("copySkill")}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg#copy"></use></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg?v=20260804-2#copy"></use></svg>
         </button>
         <button class="skill-action skill-action-how" type="button" data-how-to="${skill.name}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg#circle-help"></use></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg?v=20260804-2#circle-help"></use></svg>
           <span>${i18n.t("howTo")}</span>
         </button>
       </div>
