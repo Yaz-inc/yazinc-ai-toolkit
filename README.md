@@ -1,7 +1,7 @@
 # Yazinc AI Toolkit
 
 <p align="center">
-  <strong>51 reusable AI-agent skills for better software delivery</strong><br>
+  <strong>A growing arsenal of agent skills for uncompromising software architecture</strong><br>
   Codex · Cursor · Claude Code · Antigravity
 </p>
 
@@ -13,7 +13,17 @@
 
 > **Looking for the designed homepage?** Open the [Yazinc AI Toolkit landing page](https://yaz-inc.github.io/yazinc-ai-toolkit/). This repository contains the source files and installable skills.
 
-Public AI-agent skill library created by **Yasir Ikram** and maintained by **Yaz Inc**. It provides reusable skills, patterns, templates, and scripts for Codex, Cursor, Claude Code, Antigravity, and other Agent Skills-compatible tools.
+Public AI-agent skill library created by **Yasir Ikram** and maintained by **Yaz Inc**. It provides reusable skills, patterns, templates, and scripts for Codex, Cursor, Claude Code, Antigravity, and other Agent Skills-compatible tools. The library is designed to keep growing as new, proven workflows are developed.
+
+## Easy to understand. Easy to use.
+
+The interactive toolkit makes every skill approachable for first-time developers and experienced teams alike. Each skill card provides three clear actions:
+
+- **Read instructions** to understand the complete workflow and its safety rules.
+- **Copy skill instructions** to place the full skill guidance on the clipboard instantly.
+- **How to use** to open a short guide with the invocation, three simple steps, and a ready-to-copy example prompt.
+
+There is no need to memorize commands, installation folders, or agent-specific syntax. Install the toolkit once, choose a skill, copy the suggested prompt, and describe the result you need in your active project.
 
 **Reusable prompts:** Use [prompts/google-sans-website-agent.md](prompts/google-sans-website-agent.md) to instruct a development agent to implement and verify Google Sans correctly.
 
