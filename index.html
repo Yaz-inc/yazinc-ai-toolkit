@@ -265,6 +265,39 @@
     </div>
   </footer>
 
+  <div class="skill-modal" id="skill-modal" hidden>
+    <button class="skill-modal-backdrop" type="button" data-modal-close aria-label="Close skill guide"></button>
+    <section class="skill-modal-panel" role="dialog" aria-modal="true" aria-labelledby="skill-modal-title" aria-describedby="skill-modal-intro" tabindex="-1">
+      <header class="skill-modal-header">
+        <div>
+          <span class="skill-modal-eyebrow">How to use this skill</span>
+          <h2 id="skill-modal-title">Use this skill</h2>
+        </div>
+        <button class="skill-modal-close" type="button" data-modal-close aria-label="Close skill guide">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg#x"></use></svg>
+        </button>
+      </header>
+      <p class="skill-modal-intro" id="skill-modal-intro"></p>
+      <ol class="skill-steps">
+        <li><span>1</span><p data-modal-step="1"></p></li>
+        <li><span>2</span><p data-modal-step="2"></p></li>
+        <li><span>3</span><p data-modal-step="3"></p></li>
+      </ol>
+      <div class="skill-modal-field">
+        <span class="skill-modal-label" data-modal-label="invocation">Invocation</span>
+        <div class="skill-modal-code"><code id="skill-modal-invocation"></code><button type="button" data-copy-invocation>Copy</button></div>
+      </div>
+      <div class="skill-modal-field">
+        <span class="skill-modal-label" data-modal-label="example">Example prompt</span>
+        <p class="skill-modal-prompt" id="skill-modal-prompt"></p>
+      </div>
+      <footer class="skill-modal-actions">
+        <a class="skill-modal-read" id="skill-modal-read" href="#">Read full instructions</a>
+        <button class="skill-modal-copy" type="button" data-copy-prompt>Copy example prompt</button>
+      </footer>
+    </section>
+  </div>
+
   <div class="toast" id="copy-toast" role="status" aria-live="polite" hidden>Copied to clipboard</div>
 </body>
 </html>

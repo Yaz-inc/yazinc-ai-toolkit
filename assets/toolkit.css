@@ -162,9 +162,13 @@ button { cursor: pointer; }
 .skill-card h3 { margin: 22px 0 7px; color: var(--navy); font-size: 16px; line-height: 1.3; overflow-wrap: anywhere; }
 .skill-name { color: #8190a5; font: 700 9px ui-monospace, SFMono-Regular, Menlo, monospace; overflow-wrap: anywhere; }
 .skill-card p { flex: 1; margin: 12px 0 18px; color: var(--muted); font-size: 12px; }
-.skill-link { align-self: flex-start; color: var(--blue); text-decoration: none; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: .5px; }
-.skill-link::after { content: " →"; }
-.skill-link:hover { text-decoration: underline; }
+.skill-actions { display: flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 15px; border-top: 1px solid var(--line); }
+.skill-action { min-height: 34px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 9px; border: 1px solid transparent; border-radius: 8px; color: var(--blue); background: transparent; font-size: 9px; font-weight: 850; line-height: 1.2; text-decoration: none; }
+.skill-action svg { flex: 0 0 15px; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.skill-action-read { flex: 1; justify-content: flex-start; padding-left: 0; }
+.skill-action-icon { flex: 0 0 34px; width: 34px; padding: 0; border-color: var(--line); }
+.skill-action-how { border-color: var(--line); }
+.skill-action:hover, .skill-action:focus-visible { color: #fff; border-color: var(--blue); background: var(--blue); outline: none; }
 .empty-state { padding: 55px; border: 1px dashed #b9c7da; border-radius: 16px; color: var(--muted); background: rgba(255,255,255,.65); text-align: center; }
 .empty-state strong { color: var(--navy); }
 .empty-state p { margin-bottom: 0; font-size: 12px; }
@@ -217,6 +221,35 @@ blockquote { margin: 10px 0 0; padding: 10px 13px; border-left: 3px solid var(--
 .site-footer { padding: 34px 0; color: #aab9ce; background: #0d172a; }
 .footer-grid { text-align: center; }
 .footer-grid > p { margin: 0; font-size: 10px; }
+.modal-open { overflow: hidden; }
+.skill-modal[hidden] { display: none !important; }
+.skill-modal { position: fixed; z-index: 200; inset: 0; display: grid; place-items: center; padding: 20px; }
+.skill-modal-backdrop { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: rgba(3,0,10,.78); backdrop-filter: blur(8px); }
+.skill-modal-panel { position: relative; width: min(560px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; padding: 28px; border: 1px solid rgba(124,58,237,.48); border-radius: 20px; color: #fff; background: radial-gradient(circle at 100% 0, rgba(6,182,212,.12), transparent 17rem), #100720; box-shadow: 0 30px 90px rgba(0,0,0,.62), 0 0 40px rgba(124,58,237,.13); animation: modal-enter .18s ease-out; }
+@keyframes modal-enter { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: none; } }
+.skill-modal-panel:focus { outline: none; }
+.skill-modal-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.skill-modal-eyebrow { color: #67e8f9; font-size: 9px; font-weight: 900; letter-spacing: 1.5px; text-transform: uppercase; }
+.skill-modal-header h2 { margin: 5px 0 0; font-size: clamp(22px, 4vw, 30px); line-height: 1.15; }
+.skill-modal-close { flex: 0 0 36px; width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.12); border-radius: 10px; color: #c9c5d3; background: rgba(255,255,255,.045); }
+.skill-modal-close svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.skill-modal-close:hover, .skill-modal-close:focus-visible { color: #fff; border-color: #7c3aed; background: rgba(124,58,237,.22); outline: none; }
+.skill-modal-intro { margin: 14px 0 18px; color: #aaa6b8; font-size: 12px; }
+.skill-steps { display: grid; gap: 8px; margin: 0 0 18px; padding: 0; list-style: none; }
+.skill-steps li { display: grid; grid-template-columns: 28px 1fr; align-items: center; gap: 10px; }
+.skill-steps li > span { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 8px; color: #fff; background: linear-gradient(135deg, #7c3aed, #06b6d4); font-size: 10px; font-weight: 900; }
+.skill-steps p { margin: 0; color: #cfccd6; font-size: 11px; }
+.skill-modal-field { margin-top: 12px; }
+.skill-modal-label { display: block; margin-bottom: 6px; color: #9894a5; font-size: 8px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
+.skill-modal-code { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 10px 10px 13px; border: 1px solid rgba(255,255,255,.1); border-radius: 10px; background: rgba(4,0,12,.62); }
+.skill-modal-code code { color: #d9f9ff; font-size: 11px; overflow-wrap: anywhere; }
+.skill-modal-code button { flex: 0 0 auto; padding: 6px 9px; border: 1px solid rgba(103,232,249,.24); border-radius: 7px; color: #67e8f9; background: rgba(6,182,212,.08); font-size: 9px; font-weight: 800; }
+.skill-modal-prompt { margin: 0; padding: 12px 13px; border-left: 3px solid #7c3aed; border-radius: 0 10px 10px 0; color: #cfccd6; background: rgba(255,255,255,.04); font-size: 11px; }
+.skill-modal-actions { display: flex; align-items: center; justify-content: flex-end; gap: 9px; margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.09); }
+.skill-modal-read, .skill-modal-copy { min-height: 38px; display: inline-flex; align-items: center; justify-content: center; padding: 9px 13px; border: 1px solid rgba(124,58,237,.55); border-radius: 9px; font-size: 10px; font-weight: 850; text-decoration: none; }
+.skill-modal-read { color: #ddd6fe; background: transparent; }
+.skill-modal-copy { color: #fff; background: #7c3aed; }
+.skill-modal-read:hover, .skill-modal-read:focus-visible, .skill-modal-copy:hover, .skill-modal-copy:focus-visible { border-color: #67e8f9; outline: none; box-shadow: 0 0 0 3px rgba(6,182,212,.12); }
 .toast { position: fixed; z-index: 100; left: 50%; bottom: 24px; transform: translateX(-50%); padding: 10px 14px; border-radius: 9px; color: #fff; background: var(--navy-deep); box-shadow: var(--shadow); font-size: 11px; font-weight: 800; }
 
 /* Yaz Inc brand alignment, derived from www.yaz-inc.com */
@@ -306,7 +339,9 @@ code, .skill-name, .report-id, .hash { font-family: "Google Sans Code", ui-monos
 .skill-card h3 { color: #fff; }
 .skill-name { color: #77748a; }
 .skill-card p { color: #aaa6b8; }
-.skill-link { color: #67e8f9; }
+.skill-action { color: #67e8f9; }
+.skill-actions { border-color: rgba(255,255,255,.08); }
+.skill-action-icon, .skill-action-how { border-color: rgba(255,255,255,.1); background: rgba(255,255,255,.025); }
 .skill-category { color: #ddd6fe; background: rgba(124,58,237,.18); }
 .skill-glyph { background: linear-gradient(135deg, #7c3aed, #a855f7); }
 .skill-card[data-category="Laravel delivery"] .skill-glyph { background: linear-gradient(135deg, #f97316, #fb923c); }
@@ -380,16 +415,22 @@ code, .skill-name, .report-id, .hash { font-family: "Google Sans Code", ui-monos
   .filter-button { white-space: nowrap; }
   .setup-card { padding: 20px; }
   .code-block { align-items: flex-start; }
+  .skill-action { padding-inline: 7px; }
+  .skill-action-how span { display: none; }
+  .skill-modal { padding: 12px; }
+  .skill-modal-panel { max-height: calc(100vh - 24px); padding: 21px; border-radius: 16px; }
+  .skill-modal-actions { align-items: stretch; flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+  .skill-modal-panel { animation: none; }
   .assurance-card::after { animation: none; }
   .skill-card[data-category="Product design"]::before, .contribute-panel::after { animation: none; }
 }
 
 @media print {
-  .site-header, .catalog-tools, .catalog-summary, .copy-button, .toast { display: none !important; }
+  .site-header, .catalog-tools, .catalog-summary, .copy-button, .skill-actions, .skill-modal, .toast { display: none !important; }
   body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   .hero-grid { min-height: auto; padding-block: 35px; }
   .section { padding: 35px 0; }

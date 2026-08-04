@@ -112,9 +112,18 @@ const filters = document.querySelector("#skill-filters");
 const count = document.querySelector("#catalog-count");
 const clear = document.querySelector("#clear-filters");
 const empty = document.querySelector("#empty-state");
+const modal = document.querySelector("#skill-modal");
+const modalPanel = modal.querySelector(".skill-modal-panel");
+const modalTitle = modal.querySelector("#skill-modal-title");
+const modalIntro = modal.querySelector("#skill-modal-intro");
+const modalInvocation = modal.querySelector("#skill-modal-invocation");
+const modalPrompt = modal.querySelector("#skill-modal-prompt");
+const modalRead = modal.querySelector("#skill-modal-read");
 const categories = ["All", ...new Set(skills.map(skill => skill.category))];
 const i18n = window.ToolkitI18n || {t: key => key, category: value => value};
 let activeCategory = "All";
+let currentSkill = null;
+let lastFocused = null;
 
 function renderFilters() {
   filters.innerHTML = categories.map(category => `<button class="filter-button${category === activeCategory ? " active" : ""}" type="button" data-category="${category}" aria-pressed="${category === activeCategory}">${i18n.category(category)}</button>`).join("");
@@ -138,7 +147,19 @@ function renderSkills() {
       <h3>${skill.title}</h3>
       <span class="skill-name">${skill.name}</span>
       <p>${skill.summary}</p>
-      <a class="skill-link" href="skills/${skill.name}/SKILL.md">${i18n.t("readSkill")}</a>
+      <div class="skill-actions">
+        <a class="skill-action skill-action-read" href="skills/${skill.name}/SKILL.md">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg#file-text"></use></svg>
+          <span>${i18n.t("readSkill")}</span>
+        </a>
+        <button class="skill-action skill-action-icon" type="button" data-copy-skill="${skill.name}" aria-label="${i18n.t("copySkill")}" title="${i18n.t("copySkill")}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg#copy"></use></svg>
+        </button>
+        <button class="skill-action skill-action-how" type="button" data-how-to="${skill.name}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg#circle-help"></use></svg>
+          <span>${i18n.t("howTo")}</span>
+        </button>
+      </div>
     </article>`).join("");
 
   count.textContent = visible.length === skills.length ? i18n.t("showAll", {count: skills.length}) : i18n.t("showSome", {visible: visible.length, count: skills.length});
@@ -178,7 +199,97 @@ navLinks.addEventListener("click", event => {
 
 const toast = document.querySelector("#copy-toast");
 let toastTimer;
+
+function showToast(message) {
+  toast.textContent = message;
+  toast.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.hidden = true; }, 1800);
+}
+
+async function copyText(text, successMessage) {
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast(successMessage);
+  } catch {
+    showToast(i18n.t("copyFailed"));
+  }
+}
+
+function buildExamplePrompt(skill) {
+  return `Use $${skill.name} for this task. ${skill.summary} Apply it to the active project and verify the result.`;
+}
+
+function syncModal() {
+  if (!currentSkill) return;
+  modal.querySelector(".skill-modal-eyebrow").textContent = i18n.t("modalEyebrow");
+  modalTitle.textContent = i18n.t("modalTitle", {title: currentSkill.title});
+  modalIntro.textContent = i18n.t("modalIntro", {title: currentSkill.title});
+  modal.querySelector('[data-modal-step="1"]').textContent = i18n.t("modalStep1");
+  modal.querySelector('[data-modal-step="2"]').textContent = i18n.t("modalStep2");
+  modal.querySelector('[data-modal-step="3"]').textContent = i18n.t("modalStep3");
+  modal.querySelector('[data-modal-label="invocation"]').textContent = i18n.t("invocation");
+  modal.querySelector('[data-modal-label="example"]').textContent = i18n.t("examplePrompt");
+  modal.querySelector("[data-copy-invocation]").textContent = i18n.t("copy");
+  modal.querySelector("[data-copy-prompt]").textContent = i18n.t("copyPrompt");
+  modal.querySelectorAll("[data-modal-close]").forEach(button => button.setAttribute("aria-label", i18n.t("closeGuide")));
+  modalInvocation.textContent = `$${currentSkill.name}`;
+  modalPrompt.textContent = buildExamplePrompt(currentSkill);
+  modalRead.textContent = i18n.t("readFull");
+  modalRead.href = `skills/${currentSkill.name}/SKILL.md`;
+}
+
+function openSkillModal(name, trigger) {
+  currentSkill = skills.find(skill => skill.name === name);
+  if (!currentSkill) return;
+  lastFocused = trigger;
+  syncModal();
+  modal.hidden = false;
+  document.body.classList.add("modal-open");
+  modalPanel.focus();
+}
+
+function closeSkillModal() {
+  if (modal.hidden) return;
+  modal.hidden = true;
+  document.body.classList.remove("modal-open");
+  lastFocused?.focus();
+}
+
+async function copySkillInstructions(name) {
+  try {
+    const response = await fetch(`skills/${encodeURIComponent(name)}/SKILL.md`);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    await copyText(await response.text(), i18n.t("copiedSkill"));
+  } catch {
+    showToast(i18n.t("copyFailed"));
+  }
+}
+
 document.addEventListener("click", async event => {
+  const closeButton = event.target.closest("[data-modal-close]");
+  if (closeButton) {
+    closeSkillModal();
+    return;
+  }
+  const howToButton = event.target.closest("[data-how-to]");
+  if (howToButton) {
+    openSkillModal(howToButton.dataset.howTo, howToButton);
+    return;
+  }
+  const copySkillButton = event.target.closest("[data-copy-skill]");
+  if (copySkillButton) {
+    await copySkillInstructions(copySkillButton.dataset.copySkill);
+    return;
+  }
+  if (event.target.closest("[data-copy-invocation]") && currentSkill) {
+    await copyText(`$${currentSkill.name}`, i18n.t("copied"));
+    return;
+  }
+  if (event.target.closest("[data-copy-prompt]") && currentSkill) {
+    await copyText(buildExamplePrompt(currentSkill), i18n.t("copied"));
+    return;
+  }
   const skillTarget = event.target.closest("[data-skill-target]");
   if (skillTarget) {
     activeCategory = "All";
@@ -190,15 +301,27 @@ document.addEventListener("click", async event => {
   }
   const button = event.target.closest("[data-copy]");
   if (!button) return;
-  try {
-    await navigator.clipboard.writeText(button.dataset.copy);
-    toast.textContent = "Copied to clipboard";
-  } catch {
-    toast.textContent = "Select the command and copy it manually";
+  await copyText(button.dataset.copy, i18n.t("copied"));
+});
+
+document.addEventListener("keydown", event => {
+  if (modal.hidden) return;
+  if (event.key === "Escape") {
+    closeSkillModal();
+    return;
   }
-  toast.hidden = false;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { toast.hidden = true; }, 1800);
+  if (event.key !== "Tab") return;
+  const focusable = [...modalPanel.querySelectorAll('a[href], button:not([disabled])')];
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && (document.activeElement === first || document.activeElement === modalPanel)) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
 });
 
 function applyDynamicCopy() {
@@ -213,4 +336,7 @@ function applyDynamicCopy() {
 }
 
 applyDynamicCopy();
-window.addEventListener("toolkit-language-change", applyDynamicCopy);
+window.addEventListener("toolkit-language-change", () => {
+  applyDynamicCopy();
+  if (!modal.hidden) syncModal();
+});
