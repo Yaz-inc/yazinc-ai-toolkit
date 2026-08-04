@@ -73,6 +73,7 @@ button { cursor: pointer; }
 .eyebrow.dark { color: var(--blue); }
 .hero h1 { max-width: 770px; margin: 0; font-size: clamp(42px, 6vw, 72px); line-height: 1.02; letter-spacing: -2.6px; }
 .hero h1 span { color: #aaf5f7; }
+.hero h1 .hero-subtitle { display: block; max-width: 680px; margin-top: 18px; color: rgba(255,255,255,.78); font-size: clamp(21px, 3vw, 34px); font-weight: 500; line-height: 1.18; letter-spacing: -.7px; text-shadow: none; }
 .hero-intro { max-width: 720px; margin: 23px 0 0; color: rgba(255,255,255,.76); font-size: 17px; }
 .author-proof { max-width: 720px; margin: 12px 0 0; color: rgba(255,255,255,.56); font-size: 11px; letter-spacing: .2px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
