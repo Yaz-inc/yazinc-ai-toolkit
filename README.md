@@ -25,6 +25,10 @@ The interactive toolkit makes every skill approachable for first-time developers
 
 There is no need to memorize commands, installation folders, or agent-specific syntax. Install the toolkit once, choose a skill, copy the suggested prompt, and describe the result you need in your active project.
 
+## Smart implementation playbooks
+
+The landing page also provides a small, curated set of outcome-based technology playbooks. Each one explains what the solution pattern is, how to apply it safely, and provides a copy-ready starter prompt with official references. Playbooks are guidance, not installable skills, so the main skills catalog remains focused and easy to navigate.
+
 **Reusable prompts:** Use [prompts/google-sans-website-agent.md](prompts/google-sans-website-agent.md) to instruct a development agent to implement and verify Google Sans correctly.
 
 ## What & why

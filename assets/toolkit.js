@@ -121,6 +121,14 @@ const modalPrompt = modal.querySelector("#skill-modal-prompt");
 const modalRead = modal.querySelector("#skill-modal-read");
 const categories = ["All", ...new Set(skills.map(skill => skill.category))];
 const i18n = window.ToolkitI18n || {t: key => key, category: value => value};
+const resources = window.ToolkitResources || [];
+const resourceGrid = document.querySelector("#resource-grid");
+const resourceCopy = {
+  en: {nav: "Playbooks", eyebrow: "Smart implementation playbooks", title: "Start from the right solution pattern.", lead: "Four carefully selected playbooks turn useful technologies into clear starting points. Choose an outcome, understand the approach, then copy a production-aware starter prompt.", badge: "Smart playbook", what: "What it is", how: "How to apply", copy: "Copy starter prompt", copied: "Starter prompt copied", docs: "Official references", note: "Curated guidance, not automatic approval. Review licensing, privacy, security, operating cost, and production fit before adoption."},
+  es: {nav: "Guías", eyebrow: "Guías de implementación inteligentes", title: "Empieza con el patrón de solución correcto.", lead: "Cuatro guías cuidadosamente seleccionadas convierten tecnologías útiles en puntos de partida claros. Elige un resultado, comprende el enfoque y copia un prompt inicial preparado para producción.", badge: "Guía inteligente", what: "Qué es", how: "Cómo aplicarlo", copy: "Copiar prompt inicial", copied: "Prompt inicial copiado", docs: "Referencias oficiales", note: "Orientación seleccionada, no aprobación automática. Revisa licencia, privacidad, seguridad, coste operativo y adecuación para producción antes de adoptar."},
+  fr: {nav: "Guides", eyebrow: "Guides d’implémentation intelligents", title: "Partez du bon modèle de solution.", lead: "Quatre guides soigneusement sélectionnés transforment des technologies utiles en points de départ clairs. Choisissez un résultat, comprenez l’approche, puis copiez un prompt initial adapté à la production.", badge: "Guide intelligent", what: "Ce que c’est", how: "Comment l’appliquer", copy: "Copier le prompt initial", copied: "Prompt initial copié", docs: "Références officielles", note: "Conseils sélectionnés, pas approbation automatique. Vérifiez licence, confidentialité, sécurité, coût d’exploitation et adéquation à la production avant adoption."},
+  de: {nav: "Playbooks", eyebrow: "Intelligente Implementierungs-Playbooks", title: "Starten Sie mit dem richtigen Lösungsmuster.", lead: "Vier sorgfältig ausgewählte Playbooks machen aus nützlichen Technologien klare Ausgangspunkte. Wählen Sie ein Ergebnis, verstehen Sie den Ansatz und kopieren Sie einen produktionsbewussten Start-Prompt.", badge: "Smartes Playbook", what: "Was es ist", how: "So anwenden", copy: "Start-Prompt kopieren", copied: "Start-Prompt kopiert", docs: "Offizielle Referenzen", note: "Kuratierte Orientierung, keine automatische Freigabe. Prüfen Sie Lizenz, Datenschutz, Sicherheit, Betriebskosten und Produktionseignung vor der Einführung."}
+};
 let activeCategory = "All";
 let currentSkill = null;
 let lastFocused = null;
@@ -165,6 +173,41 @@ function renderSkills() {
   count.textContent = visible.length === skills.length ? i18n.t("showAll", {count: skills.length}) : i18n.t("showSome", {visible: visible.length, count: skills.length});
   empty.hidden = visible.length !== 0;
   clear.hidden = activeCategory === "All" && !term;
+}
+
+function renderResources() {
+  if (!resourceGrid) return;
+  const language = i18n.language || "en";
+  const labels = resourceCopy[language] || resourceCopy.en;
+  const navLink = document.querySelector("#main-nav a[href='#playbooks']");
+  if (navLink) navLink.textContent = labels.nav;
+  document.querySelector("#playbooks-eyebrow").textContent = labels.eyebrow;
+  document.querySelector("#playbooks-title").textContent = labels.title;
+  document.querySelector("#playbooks-lead").textContent = labels.lead;
+  document.querySelector("#playbooks-note").textContent = labels.note;
+
+  resourceGrid.innerHTML = resources.map(resource => {
+    const content = resource.copy[language] || resource.copy.en;
+    const links = resource.links.map(link => `<a href="${link.href}" target="_blank" rel="noreferrer">${link.label}<span aria-hidden="true">↗</span></a>`).join("");
+    return `
+      <article class="resource-card">
+        <div class="resource-card-head">
+          <span class="resource-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><use href="assets/lucide-icons.svg?v=20260804-2#${resource.icon}"></use></svg></span>
+          <span class="resource-badge">${labels.badge}</span>
+        </div>
+        <p class="resource-stack">${resource.stack}</p>
+        <h3>${content.title}</h3>
+        <div class="resource-explainer"><strong>${labels.what}</strong><p>${content.what}</p></div>
+        <div class="resource-explainer"><strong>${labels.how}</strong><p>${content.how}</p></div>
+        <div class="resource-actions">
+          <button class="resource-copy" type="button" data-copy-resource="${resource.id}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="assets/lucide-icons.svg?v=20260804-2#copy"></use></svg>
+            <span>${labels.copy}</span>
+          </button>
+          <div class="resource-links"><span>${labels.docs}</span>${links}</div>
+        </div>
+      </article>`;
+  }).join("");
 }
 
 filters.addEventListener("click", event => {
@@ -299,6 +342,15 @@ document.addEventListener("click", async event => {
     document.querySelector("#skills")?.scrollIntoView({behavior: "smooth", block: "start"});
     return;
   }
+  const resourceButton = event.target.closest("[data-copy-resource]");
+  if (resourceButton) {
+    const resource = resources.find(item => item.id === resourceButton.dataset.copyResource);
+    if (resource) {
+      const labels = resourceCopy[i18n.language || "en"] || resourceCopy.en;
+      await copyText(resource.prompt, labels.copied);
+    }
+    return;
+  }
   const button = event.target.closest("[data-copy]");
   if (!button) return;
   await copyText(button.dataset.copy, i18n.t("copied"));
@@ -327,6 +379,7 @@ document.addEventListener("keydown", event => {
 function applyDynamicCopy() {
   renderFilters();
   renderSkills();
+  renderResources();
   const clearButton = document.querySelector("#clear-filters");
   if (clearButton) clearButton.textContent = i18n.t("clear");
   const emptyTitle = document.querySelector("#empty-state strong");
