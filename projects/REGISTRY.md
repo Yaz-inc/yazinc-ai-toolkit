@@ -13,7 +13,7 @@ All published skills must be generalized, secret-free, independently understanda
 | Core operations | Knowledge management, software testing, secure deployment, and reusable extraction |
 | Laravel delivery | CRUD, authorization, activity history, AI configuration, maintenance, forms, and deployment workflows |
 | Engineering and quality | Architecture, APIs, testing, security, observability, performance, accessibility, and release readiness |
-| Product design | UI and UX, design systems, design-to-code, responsive behavior, and accessible interaction |
+| Product design | UI and UX, design systems, design-to-code, responsive behavior, accessible interaction, and reusable motion effects |
 | AI systems | Retrieval, prompting, evaluation, provider integration, governance, and operations |
 | Data and analytics | SQL, NoSQL, data quality, cleaning, validation, pipelines, analytics, and governance |
 

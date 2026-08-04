@@ -2,7 +2,7 @@
 
 > Update whenever you add, change, or retire a skill. See [WORKFLOW.md](WORKFLOW.md).
 
-**Current catalog:** 51 reusable skills, excluding `_template`.
+**Current catalog:** 52 reusable skills, excluding `_template`.
 
 ## Core operations
 
@@ -62,6 +62,7 @@ laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-
 |-------|---------|---------------|-------|
 | `ui-ux-product-design` | User-centered flows, information architecture, wireframes, visual systems, states, accessibility, usability testing, and handoff | external capability synthesis | 2026-08-04 |
 | `animated-glow-border` | Theme-aware rotating glow borders, reverse motion, reduced-motion support, and live interface emphasis | original workflow | 2026-08-04 |
+| `warp-speed-light-trail` | Mirrored perspective light trails with a protected dark center, responsive canvas rendering, and reduced-motion support | original workflow | 2026-08-04 |
 | `figma-canva-design-workflow` | Coordinated Figma product UI and Canva campaign asset production with controlled handoff | original workflow | 2026-08-04 |
 | `design-to-code-implementation` | Accessible, responsive implementation from approved design through runtime verification | original workflow | 2026-08-04 |
 | `design-system-engineering` | Governed tokens, component libraries, variants, theming, documentation, and design-code parity | original workflow | 2026-08-04 |

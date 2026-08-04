@@ -1,136 +1,125 @@
 ---
 name: warp-speed-light-trail
-description: Add a premium, canvas-based warp speed light trail animation to the background of any dark UI section, footer, or hero area. Replicates the high-end particle acceleration effect seen on modern enterprise sites using HTML5 Canvas and requestAnimationFrame.
+description: Build a premium Canvas 2D warp-speed background with mirrored light trails confined to the left and right edges and a protected dark center for readable content. Use for dark SaaS footers, CTA bands, and hero sections that need perspective streaks, edge-weighted motion, responsive rendering, and reduced-motion support.
 ---
 
 # Warp Speed Light Trail
 
-Add a highly polished, performant Canvas 2D particle animation that creates the illusion of curved light trails zooming past the viewer. This effect elevates dark-mode interfaces, footers, and premium CTA sections.
+Create two mirrored perspective light fields around a deliberately quiet center. Treat the center as a protected reading corridor, not as part of the particle field.
+
+Use the Airbyte pricing footer as a visual composition reference: `https://airbyte.com/pricing`. Reproduce the general geometry and motion behavior only. Do not copy proprietary source code, assets, branding, or exact visual values.
+
+## Non-negotiable visual contract
+
+- Keep the central 42 to 50 percent of the section dark, calm, and effectively free of trails on desktop.
+- Widen the protected center to roughly 54 to 62 percent on narrow screens.
+- Render separate left and right particle groups. Mirror their geometry so the result feels balanced.
+- Start visible streaks near the protected-center boundaries and accelerate them toward the outer edges.
+- Use perspective rays with slight curvature, varied lengths, and tapered opacity. Do not use uniform horizontal lines.
+- Concentrate most streaks near the sides. Allow only a soft fade near the center boundary.
+- Use mostly dim neutral-purple trails with occasional brand-purple or cyan highlights.
+- Keep content above the animation with a dark center overlay and strong contrast.
+
+Reject an implementation when lines cross behind central text, particles travel across the full canvas, both sides move in the same screen direction, or the entire background has uniform brightness.
 
 ## Workflow
 
-1. Identify a dark container (e.g., `#0a0118` or deep black) where the effect will live. The host container must have `position: relative` and `overflow: hidden`.
-2. Inject a `<canvas>` element inside an absolute wrapper that spans the full width and height of the container.
-3. Ensure the canvas wrapper has `pointer-events: none` and `z-index: 0` so it sits behind text and buttons without blocking interactions.
-4. Apply `mix-blend-mode: screen` or `mix-blend-mode: normal` to the canvas to ensure colors pop against the dark background.
-5. Use a standard `requestAnimationFrame` loop to manage a pool of particle objects (stars/lines).
-6. Respect `prefers-reduced-motion` by either stopping the animation loop or reducing the speed significantly.
-7. Tie the particle colors to the project's design system (e.g., primary purple and secondary cyan).
+1. Inspect the existing section, layout system, colors, breakpoints, script organization, and motion conventions.
+2. Preserve the current stack. Do not introduce React, WebGL, or another dependency solely for this effect when Canvas 2D fits.
+3. Add one decorative canvas inside an absolute, non-interactive wrapper. Keep semantic content in normal document flow above it.
+4. Define the protected center as a ratio of canvas width, not a hard-coded pixel width.
+5. Generate each particle with a side value of `-1` or `1`, a progress value, a target edge position, a trail span, a speed, an opacity, and a color.
+6. Project each particle from its side of the center corridor toward its matching outer edge. Accelerate progress with an easing exponent such as `progress ** 1.5`.
+7. Apply both geometry and CSS masking. Geometry keeps trails out of the center, while masking creates a soft transition.
+8. Add a separate dark center overlay above the canvas and below the content. Do not rely on canvas opacity alone.
+9. Cap device pixel ratio at `2`, recalculate on resize, and scale particle count with the rendered width.
+10. Stop the animation for `prefers-reduced-motion: reduce` and render one stable frame.
+11. Verify desktop and mobile screenshots, multiple animation frames, console output, content contrast, and pointer interaction.
 
-## Core pattern (React / Next.js)
+## Required structure
 
-```tsx
-'use client';
-
-import { useEffect, useRef } from 'react';
-
-export default function WarpSpeedCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    let animationFrameId: number;
-    let width = canvas.width = canvas.offsetWidth;
-    let height = canvas.height = canvas.offsetHeight;
-
-    // Handle Resize
-    const handleResize = () => {
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
-    };
-    window.addEventListener('resize', handleResize);
-
-    // Particle Setup
-    const particles: any[] = [];
-    const particleCount = 100;
-    const colors = ['#7C3AED', '#06B6D4', '#A855F7']; // Brand colors
-
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        length: Math.random() * 80 + 20,
-        speed: Math.random() * 3 + 1,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        opacity: Math.random() * 0.5 + 0.1
-      });
-    }
-
-    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Animation Loop
-    const draw = () => {
-      // Create trailing effect by drawing a semi-transparent black rectangle
-      ctx.fillStyle = 'rgba(10, 1, 24, 0.2)'; // Match parent background
-      ctx.fillRect(0, 0, width, height);
-
-      particles.forEach((p) => {
-        ctx.beginPath();
-        // Slight curve math for the "warp" feel
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x + p.length, p.y);
-        ctx.strokeStyle = p.color;
-        ctx.lineWidth = 1.5;
-        ctx.globalAlpha = p.opacity;
-        ctx.stroke();
-
-        // Move particle
-        if (!isReducedMotion) {
-          p.x += p.speed;
-        } else {
-          p.x += p.speed * 0.1; // Slow down for accessibility
-        }
-
-        // Reset particle when it goes off screen
-        if (p.x > width) {
-          p.x = -p.length;
-          p.y = Math.random() * height;
-        }
-      });
-
-      animationFrameId = requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
-  return (
-    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-      <canvas
-        ref={canvasRef}
-        className="block w-full h-full opacity-60"
-        style={{ mixBlendMode: 'screen' }}
-      />
-    </div>
-  );
-}
+```html
+<footer class="warp-section">
+  <div class="warp-field" aria-hidden="true">
+    <canvas class="warp-canvas"></canvas>
+  </div>
+  <div class="warp-content">...</div>
+</footer>
 ```
 
-## Application rules
+```css
+.warp-section {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: #050109;
+}
 
-- Place `<WarpSpeedCanvas />` as the first child of the relative container.
-- Ensure the background color drawn in `ctx.fillStyle` inside the animation loop EXACTLY matches the background of the parent container to create a smooth trailing effect without washing out the colors.
-- Adjust `particleCount` based on the height of the container (use fewer particles for smaller headers, more for tall footers).
-- Do not apply this to light-themed containers; the additive blending and trail logic is optimized for dark mode.
-- Do not overlap the canvas heavily with readable text unless the text has a strong `text-shadow` or is enclosed in a glassmorphic card.
+.warp-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 0 22%, transparent 43% 57%, #000 78% 100%);
+  mask-image: linear-gradient(90deg, #000 0 22%, transparent 43% 57%, #000 78% 100%);
+}
 
-## Completion evidence
+.warp-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(5,1,9,.45) 28%, #050109 43% 57%, rgba(5,1,9,.45) 72%, transparent);
+}
 
-- The canvas element sizes correctly to its container.
-- Particles animate smoothly horizontally with a trailing light effect.
-- The animation pauses or slows down if the OS has reduced motion enabled.
-- Text, links, and buttons sitting above the canvas remain fully interactive (`pointer-events: none` on canvas).
-- Window resizing does not stretch or distort the canvas pixels.
+.warp-content { position: relative; z-index: 2; }
+.warp-canvas { display: block; width: 100%; height: 100%; }
+```
+
+Adapt class names and colors to the project instead of pasting a competing style system.
+
+## Perspective geometry
+
+Use separate start and edge coordinates for each side:
+
+```js
+const safeHalf = width * (width < 700 ? 0.30 : 0.235);
+const startX = width * 0.5 + particle.side * safeHalf;
+const edgeX = particle.side < 0 ? -width * 0.08 : width * 1.08;
+const eased = Math.max(0, progress) ** 1.55;
+
+const x = startX + (edgeX - startX) * eased;
+const y = particle.originY + (particle.targetY - particle.originY) * eased;
+```
+
+Draw from `progress - tailSpan` to `progress`. Use a transparent-to-color gradient, modest glow, and increasing line width toward the edge. Reset a particle only after its head passes its own outer edge.
+
+Default to outward motion because it creates the expanding warp effect. Reverse the progress direction only when the approved reference clearly requires inward motion. Never let both particle groups drift left-to-right across the whole section.
+
+## Performance and accessibility
+
+- Use `requestAnimationFrame` and time-based movement.
+- Reuse a bounded particle pool instead of allocating particles every frame.
+- Cap the pool at a practical range such as 40 to 90 particles.
+- Cap device pixel ratio at `2` to control GPU and memory cost.
+- Use `ResizeObserver` or a debounced resize handler.
+- Keep the wrapper at `pointer-events: none` and `aria-hidden="true"`.
+- Render a static frame and stop scheduling frames when reduced motion is requested.
+- Avoid logging animation data or adding third-party tracking.
+
+## Acceptance checks
+
+- Confirm that the center remains visually dark in several non-consecutive frames.
+- Confirm that no visible line crosses the central content corridor.
+- Confirm that left-side particles terminate at the left edge and right-side particles terminate at the right edge.
+- Confirm balanced visual density without exact mirroring that looks mechanical.
+- Confirm that text and controls remain readable, selectable, and interactive.
+- Confirm correct canvas sizing after desktop and mobile resizes.
+- Confirm no horizontal page overflow and no browser console errors.
+- Confirm that reduced-motion mode stops continuous animation.
+- Capture desktop and narrow-screen evidence before declaring completion.
 
 ## Origin
 
-Created by Yasir Ikram for Yaz Inc, inspired by premium enterprise SaaS animations, and generalized as a reusable public UI workflow.
+Created by Yasir Ikram for Yaz Inc. Refined from implementation testing using the Airbyte pricing footer as an external visual reference, then generalized into an original, reusable Canvas 2D workflow.

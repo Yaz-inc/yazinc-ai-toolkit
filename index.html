@@ -15,10 +15,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700;800;900&family=Google+Sans+Code:wght@300..800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/toolkit.css?v=20260804-5">
-  <script src="assets/i18n.js?v=20260804-5" defer></script>
+  <link rel="stylesheet" href="assets/toolkit.css?v=20260804-7">
+  <script src="assets/i18n.js?v=20260804-7" defer></script>
   <script src="assets/resources.js?v=20260804-5" defer></script>
-  <script src="assets/toolkit.js?v=20260804-5" defer></script>
+  <script src="assets/toolkit.js?v=20260804-7" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -273,76 +273,15 @@
     </section>
   </main>
 
-  <footer class="site-footer" style="position: relative; overflow: hidden; background-color: #0a0118; color: #ffffff; padding: 4rem 0;">
-    <div style="position: absolute; inset: 0; z-index: 0; pointer-events: none;" aria-hidden="true">
-      <canvas id="warp-speed-canvas" style="display: block; width: 100%; height: 100%; opacity: 0.6; mix-blend-mode: screen;"></canvas>
+  <footer class="site-footer">
+    <div class="warp-speed-field" aria-hidden="true">
+      <canvas class="warp-speed-canvas" id="warp-speed-canvas"></canvas>
     </div>
-    <div class="shell footer-grid" style="position: relative; z-index: 10;">
-      <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.875rem;">Created and maintained by Yasir Ikram for Yaz Inc. © 2026 Yaz Inc.</p>
+    <div class="shell footer-grid">
+      <p>Created and maintained by Yasir Ikram for Yaz Inc. © 2026 Yaz Inc.</p>
+      <p class="footer-exhibitions" id="footer-exhibitions">Live skill exhibitions: <a href="#skills" data-skill-target="animated-glow-border">Animated Glow Border</a> in the hero • <a href="#skills" data-skill-target="warp-speed-light-trail">Warp Speed Light Trail</a> in this footer.</p>
     </div>
   </footer>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const canvas = document.getElementById("warp-speed-canvas");
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      
-      let width = canvas.width = canvas.offsetWidth;
-      let height = canvas.height = canvas.offsetHeight;
-      
-      window.addEventListener("resize", () => {
-        width = canvas.width = canvas.offsetWidth;
-        height = canvas.height = canvas.offsetHeight;
-      });
-
-      const particles = [];
-      const particleCount = 100;
-      const colors = ['#7C3AED', '#06B6D4', '#A855F7'];
-
-      for (let i = 0; i < particleCount; i++) {
-        particles.push({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          length: Math.random() * 80 + 20,
-          speed: Math.random() * 3 + 1,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          opacity: Math.random() * 0.5 + 0.1
-        });
-      }
-
-      const isReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      function draw() {
-        ctx.fillStyle = "rgba(10, 1, 24, 0.3)"; // Background color with trail effect
-        ctx.fillRect(0, 0, width, height);
-
-        particles.forEach(p => {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p.x + p.length, p.y);
-          ctx.strokeStyle = p.color;
-          ctx.lineWidth = 1.5;
-          ctx.globalAlpha = p.opacity;
-          ctx.stroke();
-
-          if (!isReducedMotion) {
-            p.x += p.speed;
-          } else {
-            p.x += p.speed * 0.1;
-          }
-
-          if (p.x > width) {
-            p.x = -p.length;
-            p.y = Math.random() * height;
-          }
-        });
-
-        requestAnimationFrame(draw);
-      }
-      draw();
-    });
-  </script>
 
   <div class="skill-modal" id="skill-modal" hidden>
     <button class="skill-modal-backdrop" type="button" data-modal-close aria-label="Close skill guide"></button>

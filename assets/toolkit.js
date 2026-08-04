@@ -29,6 +29,7 @@ const skills = [
   {name:"architecture-decision-records", title:"Architecture Decision Records", category:"Engineering and quality", summary:"Record reversible architecture decisions with context, evidence, alternatives, tradeoffs, and consequences."},
   {name:"ui-ux-product-design", title:"UI/UX Product Design", category:"Product design", summary:"Design user-centered flows, information architecture, wireframes, visual systems, responsive states, accessibility, usability tests, and implementation handoff."},
   {name:"animated-glow-border", title:"Animated Glow Border", category:"Product design", summary:"Add accessible, theme-aware rotating borders with normal or reverse motion and graceful static fallbacks."},
+  {name:"warp-speed-light-trail", title:"Warp Speed Light Trail", category:"Product design", summary:"Build mirrored perspective light trails along dark section edges while preserving a calm, readable center."},
   {name:"figma-canva-design-workflow", title:"Figma and Canva Design Workflow", category:"Product design", summary:"Coordinate product UI in Figma with campaign, presentation, social, and brand production in Canva."},
   {name:"design-to-code-implementation", title:"Design to Code Implementation", category:"Product design", summary:"Turn approved designs into accessible, responsive, maintainable interfaces verified in the running application."},
   {name:"design-system-engineering", title:"Design System Engineering", category:"Product design", summary:"Create governed tokens, components, variants, documentation, theming, and design-to-code parity."},
@@ -83,6 +84,7 @@ const skillIcons = {
   "architecture-decision-records": "file-text",
   "ui-ux-product-design": "palette",
   "animated-glow-border": "palette",
+  "warp-speed-light-trail": "radar",
   "figma-canva-design-workflow": "palette",
   "design-to-code-implementation": "code-xml",
   "design-system-engineering": "component",
@@ -393,3 +395,113 @@ window.addEventListener("toolkit-language-change", () => {
   applyDynamicCopy();
   if (!modal.hidden) syncModal();
 });
+
+function initWarpSpeedField() {
+  const canvas = document.querySelector("#warp-speed-canvas");
+  if (!canvas) return;
+
+  const context = canvas.getContext("2d");
+  if (!context) return;
+
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const colors = ["84,69,118", "84,69,118", "84,69,118", "124,58,237", "168,85,247", "6,182,212"];
+  let width = 0;
+  let height = 0;
+  let particles = [];
+  let animationFrame = 0;
+  let previousTime = 0;
+
+  function resetParticle(particle, randomProgress = false) {
+    particle.side = Math.random() < .5 ? -1 : 1;
+    particle.progress = randomProgress ? Math.random() : -Math.random() * .24;
+    particle.speed = .00016 + Math.random() * .00034;
+    particle.tail = .08 + Math.random() * .2;
+    particle.targetY = (Math.random() * 1.16 - .08) * height;
+    particle.originY = height * .5 + (particle.targetY - height * .5) * (.16 + Math.random() * .18);
+    particle.color = colors[Math.floor(Math.random() * colors.length)];
+    particle.opacity = .16 + Math.random() * .46;
+    particle.width = .45 + Math.random() * 1.05;
+  }
+
+  function project(particle, progress) {
+    const safeHalf = width * (width < 700 ? .3 : .235);
+    const startX = width * .5 + particle.side * safeHalf;
+    const edgeX = particle.side < 0 ? -width * .08 : width * 1.08;
+    const eased = Math.max(0, progress) ** 1.55;
+    const bend = Math.sin(eased * Math.PI) * height * .025 * particle.side;
+    return {
+      x: startX + (edgeX - startX) * eased,
+      y: particle.originY + (particle.targetY - particle.originY) * eased + bend
+    };
+  }
+
+  function draw() {
+    context.clearRect(0, 0, width, height);
+    context.globalCompositeOperation = "lighter";
+
+    particles.forEach(particle => {
+      const tailProgress = Math.max(0, particle.progress - particle.tail);
+      const head = project(particle, particle.progress);
+      const middle = project(particle, (particle.progress + tailProgress) * .5);
+      const tail = project(particle, tailProgress);
+      const visibility = Math.min(1, Math.max(0, particle.progress) * 2.3);
+      const alpha = particle.opacity * visibility;
+      const gradient = context.createLinearGradient(tail.x, tail.y, head.x, head.y);
+      gradient.addColorStop(0, `rgba(${particle.color},0)`);
+      gradient.addColorStop(.72, `rgba(${particle.color},${alpha * .42})`);
+      gradient.addColorStop(1, `rgba(${particle.color},${alpha})`);
+
+      context.beginPath();
+      context.moveTo(tail.x, tail.y);
+      context.quadraticCurveTo(middle.x, middle.y, head.x, head.y);
+      context.strokeStyle = gradient;
+      context.lineWidth = particle.width + Math.max(0, particle.progress) * 1.15;
+      context.shadowBlur = 2 + Math.max(0, particle.progress) * 6;
+      context.shadowColor = `rgba(${particle.color},${alpha * .55})`;
+      context.stroke();
+    });
+
+    context.globalCompositeOperation = "source-over";
+    context.shadowBlur = 0;
+  }
+
+  function tick(time) {
+    const delta = Math.min(40, time - previousTime || 16.7);
+    previousTime = time;
+    particles.forEach(particle => {
+      particle.progress += particle.speed * delta;
+      if (particle.progress > 1.08) resetParticle(particle);
+    });
+    draw();
+    animationFrame = window.requestAnimationFrame(tick);
+  }
+
+  function resize() {
+    const bounds = canvas.getBoundingClientRect();
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    width = Math.max(1, bounds.width);
+    height = Math.max(1, bounds.height);
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+
+    const particleCount = Math.max(42, Math.min(82, Math.round(width / 20)));
+    particles = Array.from({length: particleCount}, () => {
+      const particle = {};
+      resetParticle(particle, true);
+      return particle;
+    });
+
+    window.cancelAnimationFrame(animationFrame);
+    previousTime = 0;
+    draw();
+    if (!reducedMotion.matches) animationFrame = window.requestAnimationFrame(tick);
+  }
+
+  const resizeObserver = new ResizeObserver(resize);
+  resizeObserver.observe(canvas);
+  reducedMotion.addEventListener("change", resize);
+  resize();
+}
+
+initWarpSpeedField();
