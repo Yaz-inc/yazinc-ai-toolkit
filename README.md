@@ -2,6 +2,8 @@
 
 **Live catalog:** [yaz-inc.github.io/yazinc-ai-toolkit](https://yaz-inc.github.io/yazinc-ai-toolkit/)
 
+**One-time GitHub Pages setup:** Open repository **Settings > Pages**, choose **Deploy from a branch**, select **main** and **/(root)**, then save. Future pushes to `main` publish automatically.
+
 **Reusable prompts:** Use [prompts/google-sans-website-agent.md](prompts/google-sans-website-agent.md) to instruct a development agent to implement and verify Google Sans correctly.
 
 Public AI agent skill library maintained by **Yaz Inc**. Reusable skills, patterns, templates, and scripts for Codex, Cursor, Claude Code, Antigravity, and other Agent Skills-compatible tools.
