@@ -28,6 +28,7 @@ const skills = [
   {name:"observability-incident-response", title:"Observability and Incident Response", category:"Engineering and quality", summary:"Establish useful logs, metrics, traces, alerts, runbooks, recovery evidence, and incident learning."},
   {name:"architecture-decision-records", title:"Architecture Decision Records", category:"Engineering and quality", summary:"Record reversible architecture decisions with context, evidence, alternatives, tradeoffs, and consequences."},
   {name:"ui-ux-product-design", title:"UI/UX Product Design", category:"Product design", summary:"Design user-centered flows, information architecture, wireframes, visual systems, responsive states, accessibility, usability tests, and implementation handoff."},
+  {name:"animated-glow-border", title:"Animated Glow Border", category:"Product design", summary:"Add accessible, theme-aware rotating borders with normal or reverse motion and graceful static fallbacks."},
   {name:"figma-canva-design-workflow", title:"Figma and Canva Design Workflow", category:"Product design", summary:"Coordinate product UI in Figma with campaign, presentation, social, and brand production in Canva."},
   {name:"design-to-code-implementation", title:"Design to Code Implementation", category:"Product design", summary:"Turn approved designs into accessible, responsive, maintainable interfaces verified in the running application."},
   {name:"design-system-engineering", title:"Design System Engineering", category:"Product design", summary:"Create governed tokens, components, variants, documentation, theming, and design-to-code parity."},
@@ -81,6 +82,7 @@ const skillIcons = {
   "observability-incident-response": "chart-no-axes-combined",
   "architecture-decision-records": "file-text",
   "ui-ux-product-design": "palette",
+  "animated-glow-border": "palette",
   "figma-canva-design-workflow": "palette",
   "design-to-code-implementation": "code-xml",
   "design-system-engineering": "component",
@@ -126,6 +128,7 @@ function renderSkills() {
     return categoryMatch && textMatch;
   });
 
+  grid.classList.toggle("product-focus", activeCategory === "Product design");
   grid.innerHTML = visible.map(skill => `
     <article class="skill-card" data-category="${skill.category}">
       <div class="skill-card-head">
@@ -176,6 +179,15 @@ navLinks.addEventListener("click", event => {
 const toast = document.querySelector("#copy-toast");
 let toastTimer;
 document.addEventListener("click", async event => {
+  const skillTarget = event.target.closest("[data-skill-target]");
+  if (skillTarget) {
+    activeCategory = "All";
+    search.value = skillTarget.dataset.skillTarget;
+    renderFilters();
+    renderSkills();
+    document.querySelector("#skills")?.scrollIntoView({behavior: "smooth", block: "start"});
+    return;
+  }
   const button = event.target.closest("[data-copy]");
   if (!button) return;
   try {

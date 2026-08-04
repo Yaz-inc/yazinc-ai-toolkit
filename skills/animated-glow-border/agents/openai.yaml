@@ -1,0 +1,4 @@
+interface:
+  display_name: "Animated Glow Border"
+  short_description: "Add accessible theme-aware rotating borders"
+  default_prompt: "Use $animated-glow-border to add a polished glowing border to the primary feature card."

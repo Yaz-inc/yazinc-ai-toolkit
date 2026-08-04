@@ -99,6 +99,11 @@ button { cursor: pointer; }
 .assurance-meta { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 20px; }
 .assurance-meta span { color: #aebed5; font-size: 9px; text-align: center; }
 .assurance-meta b { display: block; color: #fff; font-size: 15px; }
+.skill-exhibition { position: relative; z-index: 4; width: 100%; margin-top: 17px; padding: 12px 14px; border: 1px solid rgba(103,232,249,.24); border-radius: 12px; color: #fff; background: rgba(103,232,249,.055); text-align: left; transition: border-color .18s ease, background .18s ease, transform .18s ease; }
+.skill-exhibition strong, .skill-exhibition span { display: block; }
+.skill-exhibition strong { color: #67e8f9; font-size: 10px; letter-spacing: 1.15px; text-transform: uppercase; }
+.skill-exhibition span { margin-top: 4px; color: #bcb7ca; font-size: 9px; line-height: 1.45; }
+.skill-exhibition:hover, .skill-exhibition:focus-visible { transform: translateY(-1px); border-color: rgba(139,92,246,.75); background: rgba(139,92,246,.12); }
 
 .stats-band { position: relative; z-index: 3; margin-top: -36px; }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: var(--shadow); overflow: hidden; }
@@ -140,8 +145,11 @@ button { cursor: pointer; }
 .catalog-summary p { margin: 0; color: var(--muted); font-size: 11px; font-weight: 750; }
 .text-button { border: 0; color: var(--blue); background: transparent; font-size: 11px; font-weight: 850; }
 .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-.skill-card { display: flex; flex-direction: column; min-height: 250px; padding: 20px; border: 1px solid #dbe3ee; border-radius: 15px; background: #fff; box-shadow: 0 8px 24px rgba(15,23,42,.035); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.skill-card { position: relative; isolation: isolate; display: flex; flex-direction: column; min-height: 250px; padding: 20px; border: 1px solid #dbe3ee; border-radius: 15px; background: #fff; box-shadow: 0 8px 24px rgba(15,23,42,.035); transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
 .skill-card:hover { transform: translateY(-3px); border-color: #bdcbea; box-shadow: 0 18px 40px rgba(15,23,42,.09); }
+.skill-card[data-category="Product design"]::before { content: ""; position: absolute; z-index: 3; inset: -1px; padding: 2px; border-radius: 16px; pointer-events: none; opacity: 0; background: conic-gradient(from var(--assurance-glow-angle), transparent 0 28%, #f0abfc 42%, var(--assurance-glow-core) 50%, var(--assurance-glow-edge) 58%, transparent 72% 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; filter: drop-shadow(0 0 6px rgba(139,92,246,.58)); animation: assurance-border-rotate 5.5s linear infinite; transition: opacity .2s ease; }
+.skill-card[data-category="Product design"]:nth-child(even)::before { animation-direction: reverse; }
+.skill-card[data-category="Product design"]:hover::before, .skill-card[data-category="Product design"]:focus-within::before, .skills-grid.product-focus .skill-card[data-category="Product design"]::before { opacity: 1; }
 .skill-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
 .skill-glyph { flex: 0 0 44px; width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.18); border-radius: 13px; color: #fff; background: linear-gradient(135deg, var(--blue), var(--blue-2)); box-shadow: 0 12px 24px rgba(20,32,70,.22); transition: transform .2s ease, box-shadow .2s ease; }
 .skill-glyph svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round; }
@@ -195,6 +203,7 @@ blockquote { margin: 10px 0 0; padding: 10px 13px; border-left: 3px solid var(--
 
 .contribute-panel { position: relative; overflow: hidden; display: grid; grid-template-columns: 1.3fr .7fr; align-items: center; gap: 60px; padding: 50px; border-radius: 22px; color: #fff; background: linear-gradient(130deg, #111e36, #244095 70%, #315eb8); box-shadow: var(--shadow); }
 .contribute-panel::before { content: ""; position: absolute; width: 320px; height: 320px; right: -180px; top: -200px; border: 55px solid rgba(99,229,232,.1); border-radius: 50%; }
+.contribute-panel::after { content: ""; position: absolute; z-index: 3; inset: -1px; padding: 2px; border-radius: 23px; pointer-events: none; background: conic-gradient(from var(--assurance-glow-angle), transparent 0 28%, var(--assurance-glow-core) 42%, var(--assurance-glow-edge) 50%, var(--assurance-glow-core) 58%, transparent 72% 100%); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude; filter: drop-shadow(0 0 7px rgba(139,92,246,.6)) drop-shadow(0 0 12px rgba(103,232,249,.28)); animation: assurance-border-rotate 6s linear infinite reverse; }
 .contribute-panel > * { position: relative; z-index: 1; }
 .contribute-panel h2 { max-width: 720px; margin: 0; font-size: clamp(29px, 4vw, 45px); line-height: 1.12; letter-spacing: -1px; }
 .contribute-panel > div > p:not(.eyebrow) { color: #c2d0e3; font-size: 13px; }
@@ -376,6 +385,7 @@ code, .skill-name, .report-id, .hash { font-family: "Google Sans Code", ui-monos
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
   .assurance-card::after { animation: none; }
+  .skill-card[data-category="Product design"]::before, .contribute-panel::after { animation: none; }
 }
 
 @media print {
@@ -388,4 +398,5 @@ code, .skill-name, .report-id, .hash { font-family: "Google Sans Code", ui-monos
   .skill-card { min-height: auto; break-inside: avoid; box-shadow: none; }
   .setup-section, .contribute-panel, .hero { background: var(--navy) !important; }
   .assurance-card::after { animation: none; filter: none; }
+  .skill-card[data-category="Product design"]::before, .contribute-panel::after { animation: none; filter: none; }
 }
