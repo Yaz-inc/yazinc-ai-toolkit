@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Generated Artwork Management (SPA) by Yazinc</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { height: 100%; font-family: 'DM Sans', sans-serif; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.3); border-radius: 99px; }
+
+    /* Theme vars */
+    .theme-dark {
+      --bg: #080612;
+      --sidebar-bg: #050410;
+      --sidebar-border: rgba(255,255,255,0.07);
+      --card-bg: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.08);
+      --card-hover-border: rgba(124,58,237,0.5);
+      --text-primary: #f0eeff;
+      --text-secondary: rgba(240,238,255,0.45);
+      --text-muted: rgba(240,238,255,0.25);
+      --tab-active-bg: rgba(124,58,237,0.15);
+      --tab-active-border: rgba(124,58,237,0.4);
+      --tab-active-text: #c4b5fd;
+      --tab-text: rgba(240,238,255,0.5);
+      --tab-hover-bg: rgba(255,255,255,0.05);
+      --badge-bg: rgba(255,255,255,0.08);
+      --badge-active-bg: rgba(124,58,237,0.25);
+      --preview-bg: #0d0b1a;
+      --preview-border: rgba(255,255,255,0.05);
+      --btn-dl-bg: rgba(255,255,255,0.08);
+      --btn-dl-hover: rgba(255,255,255,0.15);
+      --btn-dl-text: #c4b5fd;
+      --toggle-bg: #1a1730;
+      --toggle-border: rgba(255,255,255,0.1);
+      --toggle-text: #fbbf24;
+      --empty-border: rgba(255,255,255,0.1);
+      --label-color: rgba(240,238,255,0.35);
+      --dot-pattern: rgba(255,255,255,0.03);
+    }
+    .theme-light {
+      --bg: #f2f2f2;
+      --sidebar-bg: #ffffff;
+      --sidebar-border: rgba(0,0,0,0.08);
+      --card-bg: #ffffff;
+      --card-border: rgba(0,0,0,0.08);
+      --card-hover-border: rgba(124,58,237,0.4);
+      --text-primary: #111111;
+      --text-secondary: rgba(17,17,17,0.55);
+      --text-muted: rgba(17,17,17,0.35);
+      --tab-active-bg: rgba(124,58,237,0.08);
+      --tab-active-border: rgba(124,58,237,0.3);
+      --tab-active-text: #6d28d9;
+      --tab-text: rgba(17,17,17,0.45);
+      --tab-hover-bg: rgba(0,0,0,0.04);
+      --badge-bg: rgba(0,0,0,0.06);
+      --badge-active-bg: rgba(124,58,237,0.12);
+      --preview-bg: #f2f2f2;
+      --preview-border: rgba(0,0,0,0.06);
+      --btn-dl-bg: rgba(124,58,237,0.08);
+      --btn-dl-hover: rgba(124,58,237,0.15);
+      --btn-dl-text: #6d28d9;
+      --toggle-bg: #ffffff;
+      --toggle-border: rgba(0,0,0,0.1);
+      --toggle-text: #6d28d9;
+      --empty-border: rgba(0,0,0,0.12);
+      --dot-pattern: rgba(0,0,0,0.06);
+    }
+
+    .app-shell {
+      display: flex;
+      height: 100vh;
+      background: var(--bg);
+      color: var(--text-primary);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 240px;
+      min-width: 240px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      display: flex;
+      flex-direction: column;
+      padding: 28px 16px;
+      gap: 0;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(6,182,212,0.1);
+      border: 1px solid rgba(6,182,212,0.2);
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #22d3ee;
+      margin-bottom: 14px;
+    }
+    .brand-pill .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #06b6d4;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .brand-name {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+    .brand-name span { color: #7c3aed; }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      margin-bottom: 32px;
+    }
+
+    .nav-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--label-color);
+      padding: 0 8px;
+      margin-bottom: 8px;
+    }
+
+    .nav-tabs { display: flex; flex-direction: column; gap: 3px; flex: 1; }
+
+    .nav-tab {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      color: var(--tab-text);
+      background: transparent;
+      transition: all 0.18s;
+      text-align: left;
+    }
+    .nav-tab:hover { background: var(--tab-hover-bg); color: var(--text-primary); }
+    .nav-tab.active {
+      background: var(--tab-active-bg);
+      border-color: var(--tab-active-border);
+      color: var(--tab-active-text);
+    }
+    .nav-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: var(--badge-bg);
+    }
+    .nav-tab.active .nav-badge { background: var(--badge-active-bg); }
+
+    /* MAIN */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 36px 0;
+      flex-shrink: 0;
+    }
+
+    .page-title { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: var(--text-primary); }
+    .page-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 3px; font-weight: 400; }
+
+    .toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 99px;
+      border: 1px solid var(--toggle-border);
+      background: var(--toggle-bg);
+      color: var(--toggle-text);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.18s;
+    }
+    .toggle-btn:hover { opacity: 0.8; }
+
+    .gallery-scroll { flex: 1; overflow-y: auto; padding: 24px 36px 36px; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .asset-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+    .asset-card:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(124,58,237,0.12);
+    }
+    .asset-card:hover .delete-btn { opacity: 1; }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-right: 28px;
+    }
+    .card-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-folder-tag {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #7c3aed;
+      background: rgba(124,58,237,0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .delete-btn {
+      position: absolute;
+      top: 10px; right: 10px;
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: rgba(239,68,68,0.1);
+      color: #ef4444;
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: all 0.18s;
+      font-size: 14px;
+    }
+    .delete-btn:hover { background: #ef4444; color: white; }
+
+    .preview-wrap {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--preview-bg);
+      border: 1px solid var(--preview-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      position: relative;
+    }
+    .preview-wrap img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    /* Checkerboard in light mode to show transparency */
+    .preview-wrap.transparent-bg {
+      background-image: linear-gradient(45deg, var(--dot-pattern) 25%, transparent 25%),
+                        linear-gradient(-45deg, var(--dot-pattern) 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, var(--dot-pattern) 75%),
+                        linear-gradient(-45deg, transparent 75%, var(--dot-pattern) 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-size { font-size: 10px; font-family: monospace; color: var(--text-muted); }
+    .dl-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: var(--btn-dl-bg);
+      color: var(--btn-dl-text);
+      border: none;
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.18s;
+    }
+    .dl-btn:hover { background: var(--btn-dl-hover); }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      border: 2px dashed var(--empty-border);
+      border-radius: 20px;
+      color: var(--text-muted);
+      gap: 12px;
+      font-size: 14px;
+    }
+
+    /* Server Status Banner */
+    .server-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 36px;
+      font-size: 13px;
+      font-weight: 600;
+      flex-shrink: 0;
+      gap: 12px;
+    }
+    .server-banner.online  { background: rgba(16,185,129,0.1); border-bottom: 1px solid rgba(16,185,129,0.2); color: #10b981; }
+    .server-banner.offline { background: rgba(99,102,241,0.08); border-bottom: 1px solid rgba(99,102,241,0.15); color: #818cf8; }
+    .server-banner .banner-left { display: flex; align-items: center; gap: 8px; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .online  .status-dot { background: #10b981; box-shadow: 0 0 6px #10b981; animation: pulse 2s infinite; }
+    .offline .status-dot { background: #818cf8; }
+    .start-server-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; font-weight: 700;
+      padding: 6px 14px; border-radius: 8px; border: none; cursor: pointer;
+      background: #6366f1; color: #fff;
+      transition: opacity 0.18s;
+    }
+    .start-server-btn:hover { opacity: 0.85; }
+
+    /* How-to Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 2000;
+      background: rgba(0,0,0,0.55);
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(6px);
+      animation: fadeIn 0.18s ease;
+    }
+    .modal-box {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 36px 40px;
+      max-width: 460px; width: 90%;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+      animation: scaleIn 0.2s cubic-bezier(.34,1.56,.64,1);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .modal-icon { font-size: 40px; margin-bottom: 12px; }
+    .modal-title { font-size: 20px; font-weight: 800; color: #111; margin-bottom: 8px; }
+    .modal-sub { font-size: 14px; color: #555; line-height: 1.6; margin-bottom: 20px; }
+    .modal-step {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: #f7f6ff; border-radius: 12px; padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .modal-step-num {
+      width: 24px; height: 24px; border-radius: 50%;
+      background: #7c3aed; color: #fff;
+      font-size: 12px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .modal-step-text { font-size: 13px; color: #333; font-weight: 500; line-height: 1.5; }
+    .modal-step-text code {
+      background: #ede9fe; color: #6d28d9; padding: 2px 6px;
+      border-radius: 5px; font-size: 12px; font-weight: 700;
+    }
+    .modal-close-btn {
+      width: 100%; margin-top: 20px; padding: 12px;
+      background: #7c3aed; color: #fff;
+      border: none; border-radius: 12px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 700;
+      transition: opacity 0.18s;
+    }
+    .modal-close-btn:hover { opacity: 0.87; }
+
+    /* Lightbox */
+    .lightbox-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.88);
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.2s ease;
+    }
+    @keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+    .lightbox-inner {
+      position: relative; max-width: 92vw; max-height: 92vh;
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+    }
+    .lightbox-inner img {
+      max-width: 100%; max-height: 82vh;
+      object-fit: contain; border-radius: 12px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      animation: scaleIn 0.22s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes scaleIn { from { transform: scale(0.88); opacity:0 } to { transform: scale(1); opacity:1 } }
+    .lightbox-close {
+      position: absolute; top: -44px; right: 0;
+      background: rgba(255,255,255,0.15); border: none; color: #fff;
+      width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+      font-size: 18px; display: flex; align-items: center; justify-content: center;
+      transition: background 0.18s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.28); }
+    .lightbox-title {
+      color: rgba(255,255,255,0.75); font-size: 13px; font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    /* Folder management */
+    .new-folder-row {
+      display: flex; gap: 6px; margin-top: 8px; padding: 0 4px;
+    }
+    .new-folder-input {
+      flex: 1; padding: 8px 10px; border-radius: 8px; font-size: 12px;
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg); color: var(--text-primary);
+      outline: none;
+    }
+    .new-folder-input:focus { border-color: rgba(124,58,237,0.5); }
+    .new-folder-add-btn {
+      padding: 8px 12px; border-radius: 8px; border: none;
+      background: #7c3aed; color: #fff; font-weight: 700;
+      font-size: 14px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: opacity 0.18s;
+    }
+    .new-folder-add-btn:hover { opacity: 0.85; }
+    .nav-tab-wrap { display: flex; align-items: center; gap: 4px; }
+    .nav-tab-wrap .nav-tab { flex: 1; }
+    .folder-del-btn {
+      width: 26px; height: 26px; border-radius: 6px; border: none;
+      background: transparent; color: var(--text-muted); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; flex-shrink: 0; transition: all 0.18s;
+      opacity: 0;
+    }
+    .nav-tab-wrap:hover .folder-del-btn { opacity: 1; }
+    .folder-del-btn:hover { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .preview-wrap { cursor: zoom-in; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useMemo, useEffect, useRef, useCallback } = React;
+
+    const ASSETS = [
+      { id: '8_2026', title: 'Final Official Logo', file: '8_2026-08-12_Yaz_inc_formal_finetuned.png', folder: 'Logos', height: 280 },
+      { id: '7_2026', title: 'Liquid Metal Legacy', file: '7_2026-08-12_liquid_metal_logo.png', folder: 'Logos', height: 240 },
+      { id: 'v1', title: 'Formal V1', file: 'logo_variation_v1_transparent.png', folder: 'Logos', height: 220 },
+      { id: 'v2', title: 'Formal V2', file: 'logo_variation_v2_transparent.png', folder: 'Logos', height: 220 },
+      { id: 'v3', title: 'Formal V3', file: 'logo_variation_v3_transparent.png', folder: 'Logos', height: 220 },
+      { id: 'v4', title: 'Formal V4', file: 'logo_variation_v4_transparent.png', folder: 'Logos', height: 220 },
+      { id: 'v5', title: 'Formal V5', file: 'logo_variation_v5_transparent.png', folder: 'Logos', height: 220 },
+      { id: 'banner', title: '2026 Ultra-Wide Banner', file: '6_2026-08-12_modern_yazinc_banner.png', folder: 'Banners', height: 120 },
+      { id: 'status1', title: 'Status — Breakthrough', file: '1_2026-07-27_never_quit_status_breakthrough.png', folder: 'Posters', height: 300 },
+      { id: 'status2', title: 'Status — Portal', file: '2_2026-07-27_never_quit_status_portal.png', folder: 'Posters', height: 300 },
+      { id: 'social', title: 'Social Post 1:1', file: '3_2026-07-27_never_quit_social_square.png', folder: 'Posters', height: 220 },
+      { id: 'meme', title: 'Programmer Meme', file: '4_2026-08-07_programmer_meme_rebrand.png', folder: 'Misc', height: 220 },
+      { id: 'info', title: 'Infographic', file: '5_2026-08-07_infographic_rebrand.png', folder: 'Misc', height: 260 },
+    ];
+
+    const SunIcon = () => (
+      <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/>
+      </svg>
+    );
+    const MoonIcon = () => (
+      <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+      </svg>
+    );
+    const TrashIcon = () => (
+      <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+      </svg>
+    );
+
+    // ── LIGHTBOX COMPONENT ──
+    function Lightbox({ asset, onClose }) {
+      useEffect(() => {
+        const handler = (e) => { if (e.key === 'Escape') onClose(); };
+        window.addEventListener('keydown', handler);
+        return () => window.removeEventListener('keydown', handler);
+      }, [onClose]);
+      return (
+        <div className="lightbox-overlay" onClick={onClose}>
+          <div className="lightbox-inner" onClick={e => e.stopPropagation()}>
+            <button className="lightbox-close" onClick={onClose}>✕</button>
+            <img src={`Social Media/${asset.file}`} alt={asset.title} />
+            <div className="lightbox-title">{asset.title}</div>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [assets, setAssets]         = useState(ASSETS);
+      const [activeTab, setActiveTab]   = useState('All');
+      const [isDark, setIsDark]         = useState(false);      // ← LIGHT MODE DEFAULT
+      const [serverOnline, setServerOnline] = useState(null);
+      const [lightbox, setLightbox]     = useState(null);
+      const [newFolderName, setNewFolderName] = useState('');
+      const [showModal, setShowModal]   = useState(false);
+      const folderInputRef              = useRef(null);
+
+      // Server health check every 10s
+      useEffect(() => {
+        const check = () => {
+          fetch('/api/status', { signal: AbortSignal.timeout(2000) })
+            .then(r => r.json()).then(() => setServerOnline(true)).catch(() => setServerOnline(false));
+        };
+        check();
+        const id = setInterval(check, 10000);
+        return () => clearInterval(id);
+      }, []);
+
+      useEffect(() => {
+        document.documentElement.className = isDark ? 'theme-dark' : 'theme-light';
+      }, [isDark]);
+
+      // Auto-derived unique folders from asset data
+      const folders = useMemo(() => {
+        const unique = [...new Set(assets.map(a => a.folder))];
+        return unique;
+      }, [assets]);
+
+      const filtered = useMemo(() => (
+        activeTab === 'All' ? assets : assets.filter(a => a.folder === activeTab)
+      ), [assets, activeTab]);
+
+      const count = (f) => f === 'All' ? assets.length : assets.filter(a => a.folder === f).length;
+
+      // ── DELETE SINGLE ASSET ──
+      const deleteAsset = async (id, file) => {
+        if (!serverOnline) {
+          if (window.confirm('Remove "' + file + '" from your library?\n\nNote: The file will remain safely on your disk. Enable Full Mode to permanently remove files.')) {
+            setAssets(prev => prev.filter(a => a.id !== id));
+          }
+          return;
+        }
+        try {
+          const res = await fetch(`/api/delete?file=${encodeURIComponent(file)}`, { method: 'DELETE' });
+          const data = await res.json();
+          if (res.ok && data.success) setAssets(prev => prev.filter(a => a.id !== id));
+          else alert('Could not remove this file. Please try again.');
+        } catch { alert('Something went wrong. Please refresh and try again.'); }
+      };
+
+      // ── DELETE ENTIRE FOLDER ──
+      const deleteFolder = async (folderName) => {
+        const folderAssets = assets.filter(a => a.folder === folderName);
+        if (folderAssets.length === 0) {
+          setAssets(prev => prev.filter(a => a.folder !== folderName));
+          if (activeTab === folderName) setActiveTab('All');
+          return;
+        }
+        if (!window.confirm(`Remove the entire "${folderName}" folder and its ${folderAssets.length} artwork(s)?\n\n${serverOnline ? 'Files will be permanently deleted from your disk.' : 'Library view only — files stay on disk (enable Full Mode to delete from disk).'}`)) return;
+
+        if (serverOnline) {
+          try {
+            await fetch('/api/folder', {
+              method: 'DELETE',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ files: folderAssets.map(a => a.file) })
+            });
+          } catch { alert('Something went wrong. Removing from view only.'); }
+        }
+        setAssets(prev => prev.filter(a => a.folder !== folderName));
+        if (activeTab === folderName) setActiveTab('All');
+      };
+
+      // ── CREATE NEW FOLDER ──
+      const createFolder = () => {
+        const name = newFolderName.trim();
+        if (!name) return;
+        if (folders.includes(name)) { alert(`A folder named "${name}" already exists.`); return; }
+        // Add a placeholder asset so folder appears in tabs
+        setAssets(prev => [...prev, { id: `folder-${Date.now()}`, title: `${name} (empty)`, file: '', folder: name, height: 160, isEmpty: true }]);
+        setNewFolderName('');
+        setActiveTab(name);
+      };
+
+      // Detect OS
+      const getOS = () => {
+        const ua = navigator.userAgent;
+        if (ua.includes('Windows')) return 'windows';
+        if (ua.includes('Mac'))     return 'mac';
+        return 'linux';
+      };
+
+      const openBat = () => {
+        const os = getOS();
+        // Try launching via custom yazinc:// URI protocol (works after one-time setup)
+        let launched = false;
+        const onBlur = () => { launched = true; };
+        window.addEventListener('blur', onBlur, { once: true });
+
+        // Attempt the protocol
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = 'yazinc://start';
+        document.body.appendChild(iframe);
+        setTimeout(() => { document.body.removeChild(iframe); }, 2000);
+
+        // If window didn't blur (app didn't launch), show modal
+        setTimeout(() => {
+          window.removeEventListener('blur', onBlur);
+          if (!launched) setShowModal(true);
+        }, 1200);
+      };
+
+      return (
+        <div className={`app-shell ${isDark ? 'theme-dark' : 'theme-light'}`}>
+
+          {/* HOW-TO MODAL */}
+          {showModal && (
+            <div className="modal-overlay" onClick={() => setShowModal(false)}>
+              <div className="modal-box" onClick={e => e.stopPropagation()}>
+                <div className="modal-icon">⚡</div>
+                <div className="modal-title">Enable Full Mode</div>
+                <div className="modal-sub">Run a quick one-time setup so your browser can launch the Artwork Manager directly. Choose your system:</div>
+
+                <div className="modal-step">
+                  <div className="modal-step-num">1</div>
+                  <div className="modal-step-text">
+                    Open the <strong>Artwork folder</strong> and double-click your setup file:
+                    <br/><br/>
+                    🪟 Windows: <code>⚙ Setup - Windows.bat</code><br/>
+                    🍎 macOS: <code>⚙ Setup - macOS.sh</code><br/>
+                    🐧 Linux: <code>⚙ Setup - Linux.sh</code>
+                  </div>
+                </div>
+                <div className="modal-step">
+                  <div className="modal-step-num">2</div>
+                  <div className="modal-step-text">Setup takes a few seconds — it registers a <code>yazinc://</code> shortcut on your system (like how Discord or VS Code work)</div>
+                </div>
+                <div className="modal-step">
+                  <div className="modal-step-num">3</div>
+                  <div className="modal-step-text">Come back here and click <strong>⚡ Enable Full Mode</strong> again — the app will launch automatically!</div>
+                </div>
+                <div className="modal-step">
+                  <div className="modal-step-num">4</div>
+                  <div className="modal-step-text">You'll see a <strong style={{color:'#10b981'}}>green banner</strong> confirming Full Mode is active</div>
+                </div>
+
+                <button className="modal-close-btn" onClick={() => setShowModal(false)}>Got it!</button>
+              </div>
+            </div>
+          )}
+
+          {/* LIGHTBOX */}
+          {lightbox && <Lightbox asset={lightbox} onClose={() => setLightbox(null)} />}
+
+          {/* SIDEBAR */}
+          <aside className="sidebar">
+            <div className="brand-pill"><div className="dot" />AI Artwork Manager</div>
+            <div className="brand-name">YAZ<span>.</span>INC</div>
+            <div className="brand-sub">AI Business Solutions</div>
+
+            <div className="nav-label">Folders</div>
+            <nav className="nav-tabs">
+
+              {/* ALL tab */}
+              <div className="nav-tab-wrap">
+                <button className={`nav-tab ${activeTab === 'All' ? 'active' : ''}`} onClick={() => setActiveTab('All')}>
+                  All Artworks <span className="nav-badge">{count('All')}</span>
+                </button>
+              </div>
+
+              {/* Dynamic folder tabs */}
+              {folders.map(f => (
+                <div className="nav-tab-wrap" key={f}>
+                  <button className={`nav-tab ${activeTab === f ? 'active' : ''}`} onClick={() => setActiveTab(f)}>
+                    {f} <span className="nav-badge">{count(f)}</span>
+                  </button>
+                  <button className="folder-del-btn" onClick={() => deleteFolder(f)} title={`Remove ${f} folder`}>
+                    <TrashIcon />
+                  </button>
+                </div>
+              ))}
+            </nav>
+
+            {/* New Folder */}
+            <div style={{marginTop: 'auto', paddingTop: '16px'}}>
+              <div className="nav-label" style={{marginBottom:'8px'}}>New Folder</div>
+              <div className="new-folder-row">
+                <input
+                  ref={folderInputRef}
+                  className="new-folder-input"
+                  placeholder="Folder name..."
+                  value={newFolderName}
+                  onChange={e => setNewFolderName(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && createFolder()}
+                />
+                <button className="new-folder-add-btn" onClick={createFolder}>+</button>
+              </div>
+            </div>
+          </aside>
+
+          {/* MAIN */}
+          <main className="main-content">
+
+            {/* SERVER STATUS BANNER */}
+            {serverOnline === true && (
+              <div className="server-banner online">
+                <div className="banner-left"><div className="status-dot" /><span>Full Mode Active — Deleted files are permanently removed from your library</span></div>
+              </div>
+            )}
+            {serverOnline === false && (
+              <div className="server-banner offline">
+                <div className="banner-left"><div className="status-dot" /><span>Preview Mode — Your files are safe. Enable Full Mode to permanently remove artworks.</span></div>
+                <button className="start-server-btn" onClick={openBat}>⚡ Enable Full Mode</button>
+              </div>
+            )}
+
+            <header className="topbar">
+              <div>
+                <h1 className="page-title">{activeTab === 'All' ? 'All Artworks' : activeTab}</h1>
+                <p className="page-subtitle">AI Generated Artwork Management (SPA) by Yazinc · {filtered.length} artwork{filtered.length !== 1 ? 's' : ''}</p>
+              </div>
+              <button className="toggle-btn" onClick={() => setIsDark(d => !d)}>
+                {isDark ? <><SunIcon /> Light Mode</> : <><MoonIcon /> Dark Mode</>}
+              </button>
+            </header>
+
+            <div className="gallery-scroll">
+              {filtered.filter(a => !a.isEmpty).length === 0 ? (
+                <div className="empty-state">
+                  <svg width="40" height="40" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                  <span>This folder is empty</span>
+                </div>
+              ) : (
+                <div className="gallery-grid">
+                  {filtered.filter(a => !a.isEmpty).map(asset => (
+                    <div className="asset-card" key={asset.id}>
+                      <div className="card-header">
+                        <span className="card-title">{asset.title}</span>
+                        <span className="card-folder-tag">{asset.folder}</span>
+                      </div>
+
+                      <button className="delete-btn" onClick={() => deleteAsset(asset.id, asset.file)} title="Remove from library">
+                        <TrashIcon />
+                      </button>
+
+                      {/* Click image to open lightbox */}
+                      <div
+                        className="preview-wrap transparent-bg"
+                        style={{ height: asset.height }}
+                        onClick={() => setLightbox(asset)}
+                        title="Click to view full size"
+                      >
+                        <img src={`Social Media/${asset.file}`} alt={asset.title} />
+                      </div>
+
+                      <div className="card-footer">
+                        <span className="card-size">{asset.folder}</span>
+                        <a href={`Social Media/${asset.file}`} download={asset.file} className="dl-btn">↓ Download</a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </main>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

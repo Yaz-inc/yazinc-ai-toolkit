@@ -1,0 +1,12 @@
+{
+  "name": "yazinc-artwork-manager",
+  "version": "1.0.0",
+  "description": "YAZ.INC Local Artwork Manager — Physical File Delete Server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
