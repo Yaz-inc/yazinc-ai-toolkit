@@ -2,7 +2,7 @@
 
 > Update whenever you add, change, or retire a skill. See [WORKFLOW.md](WORKFLOW.md).
 
-**Current catalog:** 53 reusable skills, excluding `_template`.
+**Current catalog:** 54 reusable skills, excluding `_template`.
 
 ## Core operations
 
@@ -100,6 +100,7 @@ laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-
 | Skill | Summary | Origin | Added |
 |-------|---------|---------------|-------|
 | `agent-reach-internet-access` | Install, configure, and use Agent Reach to give any AI agent read and search access to 13+ internet platforms with zero API fees | external open-source tool | 2026-09-22 |
+| `enterprise-rag-wiki-knowledge-base` | Enterprise-grade RAG, automated Wiki documentation, and living knowledge graph systems based on WeKnora architecture | external capability synthesis | 2026-09-22 |
 
 ## Templates
 
