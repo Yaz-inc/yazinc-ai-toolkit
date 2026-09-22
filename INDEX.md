@@ -2,7 +2,7 @@
 
 > Update whenever you add, change, or retire a skill. See [WORKFLOW.md](WORKFLOW.md).
 
-**Current catalog:** 52 reusable skills, excluding `_template`.
+**Current catalog:** 53 reusable skills, excluding `_template`.
 
 ## Core operations
 
@@ -94,6 +94,12 @@ laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-
 | `data-quality-contracts` | Versioned schema, semantic, freshness, volume, and compatibility agreements | external capability synthesis | 2026-08-04 |
 | `data-lineage-governance` | Lineage, ownership, classification, retention, impact, and metadata quality | external capability synthesis | 2026-08-04 |
 | `analyst-insight-reporting` | Reproducible analysis, metrics, accessible visuals, uncertainty, and decisions | external capability synthesis | 2026-08-04 |
+
+## Internet access and research
+
+| Skill | Summary | Origin | Added |
+|-------|---------|---------------|-------|
+| `agent-reach-internet-access` | Install, configure, and use Agent Reach to give any AI agent read and search access to 13+ internet platforms with zero API fees | external open-source tool | 2026-09-22 |
 
 ## Templates
 

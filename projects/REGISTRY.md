@@ -16,6 +16,7 @@ All published skills must be generalized, secret-free, independently understanda
 | Product design | UI and UX, design systems, design-to-code, responsive behavior, accessible interaction, and reusable motion effects |
 | AI systems | Retrieval, prompting, evaluation, provider integration, governance, and operations |
 | Data and analytics | SQL, NoSQL, data quality, cleaning, validation, pipelines, analytics, and governance |
+| Internet access and research | Agent internet access, web reading, social media search, platform CLI tools, and health diagnostics |
 
 The canonical list of currently published skills is maintained in [`INDEX.md`](../INDEX.md) and rendered on the public landing page.
 
