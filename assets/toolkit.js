@@ -1,5 +1,6 @@
 const skills = [
   {name:"central-knowledge-base", title:"Central Knowledge Base", category:"Core operations", summary:"Safely maintain shared non-secret knowledge, provenance, canonical pointers, and duplicate resolution."},
+  {name:"backup-app-to-google-drive", title:"Backup Your App to Google Drive", category:"Core operations", summary:"Back up any application to Google Drive as dated, verified sets with sanitized config, a leak scan, and keep-N pruning."},
   {name:"test-software-app", title:"Test Software App", category:"Core operations", summary:"Run human-centered, evidence-backed application testing through selectable three, four, five, or six-stage audits."},
   {name:"deploy-secrets-zero-exposure", title:"Deploy Secrets Zero Exposure", category:"Core operations", summary:"Apply a strict deployment gate that prevents secrets and sensitive repository files from becoming publicly reachable."},
   {name:"extract-to-toolkit", title:"Extract to Toolkit", category:"Laravel delivery", summary:"Generalize reusable project experience into a focused skill with provenance, validation, catalog, and registry updates."},
@@ -56,6 +57,7 @@ const skills = [
 const skillIcons = {
   "central-knowledge-base": "library-big",
   "test-software-app": "clipboard-check",
+  "backup-app-to-google-drive": "hard-drive-upload",
   "deploy-secrets-zero-exposure": "shield-check",
   "extract-to-toolkit": "package-open",
   "laravel-datatables-module": "table-properties",

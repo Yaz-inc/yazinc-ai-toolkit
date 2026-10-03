@@ -2,7 +2,7 @@
 
 > Update whenever you add, change, or retire a skill. See [WORKFLOW.md](WORKFLOW.md).
 
-**Current catalog:** 54 reusable skills, excluding `_template`.
+**Current catalog:** 55 reusable skills, excluding `_template`.
 
 ## Core operations
 
@@ -12,6 +12,7 @@
 | `test-software-app` | Human-centered, evidence-backed application testing with selectable 3, 4, 5, or 6-stage audits | original workflow | 2026-08-04 |
 | `deploy-secrets-zero-exposure` | **Strict deploy gate** — no secrets reachable on live domain | toolkit | 2026-06-10 |
 
+| `backup-app-to-google-drive` | Back up any app (Laravel, Node, Python, Java, .NET, static) to Google Drive as dated, verified sets with sanitized config, leak scan, and keep-N pruning | original workflow | 2026-10-03 |
 **Use before every deploy.** Run `scripts/pre-deploy-secrets-scan.ps1`; complete `skills/deploy-secrets-zero-exposure/CHECKLIST.md`.
 
 ## Laravel delivery workflows
