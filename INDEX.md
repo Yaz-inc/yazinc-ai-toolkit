@@ -29,6 +29,7 @@
 | `laravel-security-hardening` | Setup lock, gitignore ops, input rule | generalized workflow | 2026-06-10 |
 | `laravel-json-ai-settings` | Encrypted AI keys in storage JSON | generalized workflow | 2026-06-10 |
 | `laravel-ai-multi-provider` | Provider fallback + friendly errors | generalized workflow | 2026-06-10 |
+| `laravel-rag` | Secure, authorized, cited read-only RAG and tool calling | generalized workflow | 2026-11-10 |
 | `laravel-vision-label-scan` | Image → JSON → review → apply | generalized workflow | 2026-06-10 |
 | `laravel-env-maintenance` | `.env` maintenance + branded 503 | generalized workflow | 2026-06-10 |
 | `laravel-form-select2-global` | App-wide form/Select2 CSS variables | generalized workflow | 2026-06-10 |
@@ -38,7 +39,7 @@
 ## AI skill cluster (Laravel)
 
 ```
-laravel-json-ai-settings → laravel-ai-multi-provider → laravel-vision-label-scan
+laravel-json-ai-settings → laravel-ai-multi-provider → laravel-rag → laravel-vision-label-scan
 ```
 
 ## Engineering, quality, security, and operations

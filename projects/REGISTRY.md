@@ -20,6 +20,10 @@ All published skills must be generalized, secret-free, independently understanda
 
 The canonical list of currently published skills is maintained in [`INDEX.md`](../INDEX.md) and rendered on the public landing page.
 
+## Laravel RAG implementation
+
+`laravel-rag` was added on 2026-11-10 from a generalized local workflow and independently revised against current official OpenAI, OpenAI PHP, and Laravel documentation. The public version removes organization and workstation details, uses neutral synthetic examples, and adds authorization-first retrieval, index lifecycle controls, bounded tool calling, redacted observability, and release evaluation. No third-party source code or private application content is bundled.
+
 ## Publication requirements
 
 1. The skill has one clear purpose and valid metadata.
